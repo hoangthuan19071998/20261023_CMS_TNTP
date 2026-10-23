@@ -8,9 +8,7 @@ import { AnhDaiDien, HopGiaiThich, NhanAnPham, NhanTrangThai, TheQuyen } from ".
 import DaiBuoc from "./DaiBuoc";
 import ThongTinDuyet from "./ThongTinDuyet";
 import LichSuTaiLieu from "./LichSuTaiLieu";
-import SoDoQuyTrinh from "./SoDoQuyTrinh";
 import ThanhHanhDong from "./ThanhHanhDong";
-import BinhLuanNoiBo from "./BinhLuanNoiBo";
 import LichSuPhienBan from "./LichSuPhienBan";
 
 /** Một ô trong dải thông tin ngang phía trên nội dung bài. */
@@ -32,7 +30,6 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
   const [yeuCauSua, setYeuCauSua] = useState("");
   const [bayGio, setBayGio] = useState<number | null>(null);
   const [moLichSu, setMoLichSu] = useState(false);
-  const [moSoDo, setMoSoDo] = useState(false);
 
   useEffect(() => setBayGio(Date.now()), []);
 
@@ -348,26 +345,7 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
             </section>
           )}
 
-          <div className="grid gap-4 xl:grid-cols-2">
-            <BinhLuanNoiBo bai={bai} />
-            <LichSuPhienBan bai={bai} />
-          </div>
-
-          <div className="the p-4">
-            <button
-              onClick={() => setMoSoDo(!moSoDo)}
-              className="flex w-full items-center gap-2 text-left text-sm font-semibold"
-              aria-expanded={moSoDo}
-            >
-              <span aria-hidden className="text-ink-soft">{moSoDo ? "▾" : "▸"}</span>
-              Sơ đồ toàn quy trình
-              <span className="font-normal text-ink-soft">
-                — chín bước chính kèm các nhánh trả lại, loại bài, đính chính
-              </span>
-            </button>
-          </div>
-
-          {moSoDo && <SoDoQuyTrinh bai={bai} nhatKy={nhatKy} vaiTro={vaiTro} />}
+          <LichSuPhienBan bai={bai} />
         </div>
       </div>
 
