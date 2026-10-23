@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { Change } from "diff";
-import type { Article, Version } from "@/lib/types";
+import type { Article } from "@/lib/types";
 import { getRole } from "@/lib/permissions";
 import { dinhDangThoiDiem } from "@/lib/store";
 import { soSanhHaiSnapshot } from "@/lib/diff";
@@ -66,8 +66,6 @@ export default function XemDiff({ bai, phienBanIdx, onDong }: XemDiffProps) {
   const banSoSanh = laBanDauTien && soSanhVoiIdx === 0 ? null : pb[soSanhVoiIdx];
 
   const roleHienTai = getRole(banHienTai.tacGia);
-  const roleSoSanh = banSoSanh ? getRole(banSoSanh.tacGia) : null;
-
   const ketQuaDiff = useMemo(() => {
     if (!banHienTai.snapshot) return null;
     return soSanhHaiSnapshot(banSoSanh?.snapshot ?? null, banHienTai.snapshot);
@@ -136,7 +134,7 @@ export default function XemDiff({ bai, phienBanIdx, onDong }: XemDiffProps) {
                   </span>
                 </div>
                 <p className="mt-0.5 text-xs text-ink-soft italic">
-                  "{banHienTai.ghiChu}"
+                  &ldquo;{banHienTai.ghiChu}&rdquo;
                 </p>
               </div>
             </div>

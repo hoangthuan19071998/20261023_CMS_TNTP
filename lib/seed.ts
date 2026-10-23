@@ -1,5 +1,5 @@
-import { PIPELINE, TRANSITIONS, getRole } from "./permissions";
-import type { Article, Comment, LogEntry, RoleId, StateId, Version } from "./types";
+import { PIPELINE, TRANSITIONS } from "./permissions";
+import type { Article, Comment, LogEntry, StateId, Version } from "./types";
 
 // Dữ liệu mẫu: 14 bài rải đều trên các trạng thái với nội dung chuẩn hóa,
 // đảm bảo tính đồng nhất tuyệt đối giữa Nội dung, Trạng thái, Thông tin duyệt,

@@ -2,8 +2,8 @@
 // MA TRẬN PHÂN QUYỀN — NGUỒN SỰ THẬT DUY NHẤT CỦA BẢN DEMO
 //
 // Toàn bộ giao diện đọc quyền từ file này. Muốn đổi phân quyền thì sửa ở đây,
-// không sửa trong từng màn hình. Bảng MA_TRAN bên dưới chép đúng 1:1 tab
-// "Ma trận phân quyền" trong Google Sheet đã gửi tòa soạn.
+// không sửa trong từng màn hình. Bảng MA_TRAN bên dưới là ma trận đã chuẩn hóa
+// sau khi gộp vai trò theo yêu cầu mới của tòa soạn.
 //
 // Quy ước ký hiệu (giống hệt bản Sheet):
 //   ◆  vai trò đang giữ bài — bài chỉ đi tiếp khi vai trò này bấm nút
@@ -59,7 +59,7 @@ export function getState(id: StateId): StateDef {
   return s;
 }
 
-// --- Bảng ma trận, chép nguyên văn từ Google Sheet ------------------------
+// --- Bảng ma trận quyền đã chuẩn hóa --------------------------------------
 
 type MatrixRow = Record<RoleId, string>;
 
