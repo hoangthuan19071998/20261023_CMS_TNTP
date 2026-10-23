@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import { getPermission, getRole, getState } from "@/lib/permissions";
 import { dinhDangGio, dinhDangThoiDiem, quaHan, useStore, vaiTroGiuBai } from "@/lib/store";
 import { HopGiaiThich, NhanAnPham, NhanTrangThai, TheQuyen } from "./Bieutuong";
-import Pipeline from "./Pipeline";
+import SoDoQuyTrinh from "./SoDoQuyTrinh";
 import ThanhHanhDong from "./ThanhHanhDong";
 import BinhLuanNoiBo from "./BinhLuanNoiBo";
 import LichSuPhienBan from "./LichSuPhienBan";
 
 export default function ChiTietBai({ baiId }: { baiId: string }) {
-  const { bai: tatCa, vaiTro, cheDoGiaiThich, luuNoiDung, themBinhLuan, taiLenBanBong } = useStore();
+  const { bai: tatCa, nhatKy, vaiTro, cheDoGiaiThich, luuNoiDung, themBinhLuan, taiLenBanBong } = useStore();
   const bai = tatCa.find((b) => b.id === baiId);
 
   const [dangSua, setDangSua] = useState(false);
@@ -123,7 +123,7 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
         )}
       </div>
 
-      <Pipeline hienTai={bai.trangThai} />
+      <SoDoQuyTrinh bai={bai} nhatKy={nhatKy} vaiTro={vaiTro} />
 
       <ThanhHanhDong bai={bai} />
 

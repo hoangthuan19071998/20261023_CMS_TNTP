@@ -13,3 +13,4 @@ npm-debug.log*
 coverage/
 next-env.d.ts
 .turbo
+tsconfig.tsbuildinfo

@@ -34,7 +34,7 @@ Mở http://localhost:3000
 | 1 | Thanh chuyển vai trò + chế độ giải thích phân quyền | 10 vai trò, đổi tức thì |
 | 2 | Bảng điều khiển riêng cho từng vai trò | Bám theo cột "Giao diện hiển thị chính" trong tài liệu tòa soạn |
 | 3 | Kho bài, lọc theo trạng thái và chuyên mục | Hiện ai đang giữ bài, cảnh báo quá hạn |
-| 4 | Thanh tiến trình bài | 9 trạng thái chính, đánh dấu bước hiện tại và nhánh phụ |
+| 4 | Sơ đồ cây quy trình trong màn hình bài | Trục chính S0–S8, nhánh trả lại, loại bài, đính chính. Bấm từng bước để xem ai giữ bài và quyền của vai trò hiện tại |
 | 5 | Màn hình chi tiết bài | Nội dung, siêu dữ liệu, ghi chú khi chuyển bài |
 | 6 | Chuyển trạng thái | Duyệt / Trả lại (chọn đích) / Loại bài / Ký số, bắt buộc ghi lý do |
 | 7 | Bình luận nội bộ | Gắn theo đoạn, gắn thẻ vai trò, đánh dấu đã xử lý |
