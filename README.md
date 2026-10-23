@@ -1,13 +1,84 @@
-# CMS_TNTP — Hệ thống tòa soạn hội tụ
+# CMS Tòa soạn hội tụ — Bản demo phân quyền và luồng công việc
 
-Kho mã nguồn của dự án hệ thống quản lý quy trình tòa soạn hội tụ (báo in + báo điện tử).
+Bản mô phỏng chạy được, dùng để tòa soạn bấm thử và xác nhận **quy trình** và
+**phân quyền** trước khi thiết kế hệ thống thật.
 
-## Trạng thái
+> **Đây không phải sản phẩm.** Không có máy chủ, không có cơ sở dữ liệu, không có
+> đăng nhập thật, không dàn trang báo in thật, không ký số thật. Dữ liệu nằm trong
+> trình duyệt của người xem.
 
-Đang ở giai đoạn phân tích yêu cầu. Bản demo mô phỏng phân quyền và luồng công việc
-nằm ở nhánh `demo/phan-quyen-workflow`.
+## Chạy tại máy
 
-## Tài liệu
+```bash
+npm install
+npm run dev
+```
 
-- Sơ đồ luồng công việc và Bảng phân quyền chức năng chi tiết (tài liệu khách hàng cung cấp)
-- Danh sách câu hỏi làm rõ và Ma trận phân quyền (Google Sheet nội bộ)
+Mở http://localhost:3000
+
+## Cách dùng khi trình bày với tòa soạn
+
+1. **Đổi vai trò** bằng dải nút ở đầu trang (10 vai trò). Toàn bộ menu, bảng điều
+   khiển, danh sách bài và các nút hành động đổi theo ngay lập tức.
+2. Bật **"Giải thích phân quyền"** (góc phải thanh vai trò) để hiện cả những nút mà
+   vai trò hiện tại *không* được bấm — nút sẽ mờ đi kèm chú thích vai trò nào làm được.
+   Đây là cách cho thấy *vì sao* chứ không chỉ *cái gì*.
+3. Mỗi bài có ô mã quyền nguyên văn theo ma trận, ví dụ `◆ E C A`, để đối chiếu trực
+   tiếp với bảng đã gửi tòa soạn.
+4. Nút **"Khôi phục dữ liệu mẫu"** ở trang Kho bài đưa demo về trạng thái ban đầu.
+
+## Chức năng đã dựng (Nhóm 1)
+
+| # | Chức năng | Ghi chú |
+|---|---|---|
+| 1 | Thanh chuyển vai trò + chế độ giải thích phân quyền | 10 vai trò, đổi tức thì |
+| 2 | Bảng điều khiển riêng cho từng vai trò | Bám theo cột "Giao diện hiển thị chính" trong tài liệu tòa soạn |
+| 3 | Kho bài, lọc theo trạng thái và chuyên mục | Hiện ai đang giữ bài, cảnh báo quá hạn |
+| 4 | Thanh tiến trình bài | 9 trạng thái chính, đánh dấu bước hiện tại và nhánh phụ |
+| 5 | Màn hình chi tiết bài | Nội dung, siêu dữ liệu, ghi chú khi chuyển bài |
+| 6 | Chuyển trạng thái | Duyệt / Trả lại (chọn đích) / Loại bài / Ký số, bắt buộc ghi lý do |
+| 7 | Bình luận nội bộ | Gắn theo đoạn, gắn thẻ vai trò, đánh dấu đã xử lý |
+| 8 | Lịch sử phiên bản | Ai sửa, lúc nào, so sánh hai bản gần nhất |
+| 9 | Khóa văn bản sau khi chốt nội dung | Kèm luồng "Tạo yêu cầu sửa" |
+| 10 | Nhật ký lưu vết | Ghi mọi thao tác, chỉ ghi thêm, phân quyền xem |
+
+## Cấu trúc mã nguồn
+
+```
+lib/permissions.ts   ← MA TRẬN PHÂN QUYỀN — nguồn sự thật duy nhất
+lib/types.ts         kiểu dữ liệu dùng chung
+lib/seed.ts          14 bài mẫu rải đều trên các trạng thái
+lib/store.tsx        trạng thái ứng dụng, lưu trong localStorage
+app/                 các trang
+components/          các thành phần giao diện
+```
+
+**Muốn đổi phân quyền thì sửa `lib/permissions.ts`, không sửa trong từng màn hình.**
+Bảng `MA_TRAN` trong file đó chép đúng 1:1 tab "Ma trận phân quyền" đã gửi tòa soạn.
+Chính file này sẽ được mang sang hệ thống thật.
+
+## Chín điểm demo làm khác tài liệu ban đầu
+
+Demo dựng theo **bản đề xuất**, không theo nguyên văn tài liệu, vì tài liệu có chỗ
+mâu thuẫn và có ngõ cụt khiến bài không đi tiếp được. Các điểm khác biệt:
+
+1. Chỉ Thư ký tòa soạn là super editor (tài liệu cho cả ba vai).
+2. PTBT/TBT chỉ xem, bình luận và duyệt — không trực tiếp sửa nội dung.
+3. Quyền đặt lịch xuất bản chuyển từ Họa sĩ sang Thư ký tòa soạn.
+4. Thêm nút "Trình duyệt" ở bước soát bản bông (tài liệu chỉ có nút Trả lại — ngõ cụt).
+5. Khóa văn bản sau khi Thư ký tòa soạn chốt nội dung, muốn sửa phải tạo Yêu cầu sửa.
+6. Thêm ba vai trò: Quản trị hệ thống, Cộng tác viên, Kế toán.
+7. Tách Trưởng ban thành một cấp duyệt riêng (**chờ tòa soạn xác nhận**).
+8. Thêm nhánh đính chính / gỡ bài sau xuất bản.
+9. Thư ký tòa soạn duyệt xong, hệ thống tự chuyển bài sang Họa sĩ.
+
+Khi bật chế độ giải thích, các điểm này hiện ngay trên giao diện tại đúng chỗ liên quan.
+
+## Những gì demo cố tình KHÔNG có
+
+- Đăng nhập, bảo mật, phân quyền phía máy chủ
+- Lưu dữ liệu lên máy chủ (tải lại trang có thể mất dữ liệu đã thao tác)
+- Công cụ dàn trang báo in (hệ thống thật chỉ nhận file PDF họa sĩ tải lên)
+- Ký số thật
+- Trang báo điện tử công khai
+- Sa bàn báo in, kho dữ liệu số (DAM), lịch xuất bản, nhuận bút — thuộc Nhóm 2, chưa dựng

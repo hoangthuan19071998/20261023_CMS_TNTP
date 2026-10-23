@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: #f4f6f8;
+  color: #1c3554;
+}
+
+@layer components {
+  .the {
+    @apply rounded-lg border border-ink-line bg-white;
+  }
+  .nut-chinh {
+    @apply inline-flex items-center gap-2 rounded-md bg-ink px-3 py-2 text-sm font-medium text-white transition hover:bg-ink-soft;
+  }
+  .nut-phu {
+    @apply inline-flex items-center gap-2 rounded-md border border-ink-line bg-white px-3 py-2 text-sm font-medium text-ink transition hover:bg-ink-bg;
+  }
+  .nut-canh-bao {
+    @apply inline-flex items-center gap-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900 transition hover:bg-amber-100;
+  }
+  .nut-tat {
+    @apply inline-flex cursor-not-allowed items-center gap-2 rounded-md border border-dashed border-ink-line bg-ink-bg px-3 py-2 text-sm font-medium text-ink-soft opacity-60;
+  }
+  .nhan {
+    @apply inline-flex items-center rounded px-2 py-0.5 text-xs font-medium;
+  }
+}
