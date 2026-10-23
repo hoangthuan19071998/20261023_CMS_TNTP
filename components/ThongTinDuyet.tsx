@@ -110,7 +110,7 @@ export default function ThongTinDuyet({
             key={e.id}
             loai={loaiMoc(e)}
             nhan={e.hanhDong}
-            nguoi={[{ ten: getRole(e.vaiTro).nguoiDung, vaiTro: getRole(e.vaiTro).ten }]}
+            nguoi={[{ ten: e.tenNguoi ?? getRole(e.vaiTro).nguoiDung, vaiTro: getRole(e.vaiTro).ten }]}
             thoiDiem={dinhDangThoiDiem(e.thoiDiem)}
             ghiChu={e.ghiChu ? "“" + e.ghiChu + "”" : null}
             cuoi={false}

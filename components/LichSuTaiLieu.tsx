@@ -85,13 +85,14 @@ export default function LichSuTaiLieu({
             <tbody>
               {hien.map((e) => {
                 const r = getRole(e.vaiTro);
+                const tenNguoi = e.tenNguoi ?? r.nguoiDung;
                 return (
                   <tr key={e.id} className="border-t border-ink-line align-top">
                     <td className="px-5 py-2.5">
                       <span className="flex items-center gap-2">
-                        <AnhDaiDien ten={r.nguoiDung} co={22} />
+                        <AnhDaiDien ten={tenNguoi} co={22} />
                         <span>
-                          <span className="block leading-tight">{r.nguoiDung}</span>
+                          <span className="block leading-tight">{tenNguoi}</span>
                           <span className="block text-[11px] leading-tight text-ink-soft">{r.ten}</span>
                         </span>
                       </span>

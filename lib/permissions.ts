@@ -21,13 +21,10 @@ import type { Cap, Role, RoleId, StateDef, StateId } from "./types";
 
 export const ROLES: Role[] = [
   { id: "PV", ten: "Phóng viên", vietTat: "PV", nguoiDung: "Nguyễn Thị Mai", moTa: "Đăng ký đề tài, viết bài, theo dõi bài của mình" },
-  { id: "CTV", ten: "Cộng tác viên", vietTat: "CTV", nguoiDung: "Trần Quốc Bảo", moTa: "Gửi bài từ bên ngoài, không thấy thảo luận nội bộ" },
-  { id: "TRUONG_BAN", ten: "Trưởng ban", vietTat: "TB", nguoiDung: "Lê Văn Hùng", moTa: "Duyệt đề tài, biên tập, điều phối bài trong ban" },
-  { id: "BTV", ten: "Biên tập viên", vietTat: "BTV", nguoiDung: "Phạm Thu Hà", moTa: "Biên tập nội dung, trả bài, để lại ghi chú" },
+  { id: "BTV", ten: "Biên tập viên / Trưởng ban", vietTat: "BTV/TB", nguoiDung: "Phạm Thu Hà", moTa: "Duyệt đề tài, biên tập, điều phối và duyệt bài trong ban" },
   { id: "TKTS", ten: "Thư ký tòa soạn", vietTat: "TKTS", nguoiDung: "Đỗ Minh Khoa", moTa: "Chốt nội dung, xếp trang, chốt bản bông (super editor)" },
   { id: "HOA_SI", ten: "Họa sĩ / Thiết kế", vietTat: "HS", nguoiDung: "Vũ Hoàng Nam", moTa: "Dàn trang báo in, thiết kế đồ họa, longform" },
   { id: "TBT", ten: "Phó TBT / TBT", vietTat: "TBT", nguoiDung: "Hoàng Anh Tuấn", moTa: "Duyệt xuất bản, ký số, đình bản" },
-  { id: "KE_TOAN", ten: "Kế toán", vietTat: "KT", nguoiDung: "Ngô Bích Liên", moTa: "Nhận dữ liệu nhuận bút, không can thiệp nội dung" },
   { id: "NHA_IN", ten: "Nhà in", vietTat: "NI", nguoiDung: "Xưởng in Tiền Phong", moTa: "Chỉ tải file đã duyệt cuối, không thấy nội dung nội bộ" },
   { id: "ADMIN", ten: "Quản trị hệ thống", vietTat: "QT", nguoiDung: "Bùi Đức Thắng", moTa: "Quản lý tài khoản, cấu hình, xem nhật ký" },
 ];
@@ -41,7 +38,7 @@ export function getRole(id: RoleId): Role {
 }
 
 export const STATES: StateDef[] = [
-  { id: "S0", ten: "S0 — Đề tài", dienGiai: "PV đăng ký đề tài, Trưởng ban duyệt hoặc từ chối", slaGio: 24, khoaNoiDung: false },
+  { id: "S0", ten: "S0 — Đề tài", dienGiai: "PV đăng ký đề tài, Biên tập viên / Trưởng ban duyệt hoặc từ chối", slaGio: 24, khoaNoiDung: false },
   { id: "S1", ten: "S1 — Bản thảo", dienGiai: "PV viết bài, đính kèm ảnh/video, bấm Gửi biên tập", slaGio: 48, khoaNoiDung: false },
   { id: "S2", ten: "S2 — Biên tập nội dung", dienGiai: "BTV/Trưởng ban sửa chữa. Trả lại PV hoặc duyệt. Đặt hàng thiết kế chạy song song từ đây", slaGio: 12, khoaNoiDung: false },
   { id: "S3", ten: "S3 — Chốt nội dung", dienGiai: "TKTS rà soát lần cuối về nội dung. Duyệt = khóa văn bản, hệ thống tự chuyển sang Họa sĩ", slaGio: 8, khoaNoiDung: false },
@@ -67,17 +64,17 @@ export function getState(id: StateId): StateDef {
 type MatrixRow = Record<RoleId, string>;
 
 export const MA_TRAN: Record<StateId, MatrixRow> = {
-  S0:  { PV: "E A",   CTV: "E A", TRUONG_BAN: "◆ R C A", BTV: "R C",   TKTS: "R C",     HOA_SI: "—",       TBT: "R",         KE_TOAN: "—", NHA_IN: "—", ADMIN: "R" },
-  S1:  { PV: "◆ E A", CTV: "◆ E A", TRUONG_BAN: "R C",   BTV: "R C",   TKTS: "R C",     HOA_SI: "—",       TBT: "R",         KE_TOAN: "—", NHA_IN: "—", ADMIN: "R" },
-  S2:  { PV: "R C",   CTV: "R",   TRUONG_BAN: "◆ E C A", BTV: "◆ E C A", TKTS: "E C",   HOA_SI: "R C",     TBT: "R C",       KE_TOAN: "—", NHA_IN: "—", ADMIN: "R" },
-  S3:  { PV: "R C",   CTV: "R",   TRUONG_BAN: "R C",     BTV: "R C",   TKTS: "◆ E C A", HOA_SI: "R C D",   TBT: "R C",       KE_TOAN: "—", NHA_IN: "—", ADMIN: "R" },
-  S4:  { PV: "R",     CTV: "R",   TRUONG_BAN: "R C",     BTV: "R C",   TKTS: "R C",     HOA_SI: "◆ L C A", TBT: "R C",       KE_TOAN: "—", NHA_IN: "—", ADMIN: "R" },
-  S5:  { PV: "R",     CTV: "R",   TRUONG_BAN: "R C",     BTV: "R C A", TKTS: "◆ R C A", HOA_SI: "R C",     TBT: "R C",       KE_TOAN: "—", NHA_IN: "—", ADMIN: "R" },
-  S6:  { PV: "R",     CTV: "R",   TRUONG_BAN: "R",       BTV: "R C",   TKTS: "R C",     HOA_SI: "R",       TBT: "◆ R C A K", KE_TOAN: "—", NHA_IN: "—", ADMIN: "R" },
-  S7:  { PV: "R",     CTV: "R",   TRUONG_BAN: "R",       BTV: "R",     TKTS: "R A",     HOA_SI: "R",       TBT: "R A",       KE_TOAN: "R", NHA_IN: "D", ADMIN: "R" },
-  S8:  { PV: "R",     CTV: "R",   TRUONG_BAN: "R",       BTV: "R",     TKTS: "R",       HOA_SI: "R",       TBT: "R",         KE_TOAN: "R", NHA_IN: "—", ADMIN: "R" },
-  DINH_CHINH: { PV: "C", CTV: "—", TRUONG_BAN: "C", BTV: "C A", TKTS: "C A", HOA_SI: "R", TBT: "◆ C A K", KE_TOAN: "—", NHA_IN: "—", ADMIN: "R" },
-  LOAI_BO:    { PV: "R", CTV: "R", TRUONG_BAN: "A", BTV: "A",   TKTS: "A",   HOA_SI: "R", TBT: "A",       KE_TOAN: "—", NHA_IN: "—", ADMIN: "R" },
+  S0:  { PV: "E A",   BTV: "◆ R C A", TKTS: "R C",     HOA_SI: "—",       TBT: "R",         NHA_IN: "—", ADMIN: "R" },
+  S1:  { PV: "◆ E A", BTV: "R C",     TKTS: "R C",     HOA_SI: "—",       TBT: "R",         NHA_IN: "—", ADMIN: "R" },
+  S2:  { PV: "R C",   BTV: "◆ E C A", TKTS: "E C",   HOA_SI: "R C",     TBT: "R C",       NHA_IN: "—", ADMIN: "R" },
+  S3:  { PV: "R C", BTV: "R C", TKTS: "◆ E C A", HOA_SI: "R C D", TBT: "R C", NHA_IN: "—", ADMIN: "R" },
+  S4:  { PV: "R", BTV: "R C", TKTS: "R C", HOA_SI: "◆ L C A", TBT: "R C", NHA_IN: "—", ADMIN: "R" },
+  S5:  { PV: "R", BTV: "R C A", TKTS: "◆ R C A", HOA_SI: "R C", TBT: "R C", NHA_IN: "—", ADMIN: "R" },
+  S6:  { PV: "R", BTV: "R C", TKTS: "R C", HOA_SI: "R", TBT: "◆ R C A K", NHA_IN: "—", ADMIN: "R" },
+  S7:  { PV: "R", BTV: "R", TKTS: "R A", HOA_SI: "R", TBT: "R A", NHA_IN: "D", ADMIN: "R" },
+  S8:  { PV: "R", BTV: "R", TKTS: "R", HOA_SI: "R", TBT: "R", NHA_IN: "—", ADMIN: "R" },
+  DINH_CHINH: { PV: "C", BTV: "C A", TKTS: "C A", HOA_SI: "R", TBT: "◆ C A K", NHA_IN: "—", ADMIN: "R" },
+  LOAI_BO:    { PV: "R", BTV: "A", TKTS: "A", HOA_SI: "R", TBT: "A", NHA_IN: "—", ADMIN: "R" },
 };
 
 export interface Permission {
@@ -140,14 +137,14 @@ export interface Transition {
 }
 
 export const TRANSITIONS: Transition[] = [
-  { id: "s0-duyet", nhan: "Duyệt đề tài", tu: "S0", den: "S1", vaiTro: ["TRUONG_BAN"], kieu: "tien", giaiThich: "Đề tài được chấp nhận, phóng viên bắt đầu viết." },
-  { id: "s0-tuchoi", nhan: "Từ chối đề tài", tu: "S0", den: "LOAI_BO", vaiTro: ["TRUONG_BAN"], kieu: "loai", batBuocLyDo: true },
-  { id: "s0-rut", nhan: "Rút đề tài", tu: "S0", den: "LOAI_BO", vaiTro: ["PV", "CTV"], kieu: "nhanh", batBuocLyDo: true, giaiThich: "Ma trận cho phóng viên quyền A ở S0; đây là hành động tương ứng — tự rút đề tài trước khi Trưởng ban duyệt." },
+  { id: "s0-duyet", nhan: "Duyệt đề tài", tu: "S0", den: "S1", vaiTro: ["BTV"], kieu: "tien", giaiThich: "Đề tài được chấp nhận, phóng viên bắt đầu viết." },
+  { id: "s0-tuchoi", nhan: "Từ chối đề tài", tu: "S0", den: "LOAI_BO", vaiTro: ["BTV"], kieu: "loai", batBuocLyDo: true },
+  { id: "s0-rut", nhan: "Rút đề tài", tu: "S0", den: "LOAI_BO", vaiTro: ["PV"], kieu: "nhanh", batBuocLyDo: true, giaiThich: "Phóng viên tự rút đề tài trước khi biên tập viên duyệt." },
 
-  { id: "s1-gui", nhan: "Gửi biên tập", tu: "S1", den: "S2", vaiTro: ["PV", "CTV"], kieu: "tien" },
+  { id: "s1-gui", nhan: "Gửi biên tập", tu: "S1", den: "S2", vaiTro: ["PV"], kieu: "tien" },
 
-  { id: "s2-duyet", nhan: "Duyệt & chuyển Thư ký tòa soạn", tu: "S2", den: "S3", vaiTro: ["BTV", "TRUONG_BAN"], kieu: "tien" },
-  { id: "s2-tra", nhan: "Trả lại phóng viên", tu: "S2", den: "S1", vaiTro: ["BTV", "TRUONG_BAN"], kieu: "tra_lai", batBuocLyDo: true },
+  { id: "s2-duyet", nhan: "Duyệt & chuyển Thư ký tòa soạn", tu: "S2", den: "S3", vaiTro: ["BTV"], kieu: "tien" },
+  { id: "s2-tra", nhan: "Trả lại phóng viên", tu: "S2", den: "S1", vaiTro: ["BTV"], kieu: "tra_lai", batBuocLyDo: true },
 
   {
     id: "s3-duyet",
@@ -211,21 +208,29 @@ export const TRANSITIONS: Transition[] = [
   { id: "dc-duyet", nhan: "Duyệt đính chính & đăng lại", tu: "DINH_CHINH", den: "S7", vaiTro: ["TBT"], kieu: "tien", kySo: true },
   { id: "dc-go", nhan: "Gỡ bài khỏi trang", tu: "DINH_CHINH", den: "LOAI_BO", vaiTro: ["TBT"], kieu: "loai", batBuocLyDo: true },
 
-  { id: "lb-khoiphuc", nhan: "Khôi phục về bản thảo", tu: "LOAI_BO", den: "S1", vaiTro: ["TKTS", "TBT"], kieu: "nhanh" },
+  { id: "lb-khoiphuc", nhan: "Khôi phục về bản thảo", tu: "LOAI_BO", den: "S1", vaiTro: ["BTV", "TKTS", "TBT"], kieu: "nhanh" },
 ];
 
-/** Hành động "Loại bài" áp dụng cho mọi trạng thái trước S7. */
+/** Hành động "Loại bài" áp dụng ở các trạng thái trước S7 khi vai trò có quyền A. */
 const TRANG_THAI_CO_THE_LOAI: StateId[] = ["S1", "S2", "S3", "S4", "S5", "S6"];
+const VAI_TRO_CO_THE_LOAI: RoleId[] = ["BTV", "TKTS", "TBT"];
+
+function vaiTroDuocLoaiTai(trangThai: StateId): RoleId[] {
+  return VAI_TRO_CO_THE_LOAI.filter((vaiTro) => coQuyen(vaiTro, trangThai, "A"));
+}
 
 export function getTransitions(trangThai: StateId, vaiTro: RoleId): Transition[] {
   const ketQua = TRANSITIONS.filter((t) => t.tu === trangThai && t.vaiTro.includes(vaiTro));
-  if (TRANG_THAI_CO_THE_LOAI.includes(trangThai) && ["TRUONG_BAN", "BTV", "TKTS", "TBT"].includes(vaiTro)) {
+  if (
+    TRANG_THAI_CO_THE_LOAI.includes(trangThai) &&
+    vaiTroDuocLoaiTai(trangThai).includes(vaiTro)
+  ) {
     ketQua.push({
       id: "loai-bai",
       nhan: "Loại bài / chuyển kho tồn",
       tu: trangThai,
       den: "LOAI_BO",
-      vaiTro: ["TRUONG_BAN", "BTV", "TKTS", "TBT"],
+      vaiTro: vaiTroDuocLoaiTai(trangThai),
       kieu: "loai",
       batBuocLyDo: true,
     });
@@ -237,12 +242,14 @@ export function getTransitions(trangThai: StateId, vaiTro: RoleId): Transition[]
 export function getAllTransitions(trangThai: StateId): Transition[] {
   const ketQua = TRANSITIONS.filter((t) => t.tu === trangThai);
   if (TRANG_THAI_CO_THE_LOAI.includes(trangThai)) {
+    const vaiTro = vaiTroDuocLoaiTai(trangThai);
+    if (vaiTro.length === 0) return ketQua;
     ketQua.push({
       id: "loai-bai",
       nhan: "Loại bài / chuyển kho tồn",
       tu: trangThai,
       den: "LOAI_BO",
-      vaiTro: ["TRUONG_BAN", "BTV", "TKTS", "TBT"],
+      vaiTro,
       kieu: "loai",
       batBuocLyDo: true,
     });

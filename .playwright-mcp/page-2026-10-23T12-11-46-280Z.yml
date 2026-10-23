@@ -1,0 +1,237 @@
+- generic [active] [ref=f2e1]:
+  - generic [ref=f2e2]:
+    - strong [ref=f2e3]: Bản mô phỏng phục vụ thảo luận yêu cầu.
+    - text: Không có đăng nhập, không lưu lên máy chủ, không dàn trang báo in thật, không ký số thật. Mục đích duy nhất là để đối chiếu quy trình và phân quyền trước khi thiết kế hệ thống.
+  - banner [ref=f2e4]:
+    - generic [ref=f2e6]:
+      - link "CMS Tòa soạn hội tụ" [ref=f2e7] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=f2e8]:
+        - link "Bảng điều khiển" [ref=f2e9] [cursor=pointer]:
+          - /url: /
+        - link "Kho bài" [ref=f2e10] [cursor=pointer]:
+          - /url: /kho-bai
+        - link "Nhật ký" [ref=f2e11] [cursor=pointer]:
+          - /url: /nhat-ky
+      - generic [ref=f2e12]:
+        - generic "Số bài đang chờ vai trò này xử lý" [ref=f2e13]:
+          - generic [aria-hidden] [ref=f2e14]: 🔔
+          - generic [ref=f2e15]: 0 việc chờ
+        - generic [ref=f2e16]:
+          - generic [ref=f2e17]: Phạm Thu Hà
+          - generic [ref=f2e18]: Biên tập viên / Trưởng ban
+    - generic [ref=f2e20]:
+      - generic [ref=f2e21]: Đang xem với vai trò
+      - generic [ref=f2e22]:
+        - button "Phóng viên" [ref=f2e23] [cursor=pointer]
+        - button "Biên tập viên / Trưởng ban" [pressed] [ref=f2e24] [cursor=pointer]
+        - button "Thư ký tòa soạn" [ref=f2e25] [cursor=pointer]
+        - button "Họa sĩ / Thiết kế" [ref=f2e26] [cursor=pointer]
+        - button "Phó TBT / TBT" [ref=f2e27] [cursor=pointer]
+        - button "Nhà in" [ref=f2e28] [cursor=pointer]
+        - button "Quản trị hệ thống" [ref=f2e29] [cursor=pointer]
+      - generic [ref=f2e30] [cursor=pointer]:
+        - checkbox "Giải thích phân quyền" [checked] [ref=f2e31]
+        - text: Giải thích phân quyền
+  - main [ref=f2e32]:
+    - generic [ref=f2e33]:
+      - generic [ref=f2e34]:
+        - link "Kho bài" [ref=f2e35] [cursor=pointer]:
+          - /url: /kho-bai
+        - generic [ref=f2e36]: /
+        - generic [ref=f2e37]: TNTP-1030
+      - generic [ref=f2e38]:
+        - generic [ref=f2e39]:
+          - generic [ref=f2e40]:
+            - 'heading "Chuyển đổi số báo chí: công nghệ không phải rào cản lớn nhất" [level=1] [ref=f2e41]'
+            - paragraph [ref=f2e42]: Bản tóm tắt mô phỏng cho bài TNTP-1030, dùng để minh họa màn hình soạn thảo và các bước duyệt trong quy trình.
+            - generic [ref=f2e43]:
+              - generic "BTV/Trưởng ban sửa chữa. Trả lại PV hoặc duyệt. Đặt hàng thiết kế chạy song song từ đây" [ref=f2e44]: S2 — Biên tập nội dung
+              - generic [ref=f2e45]: In + Điện tử
+              - generic [ref=f2e46]: Thời sự
+          - generic [ref=f2e47]:
+            - generic "◆ = đang giữ bài. E = Sửa nội dung (có lưu vết) · C = Bình luận nội bộ · A = Chuyển trạng thái" [ref=f2e48]: ◆ E C A
+            - button "Lịch sử bài viết" [ref=f2e49] [cursor=pointer]
+        - generic [ref=f2e50]:
+          - generic [ref=f2e51]:
+            - generic [ref=f2e52]: "Trạng thái:"
+            - generic [ref=f2e53]: S2 — Biên tập nội dung
+          - generic [ref=f2e54]:
+            - generic [ref=f2e55]: "Đang ở:"
+            - generic [ref=f2e56]: Biên tập viên / Trưởng ban
+          - generic [ref=f2e57]:
+            - generic [ref=f2e58]: "Phiên bản:"
+            - generic [ref=f2e59]: "2"
+          - generic [ref=f2e60]:
+            - generic [ref=f2e61]: "Người sửa cuối:"
+            - generic [ref=f2e62]:
+              - generic "Phạm Thu Hà" [ref=f2e63]: TH
+              - text: Phạm Thu Hà
+          - generic [ref=f2e64]:
+            - generic [ref=f2e65]: "Sửa lúc:"
+            - generic [ref=f2e66]: 22/10 14:30
+          - generic [ref=f2e67]:
+            - generic [ref=f2e68]: "Tác giả:"
+            - generic [ref=f2e69]: Trần Quốc Bảo
+      - list [ref=f2e71]:
+        - listitem [ref=f2e72]:
+          - generic "PV đăng ký đề tài, Biên tập viên / Trưởng ban duyệt hoặc từ chối" [ref=f2e75]: ✓
+          - generic [ref=f2e77]: Đề tài
+          - generic [ref=f2e78]: BTV/TB
+        - listitem [ref=f2e79]:
+          - generic "PV viết bài, đính kèm ảnh/video, bấm Gửi biên tập" [ref=f2e82]: ✓
+          - generic [ref=f2e84]: Bản thảo
+          - generic [ref=f2e85]: PV
+        - listitem [ref=f2e86]:
+          - generic "BTV/Trưởng ban sửa chữa. Trả lại PV hoặc duyệt. Đặt hàng thiết kế chạy song song từ đây" [ref=f2e89]: "2"
+          - generic [ref=f2e91]: Biên tập nội dung
+          - generic [ref=f2e92]: BTV/TB
+        - listitem [ref=f2e93]:
+          - generic "TKTS rà soát lần cuối về nội dung. Duyệt = khóa văn bản, hệ thống tự chuyển sang Họa sĩ" [ref=f2e96]: "3"
+          - generic [ref=f2e98]: Chốt nội dung
+          - generic [ref=f2e99]: TKTS
+        - listitem [ref=f2e100]:
+          - 'generic "Họa sĩ dàn trang / thiết kế. Văn bản đã khóa: muốn sửa chữ phải tạo Yêu cầu sửa" [ref=f2e103]': "4"
+          - generic [ref=f2e105]: Trình bày
+          - generic [ref=f2e106]: HS
+        - listitem [ref=f2e107]:
+          - generic "TKTS và BTV cùng soát trên bản preview. Yêu cầu sửa (về Họa sĩ) hoặc Trình duyệt" [ref=f2e110]: "5"
+          - generic [ref=f2e112]: Soát bản bông
+          - generic [ref=f2e113]: TKTS
+        - listitem [ref=f2e114]:
+          - generic "PTBT/TBT đọc duyệt lần cuối, ký số. Hoặc trả bài về đích tự chọn" [ref=f2e117]: "6"
+          - generic [ref=f2e119]: Chờ duyệt xuất bản
+          - generic [ref=f2e120]: TBT
+        - listitem [ref=f2e121]:
+          - 'generic "Báo điện tử: tự đẩy theo lịch. Báo in: khóa file, xuất PDF giao Nhà in" [ref=f2e124]': "7"
+          - generic [ref=f2e126]: Đã xuất bản
+          - generic [ref=f2e127]: TKTS
+        - listitem [ref=f2e128]:
+          - generic "Đóng gói, bất biến hóa bản ghi. Chỉ tra cứu, không ai sửa được" [ref=f2e131]: "8"
+          - generic [ref=f2e133]: Lưu trữ / lưu chiểu
+      - generic [ref=f2e134]:
+        - generic [ref=f2e136]:
+          - heading "Thông tin duyệt" [level=2] [ref=f2e137]
+          - list [ref=f2e138]:
+            - listitem [ref=f2e139]:
+              - generic [aria-hidden] [ref=f2e142]: ✓
+              - paragraph [ref=f2e143]: Duyệt đề tài
+              - generic [ref=f2e144]:
+                - generic "Phạm Thu Hà" [ref=f2e145]: TH
+                - generic [ref=f2e146]:
+                  - generic [ref=f2e147]: Phạm Thu Hà
+                  - generic [ref=f2e148]: Biên tập viên / Trưởng ban
+              - paragraph [ref=f2e149]: 22/10 11:00
+              - paragraph [ref=f2e150]: “Đề tài rõ, triển khai ngay trong tuần này.”
+            - listitem [ref=f2e151]:
+              - generic [aria-hidden] [ref=f2e154]: ✓
+              - paragraph [ref=f2e155]: Gửi biên tập
+              - generic [ref=f2e156]:
+                - generic "Nguyễn Thị Mai" [ref=f2e157]: TM
+                - generic [ref=f2e158]:
+                  - generic [ref=f2e159]: Nguyễn Thị Mai
+                  - generic [ref=f2e160]: Phóng viên
+              - paragraph [ref=f2e161]: 23/10 05:00
+              - paragraph [ref=f2e162]: “Nhờ anh chị biên tập xem giúp em ạ.”
+            - listitem [ref=f2e163]:
+              - generic [aria-hidden] [ref=f2e165]: •
+              - paragraph [ref=f2e166]: Chờ xử lý
+              - generic [ref=f2e167]:
+                - generic "Phạm Thu Hà" [ref=f2e168]: TH
+                - generic [ref=f2e169]:
+                  - generic [ref=f2e170]: Phạm Thu Hà
+                  - generic [ref=f2e171]: Biên tập viên / Trưởng ban
+              - paragraph [ref=f2e172]: Đang ở S2 — Biên tập nội dung
+        - generic [ref=f2e174]:
+          - generic [ref=f2e175]:
+            - generic [ref=f2e176]:
+              - heading "Hành động" [level=2] [ref=f2e177]
+              - generic "Mã quyền trong ma trận" [ref=f2e178]: ◆ E C A
+              - generic [ref=f2e179]: Vai trò này đang giữ bài
+            - generic [ref=f2e180]:
+              - button "Duyệt & chuyển Thư ký tòa soạn" [ref=f2e181] [cursor=pointer]
+              - button "Trả lại phóng viên" [ref=f2e182] [cursor=pointer]
+              - button "Loại bài / chuyển kho tồn" [ref=f2e183] [cursor=pointer]
+          - generic [ref=f2e184]:
+            - generic [ref=f2e185]:
+              - heading "Nội dung bài" [level=2] [ref=f2e186]
+              - button "Sửa nội dung" [ref=f2e187] [cursor=pointer]
+            - article [ref=f2e188]:
+              - paragraph [ref=f2e189]:
+                - generic [ref=f2e190]: "1"
+                - generic [ref=f2e191]: "Chuyển đổi số báo chí: công nghệ không phải rào cản lớn nhất — nội dung mô phỏng phục vụ demo quy trình, không phải bài báo thật."
+              - paragraph [ref=f2e192]:
+                - generic [ref=f2e193]: "2"
+                - generic [ref=f2e194]: Sáng 22/10, tại Hà Nội, hội thảo về chuyển đổi số trong lĩnh vực báo chí đã thu hút hơn 200 đại biểu đến từ các cơ quan báo chí trung ương và địa phương.
+              - paragraph [ref=f2e195]:
+                - generic [ref=f2e196]: "3"
+                - generic [ref=f2e197]: Theo báo cáo được công bố tại hội thảo, tỷ lệ cơ quan báo chí đã triển khai tòa soạn hội tụ ở mức một phần ba, phần lớn tập trung ở các đơn vị có quy mô lớn.
+              - paragraph [ref=f2e198]:
+                - generic [ref=f2e199]: "4"
+                - generic [ref=f2e200]: Đại diện ban tổ chức cho biết khó khăn lớn nhất không nằm ở công nghệ mà ở việc thay đổi thói quen làm việc, khi nhiều khâu vẫn được xử lý trên giấy.
+              - paragraph [ref=f2e201]:
+                - generic [ref=f2e202]: "5"
+                - generic [ref=f2e203]: "Phiên thảo luận buổi chiều tập trung vào bài toán quy trình: làm thế nào rút ngắn thời gian từ lúc phóng viên gửi bài đến khi bài được xuất bản mà vẫn giữ đủ các lớp kiểm soát."
+          - generic [ref=f2e204]:
+            - generic [ref=f2e205]:
+              - generic [ref=f2e206]:
+                - heading "Bình luận nội bộ" [level=2] [ref=f2e207]
+                - generic [ref=f2e208]: "1"
+              - list [ref=f2e209]:
+                - listitem [ref=f2e210]:
+                  - generic [ref=f2e211]:
+                    - strong [ref=f2e212]: Phạm Thu Hà
+                    - generic [ref=f2e213]: Biên tập viên / Trưởng ban
+                    - generic [ref=f2e214]: ·
+                    - generic [ref=f2e215]: 22/10 19:00
+                    - generic [ref=f2e216]: Đoạn 3
+                    - generic [ref=f2e217]: "@Phóng viên"
+                  - paragraph [ref=f2e218]: Đoạn 3 cần kiểm tra lại số liệu, nguồn hiện chưa rõ là báo cáo nào.
+                  - button "Đánh dấu đã xử lý" [ref=f2e219] [cursor=pointer]
+              - generic [ref=f2e220]:
+                - 'textbox "Ghi chú cho đồng nghiệp, ví dụ: cắt ảnh này theo tỷ lệ 16:9." [ref=f2e221]'
+                - generic [ref=f2e222]:
+                  - combobox "Gắn thẻ vai trò" [ref=f2e223]:
+                    - option "Không gắn thẻ ai" [selected]
+                    - option "@Phóng viên"
+                    - option "@Biên tập viên / Trưởng ban"
+                    - option "@Thư ký tòa soạn"
+                    - option "@Họa sĩ / Thiết kế"
+                    - option "@Phó TBT / TBT"
+                    - option "@Nhà in"
+                    - option "@Quản trị hệ thống"
+                  - combobox "Gắn vào đoạn" [ref=f2e224]:
+                    - option "Bình luận cả bài" [selected]
+                    - option "Đoạn 1"
+                    - option "Đoạn 2"
+                    - option "Đoạn 3"
+                    - option "Đoạn 4"
+                    - option "Đoạn 5"
+                  - button "Gửi bình luận" [ref=f2e225] [cursor=pointer]
+              - generic [ref=f2e226]: Tài liệu của tòa soạn mô tả "khung chat hoặc comment" — đây là hai chức năng khác nhau. Bản demo dựng theo phương án comment gắn theo từng đoạn, có gắn thẻ người nhận và đánh dấu đã xử lý (câu hỏi số 60 trong danh sách làm rõ).
+            - generic [ref=f2e228]:
+              - generic [ref=f2e229]:
+                - heading "Lịch sử chỉnh sửa" [level=2] [ref=f2e230]
+                - generic [ref=f2e231]: 2 phiên bản
+              - list [ref=f2e232]:
+                - listitem [ref=f2e233]:
+                  - generic [ref=f2e234]: v2
+                  - strong [ref=f2e235]: Phạm Thu Hà
+                  - generic [ref=f2e236]: Biên tập viên / Trưởng ban
+                  - generic [ref=f2e237]: · 22/10 14:30
+                  - generic [ref=f2e238]: · 96 từ thay đổi
+                  - generic [ref=f2e239]: Bản hiện tại
+                  - generic [ref=f2e240]: "Biên tập: rút gọn sa pô, sửa 4 lỗi chính tả, chuẩn hóa tên riêng"
+                - listitem [ref=f2e241]:
+                  - generic [ref=f2e242]: v1
+                  - strong [ref=f2e243]: Trần Quốc Bảo
+                  - generic [ref=f2e244]: Phóng viên
+                  - generic [ref=f2e245]: · 21/10 17:00
+                  - generic [ref=f2e246]: · 820 từ thay đổi
+                  - generic [ref=f2e247]: Bản viết đầu tiên
+              - button "So sánh hai bản gần nhất" [ref=f2e249] [cursor=pointer]
+          - button "Sơ đồ toàn quy trình — chín bước chính kèm các nhánh trả lại, loại bài, đính chính" [ref=f2e251] [cursor=pointer]:
+            - generic [aria-hidden] [ref=f2e252]: ▸
+            - text: Sơ đồ toàn quy trình
+            - generic [ref=f2e253]: — chín bước chính kèm các nhánh trả lại, loại bài, đính chính
+  - contentinfo [ref=f2e254]: Bản demo mô phỏng — dữ liệu nằm trong trình duyệt, không có máy chủ, không có đăng nhập thật.

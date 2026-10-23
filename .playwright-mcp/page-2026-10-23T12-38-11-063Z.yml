@@ -1,0 +1,276 @@
+- generic [active] [ref=f7e1]:
+  - generic [ref=f7e2]:
+    - strong [ref=f7e3]: Bản mô phỏng phục vụ thảo luận yêu cầu.
+    - text: Không có đăng nhập, không lưu lên máy chủ, không dàn trang báo in thật, không ký số thật. Mục đích duy nhất là để đối chiếu quy trình và phân quyền trước khi thiết kế hệ thống.
+  - banner [ref=f7e4]:
+    - generic [ref=f7e6]:
+      - link "CMS Tòa soạn hội tụ" [ref=f7e7] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=f7e8]:
+        - link "Bảng điều khiển" [ref=f7e9] [cursor=pointer]:
+          - /url: /
+        - link "Kho bài" [ref=f7e10] [cursor=pointer]:
+          - /url: /kho-bai
+        - link "Nhật ký" [ref=f7e11] [cursor=pointer]:
+          - /url: /nhat-ky
+      - generic [ref=f7e12]:
+        - generic "Số bài đang chờ vai trò này xử lý" [ref=f7e13]:
+          - generic [aria-hidden] [ref=f7e14]: 🔔
+          - generic [ref=f7e15]: 0 việc chờ
+        - generic [ref=f7e16]:
+          - generic [ref=f7e17]: Phạm Thu Hà
+          - generic [ref=f7e18]: Biên tập viên / Trưởng ban
+    - generic [ref=f7e20]:
+      - generic [ref=f7e21]: Đang xem với vai trò
+      - generic [ref=f7e22]:
+        - button "Phóng viên" [ref=f7e23] [cursor=pointer]
+        - button "Biên tập viên / Trưởng ban" [pressed] [ref=f7e24] [cursor=pointer]
+        - button "Thư ký tòa soạn" [ref=f7e25] [cursor=pointer]
+        - button "Họa sĩ / Thiết kế" [ref=f7e26] [cursor=pointer]
+        - button "Phó TBT / TBT" [ref=f7e27] [cursor=pointer]
+        - button "Nhà in" [ref=f7e28] [cursor=pointer]
+        - button "Quản trị hệ thống" [ref=f7e29] [cursor=pointer]
+      - generic [ref=f7e30] [cursor=pointer]:
+        - checkbox "Giải thích phân quyền" [checked] [ref=f7e31]
+        - text: Giải thích phân quyền
+  - main [ref=f7e32]:
+    - generic [ref=f7e33]:
+      - generic [ref=f7e34]:
+        - link "Kho bài" [ref=f7e35] [cursor=pointer]:
+          - /url: /kho-bai
+        - generic [ref=f7e36]: /
+        - generic [ref=f7e37]: TNTP-1021
+      - generic [ref=f7e38]:
+        - generic [ref=f7e39]:
+          - generic [ref=f7e40]:
+            - 'heading "Trang chuyên đề: Thể thao học đường sau một năm" [level=1] [ref=f7e41]'
+            - paragraph [ref=f7e42]: Sau một năm triển khai đề án phát triển thể chất học đường, các câu lạc bộ thể thao tự nguyện trong trường học đã tạo chuyển biến tích cực trong thói quen rèn luyện của học sinh.
+            - generic [ref=f7e43]:
+              - 'generic "Họa sĩ dàn trang / thiết kế. Văn bản đã khóa: muốn sửa chữ phải tạo Yêu cầu sửa" [ref=f7e44]': S4 — Trình bày
+              - generic [ref=f7e45]: Báo in
+              - generic [ref=f7e46]: Thể thao
+          - generic [ref=f7e47]:
+            - generic "R = Xem bài · C = Bình luận nội bộ" [ref=f7e48]: R C
+            - button "Lịch sử bài viết" [ref=f7e49] [cursor=pointer]
+        - generic [ref=f7e50]:
+          - generic [ref=f7e51]:
+            - generic [ref=f7e52]: "Trạng thái:"
+            - generic [ref=f7e53]: S4 — Trình bày
+          - generic [ref=f7e54]:
+            - generic [ref=f7e55]: "Đang ở:"
+            - generic [ref=f7e56]: Họa sĩ / Thiết kế
+          - generic [ref=f7e57]:
+            - generic [ref=f7e58]: "Phiên bản:"
+            - generic [ref=f7e59]: "3"
+          - generic [ref=f7e60]:
+            - generic [ref=f7e61]: "Người sửa cuối:"
+            - generic [ref=f7e62]:
+              - generic "Đỗ Minh Khoa" [ref=f7e63]: MK
+              - text: Đỗ Minh Khoa
+          - generic [ref=f7e64]:
+            - generic [ref=f7e65]: "Sửa lúc:"
+            - generic [ref=f7e66]: 21/10 16:48
+          - generic [ref=f7e67]:
+            - generic [ref=f7e68]: "Tác giả:"
+            - generic [ref=f7e69]: Trần Quốc Bảo
+      - list [ref=f7e71]:
+        - listitem [ref=f7e72]:
+          - generic "PV đăng ký đề tài, Biên tập viên / Trưởng ban duyệt hoặc từ chối" [ref=f7e75]: ✓
+          - generic [ref=f7e77]: Đề tài
+          - generic [ref=f7e78]: BTV/TB
+        - listitem [ref=f7e79]:
+          - generic "PV viết bài, đính kèm ảnh/video, bấm Gửi biên tập" [ref=f7e82]: ✓
+          - generic [ref=f7e84]: Bản thảo
+          - generic [ref=f7e85]: PV
+        - listitem [ref=f7e86]:
+          - generic "BTV/Trưởng ban sửa chữa. Trả lại PV hoặc duyệt. Đặt hàng thiết kế chạy song song từ đây" [ref=f7e89]: ✓
+          - generic [ref=f7e91]: Biên tập nội dung
+          - generic [ref=f7e92]: BTV/TB
+        - listitem [ref=f7e93]:
+          - generic "TKTS rà soát lần cuối về nội dung. Duyệt = khóa văn bản, hệ thống tự chuyển sang Họa sĩ" [ref=f7e96]: ✓
+          - generic [ref=f7e98]: Chốt nội dung
+          - generic [ref=f7e99]: TKTS
+        - listitem [ref=f7e100]:
+          - 'generic "Họa sĩ dàn trang / thiết kế. Văn bản đã khóa: muốn sửa chữ phải tạo Yêu cầu sửa" [ref=f7e103]': "4"
+          - generic [ref=f7e105]: Trình bày
+          - generic [ref=f7e106]: HS
+        - listitem [ref=f7e107]:
+          - generic "TKTS và BTV cùng soát trên bản preview. Yêu cầu sửa (về Họa sĩ) hoặc Trình duyệt" [ref=f7e110]: "5"
+          - generic [ref=f7e112]: Soát bản bông
+          - generic [ref=f7e113]: TKTS
+        - listitem [ref=f7e114]:
+          - generic "PTBT/TBT đọc duyệt lần cuối, ký số. Hoặc trả bài về đích tự chọn" [ref=f7e117]: "6"
+          - generic [ref=f7e119]: Chờ duyệt xuất bản
+          - generic [ref=f7e120]: TBT
+        - listitem [ref=f7e121]:
+          - 'generic "Báo điện tử: tự đẩy theo lịch. Báo in: khóa file, xuất PDF giao Nhà in" [ref=f7e124]': "7"
+          - generic [ref=f7e126]: Đã xuất bản
+          - generic [ref=f7e127]: TKTS
+        - listitem [ref=f7e128]:
+          - generic "Đóng gói, bất biến hóa bản ghi. Chỉ tra cứu, không ai sửa được" [ref=f7e131]: "8"
+          - generic [ref=f7e133]: Lưu trữ / lưu chiểu
+      - generic [ref=f7e134]:
+        - generic [ref=f7e136]:
+          - heading "Thông tin duyệt" [level=2] [ref=f7e137]
+          - list [ref=f7e138]:
+            - listitem [ref=f7e139]:
+              - generic [aria-hidden] [ref=f7e142]: ✓
+              - paragraph [ref=f7e143]: Duyệt đề tài
+              - generic [ref=f7e144]:
+                - generic "Phạm Thu Hà" [ref=f7e145]: TH
+                - generic [ref=f7e146]:
+                  - generic [ref=f7e147]: Phạm Thu Hà
+                  - generic [ref=f7e148]: Biên tập viên / Trưởng ban
+              - paragraph [ref=f7e149]: 21/10 02:24
+              - paragraph [ref=f7e150]: “Đề tài rõ ràng, triển khai ngay trong tuần này.”
+            - listitem [ref=f7e151]:
+              - generic [aria-hidden] [ref=f7e154]: ✓
+              - paragraph [ref=f7e155]: Gửi biên tập
+              - generic [ref=f7e156]:
+                - generic "Trần Quốc Bảo" [ref=f7e157]: QB
+                - generic [ref=f7e158]:
+                  - generic [ref=f7e159]: Trần Quốc Bảo
+                  - generic [ref=f7e160]: Phóng viên
+              - paragraph [ref=f7e161]: 21/10 07:12
+              - paragraph [ref=f7e162]: “Nhờ anh chị biên tập xem giúp em ạ.”
+            - listitem [ref=f7e163]:
+              - generic [aria-hidden] [ref=f7e166]: ✓
+              - paragraph [ref=f7e167]: Duyệt & chuyển Thư ký tòa soạn
+              - generic [ref=f7e168]:
+                - generic "Phạm Thu Hà" [ref=f7e169]: TH
+                - generic [ref=f7e170]:
+                  - generic [ref=f7e171]: Phạm Thu Hà
+                  - generic [ref=f7e172]: Biên tập viên / Trưởng ban
+              - paragraph [ref=f7e173]: 21/10 14:24
+              - paragraph [ref=f7e174]: “Đã rút gọn sa pô và chuẩn hóa tên riêng, chuyển Thư ký tòa soạn.”
+            - listitem [ref=f7e175]:
+              - generic [aria-hidden] [ref=f7e178]: ✓
+              - paragraph [ref=f7e179]: Chốt nội dung & khóa văn bản
+              - generic [ref=f7e180]:
+                - generic "Đỗ Minh Khoa" [ref=f7e181]: MK
+                - generic [ref=f7e182]:
+                  - generic [ref=f7e183]: Đỗ Minh Khoa
+                  - generic [ref=f7e184]: Thư ký tòa soạn
+              - paragraph [ref=f7e185]: 21/10 21:36
+              - paragraph [ref=f7e186]: “Nội dung đạt, khóa văn bản và chuyển sang trình bày.”
+            - listitem [ref=f7e187]:
+              - generic [aria-hidden] [ref=f7e189]: •
+              - paragraph [ref=f7e190]: Chờ xử lý
+              - generic [ref=f7e191]:
+                - generic "Vũ Hoàng Nam" [ref=f7e192]: HN
+                - generic [ref=f7e193]:
+                  - generic [ref=f7e194]: Vũ Hoàng Nam
+                  - generic [ref=f7e195]: Họa sĩ / Thiết kế
+              - paragraph [ref=f7e196]: Đang ở S4 — Trình bày
+        - generic [ref=f7e198]:
+          - generic [ref=f7e199]:
+            - generic [ref=f7e200]:
+              - heading "Hành động" [level=2] [ref=f7e201]
+              - generic "Mã quyền trong ma trận" [ref=f7e202]: R C
+            - button "Gửi bản bông" [disabled] [ref=f7e204]
+            - generic [ref=f7e206]:
+              - text: Nút mờ là hành động có ở trạng thái này nhưng
+              - strong [ref=f7e207]: Biên tập viên / Trưởng ban
+              - text: không được phép thực hiện. Di chuột lên nút để xem vai trò nào làm được.
+          - generic [ref=f7e208]:
+            - generic [ref=f7e209]:
+              - heading "Nội dung bài" [level=2] [ref=f7e210]
+              - generic "Văn bản đã khóa sau khi Thư ký tòa soạn chốt nội dung" [ref=f7e211]: 🔒 Văn bản đã khóa
+            - article [ref=f7e212]:
+              - paragraph [ref=f7e213]:
+                - generic [ref=f7e214]: "1"
+                - generic [ref=f7e215]: Khảo sát tại 50 trường THCS và THPT trên địa bàn thành phố cho thấy tỷ lệ học sinh tham gia luyện tập thể thao thường xuyên ngoài giờ học chính khóa đã tăng thêm 25%.
+              - paragraph [ref=f7e216]:
+                - generic [ref=f7e217]: "2"
+                - generic [ref=f7e218]: Mô hình xã hội hóa sân bóng đá mini, nhà thi đấu bóng rổ và hồ bơi liên trường đã giúp giải quyết bài toán thiếu hụt diện tích sân chơi thể chất trong các trường nội thành.
+              - paragraph [ref=f7e219]:
+                - generic [ref=f7e220]: "3"
+                - generic [ref=f7e221]: Các giải đấu phong trào thể thao học sinh được tổ chức bài bản, tạo sân chơi lành mạnh, giúp các em nâng cao thể lực và giảm đáng kể thời gian ngồi trước màn hình điện thoại.
+              - paragraph [ref=f7e222]:
+                - generic [ref=f7e223]: "4"
+                - generic [ref=f7e224]: Tuy nhiên, đội ngũ giáo viên giáo dục thể chất ở nhiều trường vẫn còn mỏng, phương pháp huấn luyện kỹ năng chuyên sâu cho học sinh năng khiếu cần được bồi dưỡng thêm.
+              - paragraph [ref=f7e225]:
+                - generic [ref=f7e226]: "5"
+                - generic [ref=f7e227]: Ngành giáo dục đang tiếp tục mở rộng mô hình liên kết với các liên đoàn thể thao để chuẩn hóa giáo trình huấn luyện thể chất trường học trong giai đoạn tiếp theo.
+            - generic [ref=f7e229]:
+              - text: Vai trò
+              - strong [ref=f7e230]: Biên tập viên / Trưởng ban
+              - text: không có quyền E (sửa nội dung) ở trạng thái này, nên nội dung chỉ hiển thị để đọc.
+          - generic [ref=f7e231]:
+            - generic [ref=f7e232]:
+              - generic [ref=f7e233]:
+                - heading "Bình luận nội bộ" [level=2] [ref=f7e234]
+                - generic [ref=f7e235]: "2"
+              - list [ref=f7e236]:
+                - listitem [ref=f7e237]:
+                  - generic [ref=f7e238]:
+                    - strong [ref=f7e239]: Phạm Thu Hà
+                    - generic [ref=f7e240]: Biên tập viên / Trưởng ban
+                    - generic [ref=f7e241]: ·
+                    - generic [ref=f7e242]: 21/10 09:36
+                    - generic [ref=f7e243]: Đoạn 0
+                    - generic [ref=f7e244]: Đã xử lý
+                  - paragraph [ref=f7e245]: Đã kiểm tra số liệu khảo sát 50 trường học ở đoạn 0, thông tin chính xác.
+                - listitem [ref=f7e246]:
+                  - generic [ref=f7e247]:
+                    - strong [ref=f7e248]: Đỗ Minh Khoa
+                    - generic [ref=f7e249]: Thư ký tòa soạn
+                    - generic [ref=f7e250]: ·
+                    - generic [ref=f7e251]: 21/10 19:12
+                    - generic [ref=f7e252]: "@Họa sĩ / Thiết kế"
+                  - paragraph [ref=f7e253]: Dàn 3 cột trang đôi báo in, chừa chỗ cho tít chạy hai dòng và box dữ liệu thống kê.
+                  - button "Đánh dấu đã xử lý" [ref=f7e254] [cursor=pointer]
+              - generic [ref=f7e255]:
+                - 'textbox "Ghi chú cho đồng nghiệp, ví dụ: cắt ảnh này theo tỷ lệ 16:9." [ref=f7e256]'
+                - generic [ref=f7e257]:
+                  - combobox "Gắn thẻ vai trò" [ref=f7e258]:
+                    - option "Không gắn thẻ ai" [selected]
+                    - option "@Phóng viên"
+                    - option "@Biên tập viên / Trưởng ban"
+                    - option "@Thư ký tòa soạn"
+                    - option "@Họa sĩ / Thiết kế"
+                    - option "@Phó TBT / TBT"
+                    - option "@Nhà in"
+                    - option "@Quản trị hệ thống"
+                  - combobox "Gắn vào đoạn" [ref=f7e259]:
+                    - option "Bình luận cả bài" [selected]
+                    - option "Đoạn 1"
+                    - option "Đoạn 2"
+                    - option "Đoạn 3"
+                    - option "Đoạn 4"
+                    - option "Đoạn 5"
+                  - button "Gửi bình luận" [ref=f7e260] [cursor=pointer]
+              - generic [ref=f7e261]: Tài liệu của tòa soạn mô tả "khung chat hoặc comment" — đây là hai chức năng khác nhau. Bản demo dựng theo phương án comment gắn theo từng đoạn, có gắn thẻ người nhận và đánh dấu đã xử lý (câu hỏi số 60 trong danh sách làm rõ).
+            - generic [ref=f7e263]:
+              - generic [ref=f7e264]:
+                - heading "Lịch sử chỉnh sửa" [level=2] [ref=f7e265]
+                - generic [ref=f7e266]: 3 phiên bản
+              - list [ref=f7e267]:
+                - listitem [ref=f7e268]:
+                  - generic [ref=f7e269]: v3
+                  - strong [ref=f7e270]: Đỗ Minh Khoa
+                  - generic [ref=f7e271]: Thư ký tòa soạn
+                  - generic [ref=f7e272]: · 21/10 16:48
+                  - generic [ref=f7e273]: · 23 từ thay đổi
+                  - generic [ref=f7e274]: Bản hiện tại
+                  - generic [ref=f7e275]: Chốt nội dung, khóa văn bản trước khi chuyển trình bày
+                - listitem [ref=f7e276]:
+                  - generic [ref=f7e277]: v2
+                  - strong [ref=f7e278]: Phạm Thu Hà
+                  - generic [ref=f7e279]: Biên tập viên / Trưởng ban
+                  - generic [ref=f7e280]: · 21/10 12:00
+                  - generic [ref=f7e281]: · 96 từ thay đổi
+                  - generic [ref=f7e282]: "Biên tập: rút gọn sa pô, sửa 4 lỗi chính tả, chuẩn hóa tên riêng"
+                - listitem [ref=f7e283]:
+                  - generic [ref=f7e284]: v1
+                  - strong [ref=f7e285]: Trần Quốc Bảo
+                  - generic [ref=f7e286]: Phóng viên
+                  - generic [ref=f7e287]: · 21/10 04:48
+                  - generic [ref=f7e288]: · 820 từ thay đổi
+                  - generic [ref=f7e289]: Bản viết đầu tiên
+              - button "So sánh hai bản gần nhất" [ref=f7e291] [cursor=pointer]
+          - button "Sơ đồ toàn quy trình — chín bước chính kèm các nhánh trả lại, loại bài, đính chính" [ref=f7e293] [cursor=pointer]:
+            - generic [aria-hidden] [ref=f7e294]: ▸
+            - text: Sơ đồ toàn quy trình
+            - generic [ref=f7e295]: — chín bước chính kèm các nhánh trả lại, loại bài, đính chính
+  - contentinfo [ref=f7e296]: Bản demo mô phỏng — dữ liệu nằm trong trình duyệt, không có máy chủ, không có đăng nhập thật.

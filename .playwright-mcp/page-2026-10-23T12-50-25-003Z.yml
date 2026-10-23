@@ -1,0 +1,222 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - strong [ref=e3]: Bản mô phỏng phục vụ thảo luận yêu cầu.
+    - text: Không có đăng nhập, không lưu lên máy chủ, không dàn trang báo in thật, không ký số thật. Mục đích duy nhất là để đối chiếu quy trình và phân quyền trước khi thiết kế hệ thống.
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - link "CMS Tòa soạn hội tụ" [ref=e7] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e8]:
+        - link "Bảng điều khiển" [ref=e9] [cursor=pointer]:
+          - /url: /
+        - link "Kho bài" [ref=e10] [cursor=pointer]:
+          - /url: /kho-bai
+        - link "Nhật ký" [ref=e11] [cursor=pointer]:
+          - /url: /nhat-ky
+      - generic [ref=e12]:
+        - generic "Số bài đang chờ vai trò này xử lý" [ref=e13]:
+          - generic [aria-hidden] [ref=e14]: 🔔
+          - generic [ref=e15]: 0 việc chờ
+        - generic [ref=e16]:
+          - generic [ref=e17]: Phạm Thu Hà
+          - generic [ref=e18]: Biên tập viên / Trưởng ban
+    - generic [ref=e20]:
+      - generic [ref=e21]: Đang xem với vai trò
+      - generic [ref=e22]:
+        - button "Phóng viên" [ref=e23] [cursor=pointer]
+        - button "Biên tập viên / Trưởng ban" [pressed] [ref=e24] [cursor=pointer]
+        - button "Thư ký tòa soạn" [ref=e25] [cursor=pointer]
+        - button "Họa sĩ / Thiết kế" [ref=e26] [cursor=pointer]
+        - button "Phó TBT / TBT" [ref=e27] [cursor=pointer]
+        - button "Nhà in" [ref=e28] [cursor=pointer]
+        - button "Quản trị hệ thống" [ref=e29] [cursor=pointer]
+      - generic [ref=e30] [cursor=pointer]:
+        - checkbox "Giải thích phân quyền" [checked] [ref=e31]
+        - text: Giải thích phân quyền
+  - main [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - heading "Bảng điều khiển — Biên tập viên / Trưởng ban" [level=1] [ref=e35]
+        - paragraph [ref=e36]: Duyệt đề tài, biên tập, điều phối và duyệt bài trong ban
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - generic [ref=e39]: "4"
+            - generic [ref=e40]: việc đang chờ bạn xử lý
+          - generic [ref=e41]:
+            - generic [ref=e42]: "14"
+            - generic [ref=e43]: trên tổng 14 bài mà vai trò này nhìn thấy
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - heading "Đề tài chờ duyệt" [level=2] [ref=e46]
+          - generic [ref=e47]: 2 bài
+        - list [ref=e48]:
+          - listitem [ref=e49]:
+            - 'link "Mở bài TNTP-1041: Đề xuất mở rộng tuyến buýt điện nội đô" [ref=e50] [cursor=pointer]':
+              - /url: /bai-viet/bai-1
+              - generic [ref=e51]:
+                - generic [ref=e52]:
+                  - text: TNTP-1041
+                  - heading "Đề xuất mở rộng tuyến buýt điện nội đô" [level=3] [ref=e53]
+                  - generic [ref=e54]:
+                    - generic "PV đăng ký đề tài, Biên tập viên / Trưởng ban duyệt hoặc từ chối" [ref=e55]: S0 — Đề tài
+                    - generic [ref=e56]: Báo điện tử
+                    - generic [ref=e57]: Đô thị
+                    - generic [ref=e58]: Nguyễn Thị Mai
+                - generic [ref=e59]:
+                  - generic "◆ = đang giữ bài. R = Xem bài · C = Bình luận nội bộ · A = Chuyển trạng thái" [ref=e60]: ◆ R C A
+                  - generic [ref=e61]: "Đang ở: Biên tập viên / Trưởng ban"
+                  - generic [ref=e62]: Bạn đang giữ bài này
+          - listitem [ref=e63]:
+            - 'link "Mở bài TNTP-1042: Loạt bài: Người trẻ và nghề thủ công truyền thống" [ref=e64] [cursor=pointer]':
+              - /url: /bai-viet/bai-2
+              - generic [ref=e65]:
+                - generic [ref=e66]:
+                  - text: TNTP-1042
+                  - 'heading "Loạt bài: Người trẻ và nghề thủ công truyền thống" [level=3] [ref=e67]'
+                  - generic [ref=e68]:
+                    - generic "PV đăng ký đề tài, Biên tập viên / Trưởng ban duyệt hoặc từ chối" [ref=e69]: S0 — Đề tài
+                    - generic [ref=e70]: In + Điện tử
+                    - generic [ref=e71]: Văn hóa
+                    - generic [ref=e72]: Nguyễn Thị Mai
+                - generic [ref=e73]:
+                  - generic "◆ = đang giữ bài. R = Xem bài · C = Bình luận nội bộ · A = Chuyển trạng thái" [ref=e74]: ◆ R C A
+                  - generic [ref=e75]: "Đang ở: Biên tập viên / Trưởng ban"
+                  - generic [ref=e76]: Bạn đang giữ bài này
+      - generic [ref=e77]:
+        - generic [ref=e78]:
+          - heading "Kho bài chờ biên tập" [level=2] [ref=e79]
+          - generic [ref=e80]: 2 bài
+        - list [ref=e81]:
+          - listitem [ref=e82]:
+            - 'link "Mở bài TNTP-1030: Chuyển đổi số báo chí: công nghệ không phải rào cản lớn nhất" [ref=e83] [cursor=pointer]':
+              - /url: /bai-viet/bai-5
+              - generic [ref=e84]:
+                - generic [ref=e85]:
+                  - text: TNTP-1030
+                  - 'heading "Chuyển đổi số báo chí: công nghệ không phải rào cản lớn nhất" [level=3] [ref=e86]'
+                  - generic [ref=e87]:
+                    - generic "BTV/Trưởng ban sửa chữa. Trả lại PV hoặc duyệt. Đặt hàng thiết kế chạy song song từ đây" [ref=e88]: S2 — Biên tập nội dung
+                    - generic [ref=e89]: In + Điện tử
+                    - generic [ref=e90]: Thời sự
+                    - generic [ref=e91]: Trần Quốc Bảo
+                - generic [ref=e92]:
+                  - generic "◆ = đang giữ bài. E = Sửa nội dung (có lưu vết) · C = Bình luận nội bộ · A = Chuyển trạng thái" [ref=e93]: ◆ E C A
+                  - generic [ref=e94]: "Đang ở: Biên tập viên / Trưởng ban"
+                  - generic [ref=e95]: Bạn đang giữ bài này
+          - listitem [ref=e96]:
+            - 'link "Mở bài TNTP-1029: Hồ sơ: Mười năm một con đường ven sông" [ref=e97] [cursor=pointer]':
+              - /url: /bai-viet/bai-6
+              - generic [ref=e98]:
+                - generic [ref=e99]:
+                  - text: TNTP-1029
+                  - 'heading "Hồ sơ: Mười năm một con đường ven sông" [level=3] [ref=e100]'
+                  - generic [ref=e101]:
+                    - generic "BTV/Trưởng ban sửa chữa. Trả lại PV hoặc duyệt. Đặt hàng thiết kế chạy song song từ đây" [ref=e102]: S2 — Biên tập nội dung
+                    - generic [ref=e103]: Báo in
+                    - generic [ref=e104]: Phóng sự
+                    - generic [ref=e105]: Nguyễn Thị Mai
+                - generic [ref=e106]:
+                  - generic "◆ = đang giữ bài. E = Sửa nội dung (có lưu vết) · C = Bình luận nội bộ · A = Chuyển trạng thái" [ref=e107]: ◆ E C A
+                  - generic [ref=e108]: "Đang ở: Biên tập viên / Trưởng ban"
+                  - generic [ref=e109]: Bạn đang giữ bài này
+      - generic [ref=e110]:
+        - generic [ref=e111]:
+          - heading "Bản bông cần soát cùng Thư ký tòa soạn" [level=2] [ref=e112]
+          - generic [ref=e113]: 2 bài
+        - list [ref=e114]:
+          - listitem [ref=e115]:
+            - 'link "Mở bài TNTP-1018: Ký sự: Những người giữ rừng mùa khô" [ref=e116] [cursor=pointer]':
+              - /url: /bai-viet/bai-10
+              - generic [ref=e117]:
+                - generic [ref=e118]:
+                  - text: TNTP-1018
+                  - 'heading "Ký sự: Những người giữ rừng mùa khô" [level=3] [ref=e119]'
+                  - generic [ref=e120]:
+                    - generic "TKTS và BTV cùng soát trên bản preview. Yêu cầu sửa (về Họa sĩ) hoặc Trình duyệt" [ref=e121]: S5 — Soát bản bông
+                    - generic [ref=e122]: Báo in
+                    - generic [ref=e123]: Phóng sự
+                    - generic [ref=e124]: Nguyễn Thị Mai
+                - generic [ref=e125]:
+                  - generic "R = Xem bài · C = Bình luận nội bộ · A = Chuyển trạng thái" [ref=e126]: R C A
+                  - generic [ref=e127]: "Đang ở: Thư ký tòa soạn"
+          - listitem [ref=e128]:
+            - 'link "Mở bài TNTP-1015: Longform: Thành phố và những khoảng xanh còn lại" [ref=e129] [cursor=pointer]':
+              - /url: /bai-viet/bai-11
+              - generic [ref=e130]:
+                - generic [ref=e131]:
+                  - text: TNTP-1015
+                  - 'heading "Longform: Thành phố và những khoảng xanh còn lại" [level=3] [ref=e132]'
+                  - generic [ref=e133]:
+                    - generic "TKTS và BTV cùng soát trên bản preview. Yêu cầu sửa (về Họa sĩ) hoặc Trình duyệt" [ref=e134]: S5 — Soát bản bông
+                    - generic [ref=e135]: Báo điện tử
+                    - generic [ref=e136]: Đô thị
+                    - generic [ref=e137]: Trần Quốc Bảo
+                - generic [ref=e138]:
+                  - generic "R = Xem bài · C = Bình luận nội bộ · A = Chuyển trạng thái" [ref=e139]: R C A
+                  - generic [ref=e140]: "Đang ở: Thư ký tòa soạn"
+      - generic [ref=e141]:
+        - generic [ref=e142]:
+          - heading "Bài đã chuyển đi" [level=2] [ref=e143]
+          - generic [ref=e144]: 4 bài
+        - list [ref=e145]:
+          - listitem [ref=e146]:
+            - 'link "Mở bài TNTP-1026: Nông sản xuất khẩu và bài toán truy xuất nguồn gốc" [ref=e147] [cursor=pointer]':
+              - /url: /bai-viet/bai-7
+              - generic [ref=e148]:
+                - generic [ref=e149]:
+                  - text: TNTP-1026
+                  - heading "Nông sản xuất khẩu và bài toán truy xuất nguồn gốc" [level=3] [ref=e150]
+                  - generic [ref=e151]:
+                    - generic "TKTS rà soát lần cuối về nội dung. Duyệt = khóa văn bản, hệ thống tự chuyển sang Họa sĩ" [ref=e152]: S3 — Chốt nội dung
+                    - generic [ref=e153]: In + Điện tử
+                    - generic [ref=e154]: Kinh tế
+                    - generic [ref=e155]: Trần Quốc Bảo
+                - generic [ref=e156]:
+                  - generic "R = Xem bài · C = Bình luận nội bộ" [ref=e157]: R C
+                  - generic [ref=e158]: "Đang ở: Thư ký tòa soạn"
+          - listitem [ref=e159]:
+            - 'link "Mở bài TNTP-1022: Infographic: Bản đồ ngập úng nội thành mùa mưa 2026" [ref=e160] [cursor=pointer]':
+              - /url: /bai-viet/bai-8
+              - generic [ref=e161]:
+                - generic [ref=e162]:
+                  - text: TNTP-1022
+                  - 'heading "Infographic: Bản đồ ngập úng nội thành mùa mưa 2026" [level=3] [ref=e163]'
+                  - generic [ref=e164]:
+                    - 'generic "Họa sĩ dàn trang / thiết kế. Văn bản đã khóa: muốn sửa chữ phải tạo Yêu cầu sửa" [ref=e165]': S4 — Trình bày
+                    - generic [ref=e166]: Báo điện tử
+                    - generic [ref=e167]: Đô thị
+                    - generic [ref=e168]: Nguyễn Thị Mai
+                - generic [ref=e169]:
+                  - generic "R = Xem bài · C = Bình luận nội bộ" [ref=e170]: R C
+                  - generic [ref=e171]: "Đang ở: Họa sĩ / Thiết kế"
+          - listitem [ref=e172]:
+            - 'link "Mở bài TNTP-1021: Trang chuyên đề: Thể thao học đường sau một năm" [ref=e173] [cursor=pointer]':
+              - /url: /bai-viet/bai-9
+              - generic [ref=e174]:
+                - generic [ref=e175]:
+                  - text: TNTP-1021
+                  - 'heading "Trang chuyên đề: Thể thao học đường sau một năm" [level=3] [ref=e176]'
+                  - generic [ref=e177]:
+                    - 'generic "Họa sĩ dàn trang / thiết kế. Văn bản đã khóa: muốn sửa chữ phải tạo Yêu cầu sửa" [ref=e178]': S4 — Trình bày
+                    - generic [ref=e179]: Báo in
+                    - generic [ref=e180]: Thể thao
+                    - generic [ref=e181]: Trần Quốc Bảo
+                - generic [ref=e182]:
+                  - generic "R = Xem bài · C = Bình luận nội bộ" [ref=e183]: R C
+                  - generic [ref=e184]: "Đang ở: Họa sĩ / Thiết kế"
+          - listitem [ref=e185]:
+            - 'link "Mở bài TNTP-1011: Chính sách hỗ trợ nhà ở xã hội: ba điểm nghẽn" [ref=e186] [cursor=pointer]':
+              - /url: /bai-viet/bai-12
+              - generic [ref=e187]:
+                - generic [ref=e188]:
+                  - text: TNTP-1011
+                  - 'heading "Chính sách hỗ trợ nhà ở xã hội: ba điểm nghẽn" [level=3] [ref=e189]'
+                  - generic [ref=e190]:
+                    - generic "PTBT/TBT đọc duyệt lần cuối, ký số. Hoặc trả bài về đích tự chọn" [ref=e191]: S6 — Chờ duyệt xuất bản
+                    - generic [ref=e192]: In + Điện tử
+                    - generic [ref=e193]: Thời sự
+                    - generic [ref=e194]: Nguyễn Thị Mai
+                - generic [ref=e195]:
+                  - generic "R = Xem bài · C = Bình luận nội bộ" [ref=e196]: R C
+                  - generic [ref=e197]: "Đang ở: Phó TBT / TBT"
+  - contentinfo [ref=e198]: Bản demo mô phỏng — dữ liệu nằm trong trình duyệt, không có máy chủ, không có đăng nhập thật.

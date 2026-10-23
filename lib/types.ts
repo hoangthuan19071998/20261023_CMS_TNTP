@@ -2,13 +2,10 @@
 
 export type RoleId =
   | "PV"
-  | "CTV"
-  | "TRUONG_BAN"
   | "BTV"
   | "TKTS"
   | "HOA_SI"
   | "TBT"
-  | "KE_TOAN"
   | "NHA_IN"
   | "ADMIN";
 
@@ -58,6 +55,12 @@ export interface Version {
   tenNguoi: string;
   ghiChu: string;
   soTuThayDoi: number;
+  /** Snapshot nội dung bài tại thời điểm tạo phiên bản */
+  snapshot?: {
+    tieuDe: string;
+    sapo: string;
+    doan: string[];
+  };
 }
 
 export interface Comment {
@@ -79,6 +82,8 @@ export interface LogEntry {
   id: string;
   thoiDiem: string;
   vaiTro: RoleId;
+  /** Tên người thực hiện tại thời điểm ghi log, để lịch sử không đổi khi gộp vai trò. */
+  tenNguoi?: string;
   hanhDong: string;
   baiId: string | null;
   chiTiet: string;

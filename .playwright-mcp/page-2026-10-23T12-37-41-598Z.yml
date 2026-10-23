@@ -1,0 +1,244 @@
+- generic [active] [ref=f5e1]:
+  - generic [ref=f5e2]:
+    - strong [ref=f5e3]: Bản mô phỏng phục vụ thảo luận yêu cầu.
+    - text: Không có đăng nhập, không lưu lên máy chủ, không dàn trang báo in thật, không ký số thật. Mục đích duy nhất là để đối chiếu quy trình và phân quyền trước khi thiết kế hệ thống.
+  - banner [ref=f5e4]:
+    - generic [ref=f5e6]:
+      - link "CMS Tòa soạn hội tụ" [ref=f5e7] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=f5e8]:
+        - link "Bảng điều khiển" [ref=f5e9] [cursor=pointer]:
+          - /url: /
+        - link "Kho bài" [ref=f5e10] [cursor=pointer]:
+          - /url: /kho-bai
+        - link "Nhật ký" [ref=f5e11] [cursor=pointer]:
+          - /url: /nhat-ky
+      - generic [ref=f5e12]:
+        - generic "Số bài đang chờ vai trò này xử lý" [ref=f5e13]:
+          - generic [aria-hidden] [ref=f5e14]: 🔔
+          - generic [ref=f5e15]: 0 việc chờ
+        - generic [ref=f5e16]:
+          - generic [ref=f5e17]: Phạm Thu Hà
+          - generic [ref=f5e18]: Biên tập viên / Trưởng ban
+    - generic [ref=f5e20]:
+      - generic [ref=f5e21]: Đang xem với vai trò
+      - generic [ref=f5e22]:
+        - button "Phóng viên" [ref=f5e23] [cursor=pointer]
+        - button "Biên tập viên / Trưởng ban" [pressed] [ref=f5e24] [cursor=pointer]
+        - button "Thư ký tòa soạn" [ref=f5e25] [cursor=pointer]
+        - button "Họa sĩ / Thiết kế" [ref=f5e26] [cursor=pointer]
+        - button "Phó TBT / TBT" [ref=f5e27] [cursor=pointer]
+        - button "Nhà in" [ref=f5e28] [cursor=pointer]
+        - button "Quản trị hệ thống" [ref=f5e29] [cursor=pointer]
+      - generic [ref=f5e30] [cursor=pointer]:
+        - checkbox "Giải thích phân quyền" [checked] [ref=f5e31]
+        - text: Giải thích phân quyền
+  - main [ref=f5e32]:
+    - generic [ref=f5e33]:
+      - generic [ref=f5e34]:
+        - link "Kho bài" [ref=f5e35] [cursor=pointer]:
+          - /url: /kho-bai
+        - generic [ref=f5e36]: /
+        - generic [ref=f5e37]: TNTP-1035
+      - generic [ref=f5e38]:
+        - generic [ref=f5e39]:
+          - generic [ref=f5e40]:
+            - heading "Trường học vùng cao xoay xở với thiếu giáo viên tiếng Anh" [level=1] [ref=f5e41]
+            - paragraph [ref=f5e42]: Dù năm học mới đã bắt đầu hơn hai tháng, nhiều trường tiểu học tại vùng cao Tây Bắc vẫn phải xoay xở dạy ghép môn Tiếng Anh vì thiếu biên chế giáo viên chuyên trách.
+            - generic [ref=f5e43]:
+              - generic "PV viết bài, đính kèm ảnh/video, bấm Gửi biên tập" [ref=f5e44]: S1 — Bản thảo
+              - generic [ref=f5e45]: In + Điện tử
+              - generic [ref=f5e46]: Giáo dục
+          - generic [ref=f5e47]:
+            - generic "R = Xem bài · C = Bình luận nội bộ" [ref=f5e48]: R C
+            - button "Lịch sử bài viết" [ref=f5e49] [cursor=pointer]
+        - generic [ref=f5e50]:
+          - generic [ref=f5e51]:
+            - generic [ref=f5e52]: "Trạng thái:"
+            - generic [ref=f5e53]: S1 — Bản thảo
+          - generic [ref=f5e54]:
+            - generic [ref=f5e55]: "Đang ở:"
+            - generic [ref=f5e56]: Phóng viên
+          - generic [ref=f5e57]:
+            - generic [ref=f5e58]: "Phiên bản:"
+            - generic [ref=f5e59]: "1"
+          - generic [ref=f5e60]:
+            - generic [ref=f5e61]: "Người sửa cuối:"
+            - generic [ref=f5e62]:
+              - generic "Nguyễn Thị Mai" [ref=f5e63]: TM
+              - text: Nguyễn Thị Mai
+          - generic [ref=f5e64]:
+            - generic [ref=f5e65]: "Sửa lúc:"
+            - generic [ref=f5e66]: 20/10 01:00
+          - generic [ref=f5e67]:
+            - generic [ref=f5e68]: "Tác giả:"
+            - generic [ref=f5e69]: Nguyễn Thị Mai
+        - paragraph [ref=f5e70]:
+          - strong [ref=f5e71]: "Ghi chú khi chuyển bài:"
+          - text: Cần bổ sung số liệu cụ thể của ba tỉnh và trích dẫn từ Sở Giáo dục.
+      - list [ref=f5e73]:
+        - listitem [ref=f5e74]:
+          - generic "PV đăng ký đề tài, Biên tập viên / Trưởng ban duyệt hoặc từ chối" [ref=f5e77]: ✓
+          - generic [ref=f5e79]: Đề tài
+          - generic [ref=f5e80]: BTV/TB
+        - listitem [ref=f5e81]:
+          - generic "PV viết bài, đính kèm ảnh/video, bấm Gửi biên tập" [ref=f5e84]: "1"
+          - generic [ref=f5e86]: Bản thảo
+          - generic [ref=f5e87]: PV
+        - listitem [ref=f5e88]:
+          - generic "BTV/Trưởng ban sửa chữa. Trả lại PV hoặc duyệt. Đặt hàng thiết kế chạy song song từ đây" [ref=f5e91]: "2"
+          - generic [ref=f5e93]: Biên tập nội dung
+          - generic [ref=f5e94]: BTV/TB
+        - listitem [ref=f5e95]:
+          - generic "TKTS rà soát lần cuối về nội dung. Duyệt = khóa văn bản, hệ thống tự chuyển sang Họa sĩ" [ref=f5e98]: "3"
+          - generic [ref=f5e100]: Chốt nội dung
+          - generic [ref=f5e101]: TKTS
+        - listitem [ref=f5e102]:
+          - 'generic "Họa sĩ dàn trang / thiết kế. Văn bản đã khóa: muốn sửa chữ phải tạo Yêu cầu sửa" [ref=f5e105]': "4"
+          - generic [ref=f5e107]: Trình bày
+          - generic [ref=f5e108]: HS
+        - listitem [ref=f5e109]:
+          - generic "TKTS và BTV cùng soát trên bản preview. Yêu cầu sửa (về Họa sĩ) hoặc Trình duyệt" [ref=f5e112]: "5"
+          - generic [ref=f5e114]: Soát bản bông
+          - generic [ref=f5e115]: TKTS
+        - listitem [ref=f5e116]:
+          - generic "PTBT/TBT đọc duyệt lần cuối, ký số. Hoặc trả bài về đích tự chọn" [ref=f5e119]: "6"
+          - generic [ref=f5e121]: Chờ duyệt xuất bản
+          - generic [ref=f5e122]: TBT
+        - listitem [ref=f5e123]:
+          - 'generic "Báo điện tử: tự đẩy theo lịch. Báo in: khóa file, xuất PDF giao Nhà in" [ref=f5e126]': "7"
+          - generic [ref=f5e128]: Đã xuất bản
+          - generic [ref=f5e129]: TKTS
+        - listitem [ref=f5e130]:
+          - generic "Đóng gói, bất biến hóa bản ghi. Chỉ tra cứu, không ai sửa được" [ref=f5e133]: "8"
+          - generic [ref=f5e135]: Lưu trữ / lưu chiểu
+      - generic [ref=f5e136]:
+        - generic [ref=f5e138]:
+          - heading "Thông tin duyệt" [level=2] [ref=f5e139]
+          - list [ref=f5e140]:
+            - listitem [ref=f5e141]:
+              - generic [aria-hidden] [ref=f5e144]: ✓
+              - paragraph [ref=f5e145]: Duyệt đề tài
+              - generic [ref=f5e146]:
+                - generic "Phạm Thu Hà" [ref=f5e147]: TH
+                - generic [ref=f5e148]:
+                  - generic [ref=f5e149]: Phạm Thu Hà
+                  - generic [ref=f5e150]: Biên tập viên / Trưởng ban
+              - paragraph [ref=f5e151]: 19/10 17:00
+              - paragraph [ref=f5e152]: “Đề tài rất thiết thực, triển khai ngay trong tuần này.”
+            - listitem [ref=f5e153]:
+              - generic [aria-hidden] [ref=f5e156]: ✓
+              - paragraph [ref=f5e157]: Gửi biên tập
+              - generic [ref=f5e158]:
+                - generic "Nguyễn Thị Mai" [ref=f5e159]: TM
+                - generic [ref=f5e160]:
+                  - generic [ref=f5e161]: Nguyễn Thị Mai
+                  - generic [ref=f5e162]: Phóng viên
+              - paragraph [ref=f5e163]: 20/10 09:00
+              - paragraph [ref=f5e164]: “Nhờ anh chị biên tập xem giúp em ạ.”
+            - listitem [ref=f5e165]:
+              - generic [aria-hidden] [ref=f5e168]: ✕
+              - paragraph [ref=f5e169]: Trả lại phóng viên
+              - generic [ref=f5e170]:
+                - generic "Phạm Thu Hà" [ref=f5e171]: TH
+                - generic [ref=f5e172]:
+                  - generic [ref=f5e173]: Phạm Thu Hà
+                  - generic [ref=f5e174]: Biên tập viên / Trưởng ban
+              - paragraph [ref=f5e175]: 21/10 05:00
+              - paragraph [ref=f5e176]: “Cần bổ sung số liệu cụ thể của ba tỉnh và trích dẫn từ Sở Giáo dục.”
+            - listitem [ref=f5e177]:
+              - generic [aria-hidden] [ref=f5e179]: •
+              - paragraph [ref=f5e180]: Chờ xử lý
+              - generic [ref=f5e181]:
+                - generic "Nguyễn Thị Mai" [ref=f5e182]: TM
+                - generic [ref=f5e183]:
+                  - generic [ref=f5e184]: Nguyễn Thị Mai
+                  - generic [ref=f5e185]: Phóng viên
+              - paragraph [ref=f5e186]: Đang ở S1 — Bản thảo
+        - generic [ref=f5e188]:
+          - generic [ref=f5e189]:
+            - generic [ref=f5e190]:
+              - heading "Hành động" [level=2] [ref=f5e191]
+              - generic "Mã quyền trong ma trận" [ref=f5e192]: R C
+            - button "Gửi biên tập" [disabled] [ref=f5e194]
+            - generic [ref=f5e196]:
+              - text: Nút mờ là hành động có ở trạng thái này nhưng
+              - strong [ref=f5e197]: Biên tập viên / Trưởng ban
+              - text: không được phép thực hiện. Di chuột lên nút để xem vai trò nào làm được.
+          - generic [ref=f5e198]:
+            - heading "Nội dung bài" [level=2] [ref=f5e200]
+            - article [ref=f5e201]:
+              - paragraph [ref=f5e202]:
+                - generic [ref=f5e203]: "1"
+                - generic [ref=f5e204]: Tại huyện vùng cao Mù Cang Chải (Yên Bái), 12 trường tiểu học hiện chỉ có 5 giáo viên tiếng Anh cơ hữu, buộc các thầy cô phải liên tục di chuyển giữa các điểm trường lẻ cách nhau hàng chục cây số.
+              - paragraph [ref=f5e205]:
+                - generic [ref=f5e206]: "2"
+                - generic [ref=f5e207]: Để bảo đảm chương trình giáo dục phổ thông mới cho học sinh lớp 3, nhiều trường buộc phải tổ chức lớp học trực tuyến qua màn hình tivi hoặc nhờ giáo viên môn Tin học hỗ trợ giảng dạy.
+              - paragraph [ref=f5e208]:
+                - generic [ref=f5e209]: "3"
+                - generic [ref=f5e210]: Theo số liệu tổng hợp ban đầu, toàn vùng miền núi phía Bắc hiện còn thiếu hơn 500 giáo viên ngoại ngữ bậc tiểu học, trong đó các huyện vùng sâu, vùng xa có tỷ lệ thiếu hụt cao nhất.
+              - paragraph [ref=f5e211]:
+                - generic [ref=f5e212]: "4"
+                - generic [ref=f5e213]: "Hiệu trưởng một trường bán trú dân tộc chia sẻ: 'Mức phụ cấp thu hút hiện nay chưa đủ để các cử nhân sư phạm ngoại ngữ chấp nhận rời thành phố lên cắm bản nhiều năm liền.'"
+              - paragraph [ref=f5e214]:
+                - generic [ref=f5e215]: "5"
+                - generic [ref=f5e216]: Bài toán thiếu hụt giáo viên ngoại ngữ vùng đồng bào dân tộc thiểu số đòi hỏi chính sách tuyển dụng linh hoạt và cơ chế đãi ngộ nhà công vụ để giữ chân giáo viên lâu dài.
+            - generic [ref=f5e218]:
+              - text: Vai trò
+              - strong [ref=f5e219]: Biên tập viên / Trưởng ban
+              - text: không có quyền E (sửa nội dung) ở trạng thái này, nên nội dung chỉ hiển thị để đọc.
+          - generic [ref=f5e220]:
+            - generic [ref=f5e221]:
+              - generic [ref=f5e222]:
+                - heading "Bình luận nội bộ" [level=2] [ref=f5e223]
+                - generic [ref=f5e224]: "1"
+              - list [ref=f5e225]:
+                - listitem [ref=f5e226]:
+                  - generic [ref=f5e227]:
+                    - strong [ref=f5e228]: Phạm Thu Hà
+                    - generic [ref=f5e229]: Biên tập viên / Trưởng ban
+                    - generic [ref=f5e230]: ·
+                    - generic [ref=f5e231]: 20/10 21:00
+                    - generic [ref=f5e232]: Đoạn 2
+                    - generic [ref=f5e233]: "@Phóng viên"
+                  - paragraph [ref=f5e234]: Đoạn 2 cần bổ sung số liệu cụ thể của ba tỉnh Sơn La, Điện Biên, Lai Châu và trích dẫn ý kiến phản hồi từ Sở Giáo dục như đã trao đổi khi trả bài.
+                  - button "Đánh dấu đã xử lý" [ref=f5e235] [cursor=pointer]
+              - generic [ref=f5e236]:
+                - 'textbox "Ghi chú cho đồng nghiệp, ví dụ: cắt ảnh này theo tỷ lệ 16:9." [ref=f5e237]'
+                - generic [ref=f5e238]:
+                  - combobox "Gắn thẻ vai trò" [ref=f5e239]:
+                    - option "Không gắn thẻ ai" [selected]
+                    - option "@Phóng viên"
+                    - option "@Biên tập viên / Trưởng ban"
+                    - option "@Thư ký tòa soạn"
+                    - option "@Họa sĩ / Thiết kế"
+                    - option "@Phó TBT / TBT"
+                    - option "@Nhà in"
+                    - option "@Quản trị hệ thống"
+                  - combobox "Gắn vào đoạn" [ref=f5e240]:
+                    - option "Bình luận cả bài" [selected]
+                    - option "Đoạn 1"
+                    - option "Đoạn 2"
+                    - option "Đoạn 3"
+                    - option "Đoạn 4"
+                    - option "Đoạn 5"
+                  - button "Gửi bình luận" [ref=f5e241] [cursor=pointer]
+              - generic [ref=f5e242]: Tài liệu của tòa soạn mô tả "khung chat hoặc comment" — đây là hai chức năng khác nhau. Bản demo dựng theo phương án comment gắn theo từng đoạn, có gắn thẻ người nhận và đánh dấu đã xử lý (câu hỏi số 60 trong danh sách làm rõ).
+            - generic [ref=f5e244]:
+              - generic [ref=f5e245]:
+                - heading "Lịch sử chỉnh sửa" [level=2] [ref=f5e246]
+                - generic [ref=f5e247]: 1 phiên bản
+              - list [ref=f5e248]:
+                - listitem [ref=f5e249]:
+                  - generic [ref=f5e250]: v1
+                  - strong [ref=f5e251]: Nguyễn Thị Mai
+                  - generic [ref=f5e252]: Phóng viên
+                  - generic [ref=f5e253]: · 20/10 01:00
+                  - generic [ref=f5e254]: · 820 từ thay đổi
+                  - generic [ref=f5e255]: Bản hiện tại
+                  - generic [ref=f5e256]: Bản viết đầu tiên
+          - button "Sơ đồ toàn quy trình — chín bước chính kèm các nhánh trả lại, loại bài, đính chính" [ref=f5e258] [cursor=pointer]:
+            - generic [aria-hidden] [ref=f5e259]: ▸
+            - text: Sơ đồ toàn quy trình
+            - generic [ref=f5e260]: — chín bước chính kèm các nhánh trả lại, loại bài, đính chính
+  - contentinfo [ref=f5e261]: Bản demo mô phỏng — dữ liệu nằm trong trình duyệt, không có máy chủ, không có đăng nhập thật.

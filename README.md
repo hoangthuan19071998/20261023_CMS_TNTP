@@ -18,7 +18,7 @@ Mở http://localhost:3000
 
 ## Cách dùng khi trình bày với tòa soạn
 
-1. **Đổi vai trò** bằng dải nút ở đầu trang (10 vai trò). Toàn bộ menu, bảng điều
+1. **Đổi vai trò** bằng dải nút ở đầu trang (7 vai trò). Toàn bộ menu, bảng điều
    khiển, danh sách bài và các nút hành động đổi theo ngay lập tức.
 2. Bật **"Giải thích phân quyền"** (góc phải thanh vai trò) để hiện cả những nút mà
    vai trò hiện tại *không* được bấm — nút sẽ mờ đi kèm chú thích vai trò nào làm được.
@@ -31,7 +31,7 @@ Mở http://localhost:3000
 
 | # | Chức năng | Ghi chú |
 |---|---|---|
-| 1 | Thanh chuyển vai trò + chế độ giải thích phân quyền | 10 vai trò, đổi tức thì |
+| 1 | Thanh chuyển vai trò + chế độ giải thích phân quyền | 7 vai trò, đổi tức thì |
 | 2 | Bảng điều khiển riêng cho từng vai trò | Bám theo cột "Giao diện hiển thị chính" trong tài liệu tòa soạn |
 | 3 | Kho bài, lọc theo trạng thái và chuyên mục | Hiện ai đang giữ bài, cảnh báo quá hạn |
 | 4 | Cột "Thông tin duyệt" trong màn hình bài | Dòng thời gian bài đã qua tay ai: hành động, người, thời điểm, ghi chú họ để lại; mốc cuối là người đang giữ bài |
@@ -56,7 +56,7 @@ components/          các thành phần giao diện
 ```
 
 **Muốn đổi phân quyền thì sửa `lib/permissions.ts`, không sửa trong từng màn hình.**
-Bảng `MA_TRAN` trong file đó chép đúng 1:1 tab "Ma trận phân quyền" đã gửi tòa soạn.
+Bảng `MA_TRAN` trong file đó là ma trận đã chuẩn hóa sau khi gộp các vai trò theo yêu cầu.
 Chính file này sẽ được mang sang hệ thống thật.
 
 ## Chín điểm demo làm khác tài liệu ban đầu
@@ -69,8 +69,8 @@ mâu thuẫn và có ngõ cụt khiến bài không đi tiếp được. Các đ
 3. Quyền đặt lịch xuất bản chuyển từ Họa sĩ sang Thư ký tòa soạn.
 4. Thêm nút "Trình duyệt" ở bước soát bản bông (tài liệu chỉ có nút Trả lại — ngõ cụt).
 5. Khóa văn bản sau khi Thư ký tòa soạn chốt nội dung, muốn sửa phải tạo Yêu cầu sửa.
-6. Thêm ba vai trò: Quản trị hệ thống, Cộng tác viên, Kế toán.
-7. Tách Trưởng ban thành một cấp duyệt riêng (**chờ tòa soạn xác nhận**).
+6. Giữ Quản trị hệ thống là vai trò riêng; Cộng tác viên được gộp vào Phóng viên.
+7. Biên tập viên và Trưởng ban dùng chung một vai trò và một bộ quyền.
 8. Thêm nhánh đính chính / gỡ bài sau xuất bản.
 9. Thư ký tòa soạn duyệt xong, hệ thống tự chuyển bài sang Họa sĩ.
 

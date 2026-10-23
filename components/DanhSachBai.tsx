@@ -87,13 +87,16 @@ export default function DanhSachBai({ tieuDe, loc, moTaTrong, hienBoLoc = false 
             const tinhHan = bayGio === null ? null : quaHan(b, bayGio);
             const toiDangGiu = nguoiGiu.includes(vaiTro);
             return (
-              <li key={b.id} className="px-4 py-3 hover:bg-ink-bg/60">
+              <li key={b.id} className="hover:bg-ink-bg/60">
+                <Link
+                  href={`/bai-viet/${encodeURIComponent(b.id)}`}
+                  className="block px-4 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink"
+                  aria-label={`Mở bài ${b.maBai}: ${b.tieuDe}`}
+                >
                 <div className="flex flex-wrap items-start gap-x-3 gap-y-2">
                   <div className="min-w-0 flex-1">
-                    <Link href={"/bai-viet/" + b.id} className="block">
                       <span className="font-mono text-xs text-ink-soft">{b.maBai}</span>
                       <h3 className="truncate font-medium hover:underline">{b.tieuDe}</h3>
-                    </Link>
                     <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                       <NhanTrangThai trangThai={b.trangThai} />
                       <NhanAnPham anPham={b.anPham} />
@@ -126,6 +129,7 @@ export default function DanhSachBai({ tieuDe, loc, moTaTrong, hienBoLoc = false 
                     )}
                   </div>
                 </div>
+                </Link>
               </li>
             );
           })}

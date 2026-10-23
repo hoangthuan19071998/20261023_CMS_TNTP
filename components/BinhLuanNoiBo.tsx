@@ -15,9 +15,8 @@ export default function BinhLuanNoiBo({ bai }: { bai: Article }) {
   const [ganThe, setGanThe] = useState<RoleId | "">("");
   const [doanSo, setDoanSo] = useState<string>("");
 
-  // Cộng tác viên không thấy thảo luận nội bộ (tài liệu: "Không xem được nội dung
-  // thảo luận nội bộ" áp cho tài khoản ngoài tòa soạn).
-  const anHoanToan = vaiTro === "CTV" || vaiTro === "NHA_IN";
+  // Nhà in chỉ tiếp cận file thành phẩm, không thấy thảo luận nội bộ.
+  const anHoanToan = vaiTro === "NHA_IN";
 
   function gui() {
     if (noiDung.trim().length < 2) return;

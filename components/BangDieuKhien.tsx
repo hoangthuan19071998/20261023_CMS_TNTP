@@ -21,17 +21,9 @@ const KHOI_THEO_VAI_TRO: Record<RoleId, Khoi[]> = {
     { tieuDe: "Bài đang đi trong quy trình", loc: (b) => ["S2", "S3", "S4", "S5", "S6"].includes(b.trangThai) },
     { tieuDe: "Bài đã xuất bản", loc: (b) => ["S7", "S8"].includes(b.trangThai) },
   ],
-  CTV: [
-    { tieuDe: "Bài tôi đã gửi", loc: (b) => ["S1", "S2"].includes(b.trangThai) },
-    { tieuDe: "Bài đã xuất bản", loc: (b) => ["S7", "S8"].includes(b.trangThai) },
-  ],
-  TRUONG_BAN: [
+  BTV: [
     { tieuDe: "Đề tài chờ duyệt", loc: (b) => b.trangThai === "S0" },
     { tieuDe: "Kho bài chờ biên tập", loc: (b) => b.trangThai === "S2" },
-    { tieuDe: "Bài đã chuyển đi", loc: (b) => ["S3", "S4", "S5", "S6"].includes(b.trangThai) },
-  ],
-  BTV: [
-    { tieuDe: "Kho bài chờ biên tập", loc: (b) => b.trangThai === "S2", moTaTrong: "Không có bài nào đang chờ biên tập." },
     { tieuDe: "Bản bông cần soát cùng Thư ký tòa soạn", loc: (b) => b.trangThai === "S5" },
     { tieuDe: "Bài đã chuyển đi", loc: (b) => ["S3", "S4", "S6"].includes(b.trangThai) },
   ],
@@ -52,9 +44,6 @@ const KHOI_THEO_VAI_TRO: Record<RoleId, Khoi[]> = {
     { tieuDe: "Bài đã xuất bản", loc: (b) => b.trangThai === "S7" },
     { tieuDe: "Toàn bộ bài đang chạy", loc: (b) => ["S0", "S1", "S2", "S3", "S4", "S5"].includes(b.trangThai) },
   ],
-  KE_TOAN: [
-    { tieuDe: "Bài đã xuất bản — cơ sở tính nhuận bút", loc: (b) => ["S7", "S8"].includes(b.trangThai) },
-  ],
   NHA_IN: [
     { tieuDe: "Thư mục chờ in ấn", loc: (b) => b.trangThai === "S7" && b.anPham !== "bao_dien_tu", moTaTrong: "Chưa có file nào được duyệt cuối." },
   ],
@@ -64,8 +53,6 @@ const KHOI_THEO_VAI_TRO: Record<RoleId, Khoi[]> = {
 };
 
 const GHI_CHU_VAI_TRO: Partial<Record<RoleId, string>> = {
-  CTV: "Cộng tác viên là vai trò đề xuất thêm (số 6). Tài liệu gốc không có vai này, nên cộng tác viên hiện không thấy thảo luận nội bộ và chỉ theo dõi được bài mình gửi.",
-  KE_TOAN: "Kế toán là vai trò đề xuất thêm (số 6). Tài liệu gốc giao BTV chấm nhuận bút và TBT xem báo cáo nhưng không có ai nhận kết quả — luồng nhuận bút không có điểm kết thúc.",
   ADMIN: "Quản trị hệ thống là vai trò đề xuất thêm (số 6). Bảng phân quyền gốc có 6 vai trò, không vai nào tạo được tài khoản hay xem nhật ký.",
   TKTS: "Theo đề xuất số 1, Thư ký tòa soạn là vai trò duy nhất có quyền can thiệp toàn hệ thống. Tài liệu gốc trao quyền này cho cả ba vai (BTV, TKTS, PTBT/TBT).",
   TBT: "Theo đề xuất số 2, PTBT/TBT chỉ xem, bình luận và duyệt — không trực tiếp sửa nội dung, để nhật ký lưu vết phản ánh đúng ai đã sửa gì.",

@@ -65,13 +65,62 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
     );
   }
 
+  // Nhà in chỉ có quyền D: xem thông tin giao nhận và tải thành phẩm,
+  // không được đọc nội dung, bình luận hay lịch sử nội bộ của bài.
+  if (quyen.caps.includes("D") && !quyen.caps.includes("R")) {
+    return (
+      <div className="space-y-4">
+        <div className="text-sm">
+          <Link href="/kho-bai" className="text-ink-soft underline underline-offset-2">
+            Kho bài
+          </Link>
+          <span className="mx-2 text-ink-line">/</span>
+          <span className="font-mono text-xs text-ink-soft">{bai.maBai}</span>
+        </div>
+        <section className="the p-5">
+          <div className="flex flex-wrap items-start gap-3">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-xl font-semibold">File thành phẩm giao Nhà in</h1>
+              <p className="mt-1 text-sm text-ink-soft">
+                {bai.maBai} · {st.ten} · {bai.anPham === "bao_dien_tu" ? "Báo điện tử" : bai.anPham === "bao_in" ? "Báo in" : "In + Điện tử"}
+              </p>
+            </div>
+            <TheQuyen vaiTro={vaiTro} trangThai={bai.trangThai} />
+          </div>
+          <div className="mt-4 rounded-md border border-ink-line bg-ink-bg/50 p-4">
+            {bai.fileBanBong ? (
+              <div className="flex flex-wrap items-center gap-3">
+                <span aria-hidden>📄</span>
+                <span className="font-mono text-sm">{bai.fileBanBong}</span>
+                <button
+                  className="nut-chinh ml-auto"
+                  onClick={() => alert("Bản demo không có file thật để tải.")}
+                >
+                  Tải file thành phẩm
+                </button>
+              </div>
+            ) : (
+              <p className="text-sm text-ink-soft">Chưa có file thành phẩm để tải.</p>
+            )}
+          </div>
+          <p className="mt-3 text-xs text-ink-soft">
+            Nhà in không có quyền xem nội dung, bình luận hoặc lịch sử nội bộ của bài.
+          </p>
+        </section>
+      </div>
+    );
+  }
+
   // Văn bản bị khóa từ S4 trở đi (đề xuất số 5): có quyền E cũng không sửa được chữ.
   const biKhoa = st.khoaNoiDung;
   const coQuyenSua = quyen.caps.includes("E");
   const suaDuoc = coQuyenSua && !biKhoa;
   const nguoiGiu = vaiTroGiuBai(bai.trangThai);
   const tinhHan = bayGio === null ? null : quaHan(bai, bayGio);
-  const banCuoi = bai.phienBan[bai.phienBan.length - 1];
+  const banCuoi = bai.phienBan[bai.phienBan.length - 1] ?? {
+    tenNguoi: bai.tacGia,
+    thoiDiem: bai.taoLuc,
+  };
 
   function batDauSua() {
     if (!bai) return;

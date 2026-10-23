@@ -5,7 +5,55 @@ import type { Article, Comment, LogEntry, RoleId, StateId, Version } from "./typ
 import { taoDuLieuMau, taoNhatKyMau } from "./seed";
 import { getRole, getState, TRANSITIONS } from "./permissions";
 
-const KHOA_LUU = "cms-tntp-demo-v1";
+const KHOA_LUU = "cms-tntp-demo-v2";
+
+function migratedRole(value: unknown): RoleId {
+  if (value === "CTV") return "PV";
+  if (value === "TRUONG_BAN") return "BTV";
+  return typeof value === "string" && ["PV", "BTV", "TKTS", "HOA_SI", "TBT", "NHA_IN", "ADMIN"].includes(value)
+    ? (value as RoleId)
+    : "PV";
+}
+
+function legacyRoleName(value: unknown): string | undefined {
+  if (value === "CTV") return "Trần Quốc Bảo";
+  if (value === "TRUONG_BAN") return "Lê Văn Hùng";
+  if (value === "KE_TOAN") return "Ngô Bích Liên";
+  return undefined;
+}
+
+function migrateStoredData(parsed: Partial<LuuTru>): LuuTru {
+  const bai = Array.isArray(parsed.bai) ? (parsed.bai as Article[]).map((b) => {
+    const phienBan = (b.phienBan ?? []).map((v) => ({ ...v, tacGia: migratedRole(v.tacGia) }));
+    if (phienBan.length === 0) {
+      phienBan.push({
+        id: `${b.id}-v1`,
+        thoiDiem: b.taoLuc || b.vaoTrangThaiLuc || new Date().toISOString(),
+        tacGia: "PV",
+        tenNguoi: b.tacGia || getRole("PV").nguoiDung,
+        ghiChu: "Khôi phục phiên bản từ dữ liệu demo cũ",
+        soTuThayDoi: 0,
+      });
+    }
+    return {
+      ...b,
+      phienBan,
+      binhLuan: (b.binhLuan ?? []).map((c) => ({
+        ...c,
+        tacGia: migratedRole(c.tacGia),
+        ganThe: c.ganThe ? migratedRole(c.ganThe) : null,
+      })),
+    };
+  }) : taoDuLieuMau();
+  const nhatKy = Array.isArray(parsed.nhatKy)
+    ? (parsed.nhatKy as LogEntry[]).map((l) => ({
+        ...l,
+        tenNguoi: l.tenNguoi ?? legacyRoleName(l.vaiTro) ?? getRole(migratedRole(l.vaiTro)).nguoiDung,
+        vaiTro: migratedRole(l.vaiTro),
+      }))
+    : [];
+  return { bai, nhatKy, vaiTro: migratedRole(parsed.vaiTro), cheDoGiaiThich: parsed.cheDoGiaiThich ?? true };
+}
 
 interface LuuTru {
   bai: Article[];
@@ -43,12 +91,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       if (raw) {
         const parsed = JSON.parse(raw) as Partial<LuuTru>;
         if (parsed && Array.isArray(parsed.bai) && parsed.bai.length > 0) {
-          setState({
-            bai: parsed.bai as Article[],
-            nhatKy: (parsed.nhatKy as LogEntry[]) ?? [],
-            vaiTro: (parsed.vaiTro as RoleId) ?? "BTV",
-            cheDoGiaiThich: parsed.cheDoGiaiThich ?? true,
-          });
+          setState(migrateStoredData(parsed));
         }
       }
     } catch {
@@ -79,6 +122,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         id: "log-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7),
         thoiDiem: new Date().toISOString(),
         vaiTro,
+        tenNguoi: getRole(vaiTro).nguoiDung,
         hanhDong,
         baiId,
         chiTiet,
@@ -136,9 +180,20 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
           tenNguoi: getRole(s.vaiTro).nguoiDung,
           ghiChu: "Sửa trực tiếp trên hệ thống",
           soTuThayDoi: Math.abs(soTuMoi - soTuCu) + 1,
+        snapshot: {
+          tieuDe,
+          sapo,
+          doan,
+        },
         };
+        const phienBanCapNhat = bai.phienBan.map((p, idx) => {
+          if (idx === bai.phienBan.length - 1 && !p.snapshot) {
+            return { ...p, snapshot: { tieuDe: bai.tieuDe, sapo: bai.sapo, doan: bai.doan } };
+          }
+          return p;
+        });
         const baiMoi = s.bai.map((b) =>
-          b.id === baiId ? { ...b, doan, tieuDe, sapo, phienBan: [...b.phienBan, pb] } : b
+          b.id === baiId ? { ...b, doan, tieuDe, sapo, phienBan: [...phienBanCapNhat, pb] } : b
         );
         return {
           ...s,
