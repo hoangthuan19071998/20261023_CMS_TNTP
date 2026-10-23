@@ -66,17 +66,28 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     }
   }, [state, daTai]);
 
-  const ghiNhatKy = useCallback((nhatKy: LogEntry[], vaiTro: RoleId, hanhDong: string, baiId: string | null, chiTiet: string): LogEntry[] => {
-    const entry: LogEntry = {
-      id: "log-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7),
-      thoiDiem: new Date().toISOString(),
-      vaiTro,
-      hanhDong,
-      baiId,
-      chiTiet,
-    };
-    return [entry, ...nhatKy];
-  }, []);
+  const ghiNhatKy = useCallback(
+    (
+      nhatKy: LogEntry[],
+      vaiTro: RoleId,
+      hanhDong: string,
+      baiId: string | null,
+      chiTiet: string,
+      them?: Partial<Pick<LogEntry, "tu" | "den" | "ghiChu" | "phienBan">>
+    ): LogEntry[] => {
+      const entry: LogEntry = {
+        id: "log-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7),
+        thoiDiem: new Date().toISOString(),
+        vaiTro,
+        hanhDong,
+        baiId,
+        chiTiet,
+        ...them,
+      };
+      return [entry, ...nhatKy];
+    },
+    []
+  );
 
   const datVaiTro = useCallback((v: RoleId) => setState((s) => ({ ...s, vaiTro: v })), []);
   const batGiaiThich = useCallback((v: boolean) => setState((s) => ({ ...s, cheDoGiaiThich: v })), []);
@@ -100,8 +111,12 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
             : b
         );
         const chiTiet =
-          bai.maBai + " chuyển " + tu + " → " + den + (lyDo ? " — lý do: " + lyDo : "") + (kySo ? " — có ký số" : "");
-        return { ...s, bai: baiMoi, nhatKy: ghiNhatKy(s.nhatKy, s.vaiTro, nhan, baiId, chiTiet) };
+          "Chuyển " + tu + " → " + den + (lyDo ? ', lý do: "' + lyDo + '"' : "") + (kySo ? " — có ký số" : "");
+        return {
+          ...s,
+          bai: baiMoi,
+          nhatKy: ghiNhatKy(s.nhatKy, s.vaiTro, nhan, baiId, chiTiet, { tu, den, ghiChu: lyDo }),
+        };
       });
     },
     [ghiNhatKy]
@@ -128,7 +143,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         return {
           ...s,
           bai: baiMoi,
-          nhatKy: ghiNhatKy(s.nhatKy, s.vaiTro, "Sửa nội dung", baiId, bai.maBai + " — lưu phiên bản " + pb.id),
+          nhatKy: ghiNhatKy(s.nhatKy, s.vaiTro, "Sửa nội dung", baiId, "Cập nhật nội dung bài viết", {
+            phienBan: pb.id,
+          }),
         };
       });
     },
@@ -160,7 +177,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
             s.vaiTro,
             laYeuCauSua ? "Tạo yêu cầu sửa" : "Bình luận nội bộ",
             baiId,
-            bai.maBai + " — " + noiDung.slice(0, 60)
+            (laYeuCauSua ? "Yêu cầu sửa: " : "Ghi chú: ") + '"' + noiDung + '"',
+            { ghiChu: noiDung }
           ),
         };
       });
@@ -187,7 +205,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         return {
           ...s,
           bai: s.bai.map((b) => (b.id === baiId ? { ...b, fileBanBong: tenFile } : b)),
-          nhatKy: ghiNhatKy(s.nhatKy, s.vaiTro, "Tải lên bản bông", baiId, bai.maBai + " — " + tenFile),
+          nhatKy: ghiNhatKy(s.nhatKy, s.vaiTro, "Tải lên bản bông", baiId, "Thêm tệp đính kèm " + tenFile),
         };
       });
     },

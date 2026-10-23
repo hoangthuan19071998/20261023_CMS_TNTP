@@ -4,11 +4,24 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getPermission, getRole, getState } from "@/lib/permissions";
 import { dinhDangGio, dinhDangThoiDiem, quaHan, useStore, vaiTroGiuBai } from "@/lib/store";
-import { HopGiaiThich, NhanAnPham, NhanTrangThai, TheQuyen } from "./Bieutuong";
+import { AnhDaiDien, HopGiaiThich, NhanAnPham, NhanTrangThai, TheQuyen } from "./Bieutuong";
+import DaiBuoc from "./DaiBuoc";
+import ThongTinDuyet from "./ThongTinDuyet";
+import LichSuTaiLieu from "./LichSuTaiLieu";
 import SoDoQuyTrinh from "./SoDoQuyTrinh";
 import ThanhHanhDong from "./ThanhHanhDong";
 import BinhLuanNoiBo from "./BinhLuanNoiBo";
 import LichSuPhienBan from "./LichSuPhienBan";
+
+/** Một ô trong dải thông tin ngang phía trên nội dung bài. */
+function O({ nhan, children }: { nhan: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-baseline gap-1.5 border-l border-ink-line pl-3 first:border-l-0 first:pl-0">
+      <span className="whitespace-nowrap text-xs text-ink-soft">{nhan}:</span>
+      <span className="flex items-center gap-1.5 whitespace-nowrap text-sm font-medium">{children}</span>
+    </div>
+  );
+}
 
 export default function ChiTietBai({ baiId }: { baiId: string }) {
   const { bai: tatCa, nhatKy, vaiTro, cheDoGiaiThich, luuNoiDung, themBinhLuan, taiLenBanBong } = useStore();
@@ -18,6 +31,8 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
   const [nhap, setNhap] = useState({ tieuDe: "", sapo: "", than: "" });
   const [yeuCauSua, setYeuCauSua] = useState("");
   const [bayGio, setBayGio] = useState<number | null>(null);
+  const [moLichSu, setMoLichSu] = useState(false);
+  const [moSoDo, setMoSoDo] = useState(false);
 
   useEffect(() => setBayGio(Date.now()), []);
 
@@ -56,6 +71,7 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
   const suaDuoc = coQuyenSua && !biKhoa;
   const nguoiGiu = vaiTroGiuBai(bai.trangThai);
   const tinhHan = bayGio === null ? null : quaHan(bai, bayGio);
+  const banCuoi = bai.phienBan[bai.phienBan.length - 1];
 
   function batDauSua() {
     if (!bai) return;
@@ -77,7 +93,7 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2 text-sm">
         <Link href="/kho-bai" className="text-ink-soft underline underline-offset-2">
           Kho bài
@@ -95,25 +111,37 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
               <NhanTrangThai trangThai={bai.trangThai} />
               <NhanAnPham anPham={bai.anPham} />
               <span className="nhan bg-ink-bg text-ink-soft">{bai.chuyenMuc}</span>
-              <span className="nhan bg-ink-bg text-ink-soft">Tác giả: {bai.tacGia}</span>
               {bai.daKySo && <span className="nhan bg-emerald-100 text-emerald-800">Đã ký số</span>}
             </div>
           </div>
-          <div className="flex flex-col items-end gap-1.5 text-right text-xs text-ink-soft">
+          <div className="flex flex-col items-end gap-2">
             <TheQuyen vaiTro={vaiTro} trangThai={bai.trangThai} />
-            <span>
-              {nguoiGiu.length > 0
-                ? "Đang ở: " + nguoiGiu.map((r) => getRole(r).ten).join(" / ")
-                : "Không ai phải xử lý"}
-            </span>
-            <span>Vào trạng thái lúc {dinhDangThoiDiem(bai.vaoTrangThaiLuc)}</span>
-            {tinhHan && tinhHan.slaGio !== null && (
-              <span className={tinhHan.quaHan ? "font-medium text-rose-700" : ""}>
-                {tinhHan.quaHan ? "Quá hạn " : "Đã chờ "}
-                {dinhDangGio(tinhHan.gio)} / hạn {tinhHan.slaGio} giờ
-              </span>
-            )}
+            <button onClick={() => setMoLichSu(true)} className="nut-phu">
+              Lịch sử bài viết
+            </button>
           </div>
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-x-3 gap-y-2 border-t border-ink-line pt-3">
+          <O nhan="Trạng thái">{st.ten}</O>
+          <O nhan="Đang ở">
+            {nguoiGiu.length > 0 ? nguoiGiu.map((r) => getRole(r).ten).join(" / ") : "Không ai phải xử lý"}
+          </O>
+          <O nhan="Phiên bản">{bai.phienBan.length}</O>
+          <O nhan="Người sửa cuối">
+            <AnhDaiDien ten={banCuoi.tenNguoi} co={20} />
+            {banCuoi.tenNguoi}
+          </O>
+          <O nhan="Sửa lúc">{dinhDangThoiDiem(banCuoi.thoiDiem)}</O>
+          <O nhan="Tác giả">{bai.tacGia}</O>
+          {tinhHan && tinhHan.slaGio !== null && (
+            <O nhan="Hạn xử lý">
+              <span className={tinhHan.quaHan ? "text-rose-700" : ""}>
+                {tinhHan.quaHan ? "Quá hạn " : "Đã chờ "}
+                {dinhDangGio(tinhHan.gio)} / {tinhHan.slaGio} giờ
+              </span>
+            </O>
+          )}
         </div>
 
         {bai.lyDoGanNhat && (
@@ -123,152 +151,178 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
         )}
       </div>
 
-      <SoDoQuyTrinh bai={bai} nhatKy={nhatKy} vaiTro={vaiTro} />
+      <DaiBuoc hienTai={bai.trangThai} />
 
-      <ThanhHanhDong bai={bai} />
-
-      <section className="the p-5">
-        <div className="mb-3 flex flex-wrap items-center gap-2">
-          <h2 className="text-sm font-semibold">Nội dung bài</h2>
-          {biKhoa && (
-            <span className="nhan bg-stone-200 text-stone-700" title="Văn bản đã khóa sau khi Thư ký tòa soạn chốt nội dung">
-              🔒 Văn bản đã khóa
-            </span>
-          )}
-          {suaDuoc && !dangSua && (
-            <button onClick={batDauSua} className="nut-phu ml-auto">
-              Sửa nội dung
-            </button>
-          )}
-          {dangSua && (
-            <div className="ml-auto flex gap-2">
-              <button onClick={() => setDangSua(false)} className="nut-phu">
-                Hủy
-              </button>
-              <button onClick={luu} className="nut-chinh">
-                Lưu phiên bản mới
-              </button>
-            </div>
-          )}
+      <div className="grid gap-4 lg:grid-cols-[264px_minmax(0,1fr)]">
+        <div className="lg:sticky lg:top-4 lg:self-start">
+          <ThongTinDuyet bai={bai} nhatKy={nhatKy} bayGio={bayGio} />
         </div>
 
-        {dangSua ? (
-          <div className="space-y-3">
-            <input
-              value={nhap.tieuDe}
-              onChange={(e) => setNhap({ ...nhap, tieuDe: e.target.value })}
-              className="w-full rounded border border-ink-line px-3 py-2 text-base font-medium"
-              placeholder="Tiêu đề"
-            />
-            <textarea
-              value={nhap.sapo}
-              onChange={(e) => setNhap({ ...nhap, sapo: e.target.value })}
-              rows={2}
-              className="w-full rounded border border-ink-line px-3 py-2 text-sm"
-              placeholder="Sa pô"
-            />
-            <textarea
-              value={nhap.than}
-              onChange={(e) => setNhap({ ...nhap, than: e.target.value })}
-              rows={14}
-              className="w-full rounded border border-ink-line px-3 py-2 text-sm leading-relaxed"
-              placeholder="Thân bài — cách nhau một dòng trống để tách đoạn"
-            />
-            <p className="text-xs text-ink-soft">
-              Mỗi lần lưu tạo một phiên bản mới trong lịch sử chỉnh sửa, ghi rõ ai sửa và lúc nào.
-            </p>
-          </div>
-        ) : (
-          <article className="space-y-3 text-[15px] leading-relaxed">
-            {bai.doan.map((d, i) => (
-              <p key={i} className="flex gap-3">
-                <span className="mt-1 shrink-0 font-mono text-xs text-ink-line">{i + 1}</span>
-                <span>{d}</span>
-              </p>
-            ))}
-          </article>
-        )}
+        <div className="min-w-0 space-y-4">
+          <ThanhHanhDong bai={bai} />
 
-        {biKhoa && coQuyenSua && (
-          <div className="mt-4 rounded-md border border-amber-300 bg-amber-50 p-3">
-            <p className="text-sm font-medium text-amber-900">
-              Văn bản đã khóa — muốn sửa chữ phải tạo yêu cầu sửa
-            </p>
-            <p className="mt-1 text-xs text-amber-900">
-              Đề xuất số 5: sau khi Thư ký tòa soạn chốt nội dung, mỗi lần sửa chữ là một lần vỡ
-              ma-két. Yêu cầu sửa sẽ được gửi tới Họa sĩ kèm ghi nhận trong nhật ký.
-            </p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              <input
-                value={yeuCauSua}
-                onChange={(e) => setYeuCauSua(e.target.value)}
-                className="min-w-0 flex-1 rounded border border-amber-300 px-2 py-1.5 text-sm"
-                placeholder="Nội dung cần sửa, ví dụ: tít phụ đoạn 2 sai tên địa danh."
-              />
-              <button
-                onClick={guiYeuCauSua}
-                disabled={yeuCauSua.trim().length < 5}
-                className={yeuCauSua.trim().length < 5 ? "nut-tat" : "nut-canh-bao"}
-              >
-                Tạo yêu cầu sửa
-              </button>
-            </div>
-          </div>
-        )}
-
-        {!coQuyenSua && cheDoGiaiThich && (
-          <div className="mt-4">
-            <HopGiaiThich>
-              Vai trò <strong>{role.ten}</strong> không có quyền <span className="font-mono">E</span>{" "}
-              (sửa nội dung) ở trạng thái này, nên nội dung chỉ hiển thị để đọc.
-            </HopGiaiThich>
-          </div>
-        )}
-      </section>
-
-      {(quyen.caps.includes("L") || quyen.caps.includes("D") || bai.fileBanBong) && (
-        <section className="the p-5">
-          <h2 className="mb-3 text-sm font-semibold">File trình bày / bản bông</h2>
-          {bai.fileBanBong ? (
-            <div className="flex flex-wrap items-center gap-3 rounded border border-ink-line bg-ink-bg/50 px-3 py-2 text-sm">
-              <span aria-hidden>📄</span>
-              <span className="font-mono text-xs">{bai.fileBanBong}</span>
-              {quyen.caps.includes("D") ? (
-                <button className="nut-phu ml-auto" onClick={() => alert("Bản demo không có file thật để tải.")}>
-                  Tải xuống
+          <section className="the p-5">
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              <h2 className="text-sm font-semibold">Nội dung bài</h2>
+              {biKhoa && (
+                <span className="nhan bg-stone-200 text-stone-700" title="Văn bản đã khóa sau khi Thư ký tòa soạn chốt nội dung">
+                  🔒 Văn bản đã khóa
+                </span>
+              )}
+              {suaDuoc && !dangSua && (
+                <button onClick={batDauSua} className="nut-phu ml-auto">
+                  Sửa nội dung
                 </button>
-              ) : (
-                <span className="ml-auto text-xs text-ink-soft">Vai trò này không có quyền tải file</span>
+              )}
+              {dangSua && (
+                <div className="ml-auto flex gap-2">
+                  <button onClick={() => setDangSua(false)} className="nut-phu">
+                    Hủy
+                  </button>
+                  <button onClick={luu} className="nut-chinh">
+                    Lưu phiên bản mới
+                  </button>
+                </div>
               )}
             </div>
-          ) : (
-            <p className="text-sm text-ink-soft">Chưa có file bản bông nào được tải lên.</p>
+
+            {dangSua ? (
+              <div className="space-y-3">
+                <input
+                  value={nhap.tieuDe}
+                  onChange={(e) => setNhap({ ...nhap, tieuDe: e.target.value })}
+                  className="w-full rounded border border-ink-line px-3 py-2 text-base font-medium"
+                  placeholder="Tiêu đề"
+                />
+                <textarea
+                  value={nhap.sapo}
+                  onChange={(e) => setNhap({ ...nhap, sapo: e.target.value })}
+                  rows={2}
+                  className="w-full rounded border border-ink-line px-3 py-2 text-sm"
+                  placeholder="Sa pô"
+                />
+                <textarea
+                  value={nhap.than}
+                  onChange={(e) => setNhap({ ...nhap, than: e.target.value })}
+                  rows={14}
+                  className="w-full rounded border border-ink-line px-3 py-2 text-sm leading-relaxed"
+                  placeholder="Thân bài — cách nhau một dòng trống để tách đoạn"
+                />
+                <p className="text-xs text-ink-soft">
+                  Mỗi lần lưu tạo một phiên bản mới trong lịch sử chỉnh sửa, ghi rõ ai sửa và lúc nào.
+                </p>
+              </div>
+            ) : (
+              <article className="space-y-3 text-[15px] leading-relaxed">
+                {bai.doan.map((d, i) => (
+                  <p key={i} className="flex gap-3">
+                    <span className="mt-1 shrink-0 font-mono text-xs text-ink-line">{i + 1}</span>
+                    <span>{d}</span>
+                  </p>
+                ))}
+              </article>
+            )}
+
+            {biKhoa && coQuyenSua && (
+              <div className="mt-4 rounded-md border border-amber-300 bg-amber-50 p-3">
+                <p className="text-sm font-medium text-amber-900">
+                  Văn bản đã khóa — muốn sửa chữ phải tạo yêu cầu sửa
+                </p>
+                <p className="mt-1 text-xs text-amber-900">
+                  Đề xuất số 5: sau khi Thư ký tòa soạn chốt nội dung, mỗi lần sửa chữ là một lần vỡ
+                  ma-két. Yêu cầu sửa sẽ được gửi tới Họa sĩ kèm ghi nhận trong nhật ký.
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <input
+                    value={yeuCauSua}
+                    onChange={(e) => setYeuCauSua(e.target.value)}
+                    className="min-w-0 flex-1 rounded border border-amber-300 px-2 py-1.5 text-sm"
+                    placeholder="Nội dung cần sửa, ví dụ: tít phụ đoạn 2 sai tên địa danh."
+                  />
+                  <button
+                    onClick={guiYeuCauSua}
+                    disabled={yeuCauSua.trim().length < 5}
+                    className={yeuCauSua.trim().length < 5 ? "nut-tat" : "nut-canh-bao"}
+                  >
+                    Tạo yêu cầu sửa
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {!coQuyenSua && cheDoGiaiThich && (
+              <div className="mt-4">
+                <HopGiaiThich>
+                  Vai trò <strong>{role.ten}</strong> không có quyền <span className="font-mono">E</span>{" "}
+                  (sửa nội dung) ở trạng thái này, nên nội dung chỉ hiển thị để đọc.
+                </HopGiaiThich>
+              </div>
+            )}
+          </section>
+
+          {(quyen.caps.includes("L") || quyen.caps.includes("D") || bai.fileBanBong) && (
+            <section className="the p-5">
+              <h2 className="mb-3 text-sm font-semibold">File trình bày / bản bông</h2>
+              {bai.fileBanBong ? (
+                <div className="flex flex-wrap items-center gap-3 rounded border border-ink-line bg-ink-bg/50 px-3 py-2 text-sm">
+                  <span aria-hidden>📄</span>
+                  <span className="font-mono text-xs">{bai.fileBanBong}</span>
+                  {quyen.caps.includes("D") ? (
+                    <button className="nut-phu ml-auto" onClick={() => alert("Bản demo không có file thật để tải.")}>
+                      Tải xuống
+                    </button>
+                  ) : (
+                    <span className="ml-auto text-xs text-ink-soft">Vai trò này không có quyền tải file</span>
+                  )}
+                </div>
+              ) : (
+                <p className="text-sm text-ink-soft">Chưa có file bản bông nào được tải lên.</p>
+              )}
+
+              {quyen.caps.includes("L") && (
+                <button
+                  onClick={() => taiLenBanBong(bai.id, bai.maBai + "_banbong_v" + (bai.phienBan.length + 1) + ".pdf")}
+                  className="nut-chinh mt-3"
+                >
+                  Tải lên file đã dàn trang (mô phỏng)
+                </button>
+              )}
+
+              {cheDoGiaiThich && (
+                <div className="mt-3">
+                  <HopGiaiThich>
+                    Hệ thống chỉ tiếp nhận file PDF do họa sĩ dàn trang bằng phần mềm chuyên dụng rồi tải
+                    lên — không dàn trang trên web (câu hỏi số 28, cần tòa soạn xác nhận bằng văn bản).
+                  </HopGiaiThich>
+                </div>
+              )}
+            </section>
           )}
 
-          {quyen.caps.includes("L") && (
+          <div className="grid gap-4 xl:grid-cols-2">
+            <BinhLuanNoiBo bai={bai} />
+            <LichSuPhienBan bai={bai} />
+          </div>
+
+          <div className="the p-4">
             <button
-              onClick={() => taiLenBanBong(bai.id, bai.maBai + "_banbong_v" + (bai.phienBan.length + 1) + ".pdf")}
-              className="nut-chinh mt-3"
+              onClick={() => setMoSoDo(!moSoDo)}
+              className="flex w-full items-center gap-2 text-left text-sm font-semibold"
+              aria-expanded={moSoDo}
             >
-              Tải lên file đã dàn trang (mô phỏng)
+              <span aria-hidden className="text-ink-soft">{moSoDo ? "▾" : "▸"}</span>
+              Sơ đồ toàn quy trình
+              <span className="font-normal text-ink-soft">
+                — chín bước chính kèm các nhánh trả lại, loại bài, đính chính
+              </span>
             </button>
-          )}
+          </div>
 
-          {cheDoGiaiThich && (
-            <div className="mt-3">
-              <HopGiaiThich>
-                Hệ thống chỉ tiếp nhận file PDF do họa sĩ dàn trang bằng phần mềm chuyên dụng rồi tải
-                lên — không dàn trang trên web (câu hỏi số 28, cần tòa soạn xác nhận bằng văn bản).
-              </HopGiaiThich>
-            </div>
-          )}
-        </section>
-      )}
-
-      <div className="grid gap-5 lg:grid-cols-2">
-        <BinhLuanNoiBo bai={bai} />
-        <LichSuPhienBan bai={bai} />
+          {moSoDo && <SoDoQuyTrinh bai={bai} nhatKy={nhatKy} vaiTro={vaiTro} />}
+        </div>
       </div>
+
+      {moLichSu && <LichSuTaiLieu bai={bai} nhatKy={nhatKy} onDong={() => setMoLichSu(false)} />}
     </div>
   );
 }

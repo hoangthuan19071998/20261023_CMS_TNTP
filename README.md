@@ -34,13 +34,15 @@ Mở http://localhost:3000
 | 1 | Thanh chuyển vai trò + chế độ giải thích phân quyền | 10 vai trò, đổi tức thì |
 | 2 | Bảng điều khiển riêng cho từng vai trò | Bám theo cột "Giao diện hiển thị chính" trong tài liệu tòa soạn |
 | 3 | Kho bài, lọc theo trạng thái và chuyên mục | Hiện ai đang giữ bài, cảnh báo quá hạn |
-| 4 | Sơ đồ cây quy trình trong màn hình bài | Trục chính S0–S8, nhánh trả lại, loại bài, đính chính. Bấm từng bước để xem ai giữ bài và quyền của vai trò hiện tại |
+| 4 | Cột "Thông tin duyệt" trong màn hình bài | Dòng thời gian bài đã qua tay ai: hành động, người, thời điểm, ghi chú họ để lại; mốc cuối là người đang giữ bài |
+| 4b | Dải chín bước ngang + sơ đồ toàn quy trình (mở theo yêu cầu) | Dải bước cho biết đang ở đâu; sơ đồ cây vẽ cả nhánh trả lại, loại bài, đính chính |
 | 5 | Màn hình chi tiết bài | Nội dung, siêu dữ liệu, ghi chú khi chuyển bài |
 | 6 | Chuyển trạng thái | Duyệt / Trả lại (chọn đích) / Loại bài / Ký số, bắt buộc ghi lý do |
 | 7 | Bình luận nội bộ | Gắn theo đoạn, gắn thẻ vai trò, đánh dấu đã xử lý |
 | 8 | Lịch sử phiên bản | Ai sửa, lúc nào, so sánh hai bản gần nhất |
 | 9 | Khóa văn bản sau khi chốt nội dung | Kèm luồng "Tạo yêu cầu sửa" |
 | 10 | Nhật ký lưu vết | Ghi mọi thao tác, chỉ ghi thêm, phân quyền xem |
+| 11 | Bảng "Lịch sử bài viết" | Người dùng, thời gian, hành động, mô tả, phiên bản; lọc theo hành động |
 
 ## Cấu trúc mã nguồn
 

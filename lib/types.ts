@@ -82,6 +82,13 @@ export interface LogEntry {
   hanhDong: string;
   baiId: string | null;
   chiTiet: string;
+  /** Bước chuyển, chỉ có khi hành động làm bài đổi trạng thái. */
+  tu?: StateId;
+  den?: StateId;
+  /** Lý do / ghi chú người thực hiện nhập khi chuyển bài. */
+  ghiChu?: string | null;
+  /** Phiên bản nội dung gắn với thao tác này, nếu có. */
+  phienBan?: string;
 }
 
 export interface Article {

@@ -1,4 +1,5 @@
-import type { Article, LogEntry, StateId } from "./types";
+import { PIPELINE, TRANSITIONS } from "./permissions";
+import type { Article, LogEntry, RoleId, StateId } from "./types";
 
 // Dữ liệu mẫu: 14 bài rải đều trên các trạng thái để mở demo là thấy ngay
 // bài ở mọi bước của quy trình.
@@ -36,13 +37,15 @@ interface SeedSpec {
   fileBanBong?: string | null;
   daKySo?: boolean;
   lyDoGanNhat?: string | null;
+  /** Đường bài đã thực sự đi. Bỏ trống thì mặc định chạy thẳng S0 đến trạng thái hiện tại. */
+  duongDi?: StateId[];
 }
 
 const SPECS: SeedSpec[] = [
   { maBai: "TNTP-1041", tieuDe: "Đề xuất mở rộng tuyến buýt điện nội đô", chuyenMuc: "Đô thị", anPham: "bao_dien_tu", loai: "tin", tacGia: "Nguyễn Thị Mai", trangThai: "S0", gioTrongTrangThai: 30 },
   { maBai: "TNTP-1042", tieuDe: "Loạt bài: Người trẻ và nghề thủ công truyền thống", chuyenMuc: "Văn hóa", anPham: "ca_hai", loai: "longform", tacGia: "Nguyễn Thị Mai", trangThai: "S0", gioTrongTrangThai: 6 },
   { maBai: "TNTP-1038", tieuDe: "Giá vật liệu xây dựng tăng trở lại sau ba tháng", chuyenMuc: "Kinh tế", anPham: "bao_dien_tu", loai: "bai", tacGia: "Trần Quốc Bảo", trangThai: "S1", gioTrongTrangThai: 20 },
-  { maBai: "TNTP-1035", tieuDe: "Trường học vùng cao xoay xở với thiếu giáo viên tiếng Anh", chuyenMuc: "Giáo dục", anPham: "ca_hai", loai: "bai", tacGia: "Nguyễn Thị Mai", trangThai: "S1", gioTrongTrangThai: 52, lyDoGanNhat: "Cần bổ sung số liệu cụ thể của ba tỉnh và trích dẫn từ Sở Giáo dục." },
+  { maBai: "TNTP-1035", tieuDe: "Trường học vùng cao xoay xở với thiếu giáo viên tiếng Anh", chuyenMuc: "Giáo dục", anPham: "ca_hai", loai: "bai", tacGia: "Nguyễn Thị Mai", trangThai: "S1", gioTrongTrangThai: 52, lyDoGanNhat: "Cần bổ sung số liệu cụ thể của ba tỉnh và trích dẫn từ Sở Giáo dục.", duongDi: ["S0", "S1", "S2", "S1"] },
   { maBai: "TNTP-1030", tieuDe: "Chuyển đổi số báo chí: công nghệ không phải rào cản lớn nhất", chuyenMuc: "Thời sự", anPham: "ca_hai", loai: "bai", tacGia: "Trần Quốc Bảo", trangThai: "S2", gioTrongTrangThai: 4 },
   { maBai: "TNTP-1029", tieuDe: "Hồ sơ: Mười năm một con đường ven sông", chuyenMuc: "Phóng sự", anPham: "bao_in", loai: "bai", tacGia: "Nguyễn Thị Mai", trangThai: "S2", gioTrongTrangThai: 19 },
   { maBai: "TNTP-1026", tieuDe: "Nông sản xuất khẩu và bài toán truy xuất nguồn gốc", chuyenMuc: "Kinh tế", anPham: "ca_hai", loai: "bai", tacGia: "Trần Quốc Bảo", trangThai: "S3", gioTrongTrangThai: 3 },
@@ -84,6 +87,33 @@ export function taoDuLieuMau(): Article[] {
   });
 }
 
+/** Đường bài đã thực sự đi. Bỏ trống thì chạy thẳng S0 đến trạng thái hiện tại. */
+function duongDiCua(s: SeedSpec): StateId[] {
+  if (s.duongDi) return s.duongDi;
+  const i = PIPELINE.indexOf(s.trangThai);
+  return i >= 0 ? PIPELINE.slice(0, i + 1) : [s.trangThai];
+}
+
+/**
+ * Số giờ lùi về quá khứ của mỗi lần chuyển bước, rải đều từ lúc tạo bài đến
+ * lúc bài vào trạng thái hiện tại. Dùng chung cho cả phiên bản lẫn nhật ký để
+ * hai nơi không lệch nhau.
+ */
+function mocChuyenBuoc(s: SeedSpec): number[] {
+  const duong = duongDiCua(s);
+  const soBuoc = duong.length - 1;
+  const batDau = s.gioTrongTrangThai + 36;
+  return duong.slice(0, -1).map((_, k) => batDau - ((batDau - s.gioTrongTrangThai) * (k + 1)) / soBuoc);
+}
+
+/** Thời điểm bài rời khỏi một bước, tính bằng số giờ lùi về quá khứ. */
+function roiBuoc(s: SeedSpec, buoc: StateId): number | null {
+  const duong = duongDiCua(s);
+  const moc = mocChuyenBuoc(s);
+  const k = duong.indexOf(buoc);
+  return k >= 0 && k < moc.length ? moc[k] : null;
+}
+
 function taoPhienBan(baiId: string, s: SeedSpec): Article["phienBan"] {
   const ds: Article["phienBan"] = [
     {
@@ -99,7 +129,7 @@ function taoPhienBan(baiId: string, s: SeedSpec): Article["phienBan"] {
   if (thuTu.includes(s.trangThai)) {
     ds.push({
       id: baiId + "-v2",
-      thoiDiem: truoc(s.gioTrongTrangThai + 14),
+      thoiDiem: truoc((roiBuoc(s, "S2") ?? s.gioTrongTrangThai + 14) + 0.5),
       tacGia: "BTV",
       tenNguoi: "Phạm Thu Hà",
       ghiChu: "Biên tập: rút gọn sa pô, sửa 4 lỗi chính tả, chuẩn hóa tên riêng",
@@ -109,7 +139,7 @@ function taoPhienBan(baiId: string, s: SeedSpec): Article["phienBan"] {
   if (["S4", "S5", "S6", "S7", "S8"].includes(s.trangThai)) {
     ds.push({
       id: baiId + "-v3",
-      thoiDiem: truoc(s.gioTrongTrangThai + 5),
+      thoiDiem: truoc((roiBuoc(s, "S3") ?? s.gioTrongTrangThai + 5) + 0.5),
       tacGia: "TKTS",
       tenNguoi: "Đỗ Minh Khoa",
       ghiChu: "Chốt nội dung, khóa văn bản trước khi chuyển trình bày",
@@ -160,10 +190,91 @@ function taoBinhLuan(baiId: string, s: SeedSpec): Article["binhLuan"] {
   return ds;
 }
 
+// --- Vết duyệt mẫu --------------------------------------------------------
+//
+// Mỗi bài mẫu được dựng lại cả đường đã đi, để màn hình "Thông tin duyệt" và
+// "Lịch sử bài viết" có vết thật thay vì trống trơn khi mở demo.
+
+/** Vai trò bấm nút ở mỗi bước, dùng để ghi tên người vào vết duyệt. */
+const NGUOI_BAM: Record<string, RoleId> = {
+  S0: "TRUONG_BAN",
+  S1: "PV",
+  S2: "BTV",
+  S3: "TKTS",
+  S4: "HOA_SI",
+  S5: "TKTS",
+  S6: "TBT",
+  S7: "TKTS",
+};
+
+const GHI_CHU_BUOC: Record<string, string> = {
+  S0: "Đề tài rõ, triển khai ngay trong tuần này.",
+  S1: "Nhờ anh chị biên tập xem giúp em ạ.",
+  S2: "Đã rút gọn sa pô và chuẩn hóa tên riêng, chuyển Thư ký tòa soạn.",
+  S3: "Nội dung đạt, khóa văn bản và chuyển sang trình bày.",
+  S4: "Đã dàn hai trang, chừa chỗ cho tít chạy hai dòng.",
+  S5: "Bản bông đạt, trình duyệt xuất bản.",
+  S6: "Đồng ý xuất bản, đã ký số.",
+  S7: "Đóng gói lưu chiểu theo quy định.",
+};
+
+function nhanChuyen(tu: StateId, den: StateId): string {
+  const tien = TRANSITIONS.find((t) => t.tu === tu && t.den === den && t.kieu === "tien");
+  if (tien) return tien.nhan;
+  const lui = TRANSITIONS.find((t) => t.tu === tu && t.den === den);
+  return lui ? lui.nhan : "Chuyển bước";
+}
+
 export function taoNhatKyMau(): LogEntry[] {
-  return [
-    { id: "log-1", thoiDiem: truoc(26), vaiTro: "TBT", hanhDong: "Ký số & duyệt xuất bản", baiId: "bai-13", chiTiet: "TNTP-1004 chuyển S6 → S7" },
-    { id: "log-2", thoiDiem: truoc(29), vaiTro: "TKTS", hanhDong: "Trình duyệt", baiId: "bai-13", chiTiet: "TNTP-1004 chuyển S5 → S6" },
-    { id: "log-3", thoiDiem: truoc(52), vaiTro: "BTV", hanhDong: "Trả lại phóng viên", baiId: "bai-4", chiTiet: "TNTP-1035 chuyển S2 → S1, có ghi chú lý do" },
-  ];
+  const ds: LogEntry[] = [];
+
+  SPECS.forEach((s, idx) => {
+    const baiId = "bai-" + (idx + 1);
+    const duong = duongDiCua(s);
+    const moc = mocChuyenBuoc(s);
+
+    duong.slice(0, -1).forEach((tu, k) => {
+      const den = duong[k + 1];
+      const lui = PIPELINE.indexOf(den) < PIPELINE.indexOf(tu);
+      const gio = moc[k];
+      const ghiChu = lui ? (s.lyDoGanNhat ?? "Cần chỉnh lại trước khi duyệt.") : GHI_CHU_BUOC[tu];
+      ds.push({
+        id: baiId + "-log-" + (k + 1),
+        thoiDiem: truoc(gio),
+        vaiTro: NGUOI_BAM[tu] ?? "TKTS",
+        hanhDong: nhanChuyen(tu, den),
+        baiId,
+        chiTiet: lui ? 'Lý do: "' + ghiChu + '"' : 'Ghi chú: "' + ghiChu + '"',
+        tu,
+        den,
+        ghiChu,
+      });
+    });
+
+    // Mỗi lần lưu nội dung cũng là một dòng trong lịch sử, kèm mã phiên bản.
+    taoPhienBan(baiId, s).forEach((v, k) => {
+      ds.push({
+        id: baiId + "-log-pb-" + (k + 1),
+        thoiDiem: v.thoiDiem,
+        vaiTro: v.tacGia,
+        hanhDong: k === 0 ? "Tạo bản thảo" : "Sửa nội dung",
+        baiId,
+        chiTiet: v.ghiChu,
+        phienBan: v.id,
+      });
+    });
+
+    if (s.fileBanBong) {
+      ds.push({
+        id: baiId + "-log-file",
+        thoiDiem: truoc(s.gioTrongTrangThai + 1),
+        vaiTro: "HOA_SI",
+        hanhDong: "Tải lên bản bông",
+        baiId,
+        chiTiet: "Thêm tệp đính kèm " + s.fileBanBong,
+      });
+    }
+  });
+
+  return ds.sort((a, b) => b.thoiDiem.localeCompare(a.thoiDiem));
 }

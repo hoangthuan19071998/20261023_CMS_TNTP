@@ -61,3 +61,30 @@ export function HopGiaiThich({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
+const MAU_AVATAR = [
+  "bg-sky-200 text-sky-900",
+  "bg-emerald-200 text-emerald-900",
+  "bg-amber-200 text-amber-900",
+  "bg-violet-200 text-violet-900",
+  "bg-rose-200 text-rose-900",
+  "bg-teal-200 text-teal-900",
+];
+
+/** Ảnh đại diện mô phỏng: chữ cái đầu của tên, màu cố định theo tên. */
+export function AnhDaiDien({ ten, co = 24 }: { ten: string; co?: number }) {
+  const tu = ten.trim().split(/\s+/);
+  const chu = (tu.length > 1 ? tu[tu.length - 2][0] + tu[tu.length - 1][0] : ten.slice(0, 2)).toUpperCase();
+  let tong = 0;
+  for (let i = 0; i < ten.length; i++) tong += ten.charCodeAt(i);
+  const mau = MAU_AVATAR[tong % MAU_AVATAR.length];
+  return (
+    <span
+      title={ten}
+      style={{ width: co, height: co, fontSize: Math.round(co * 0.4) }}
+      className={"inline-flex shrink-0 items-center justify-center rounded-full font-semibold " + mau}
+    >
+      {chu}
+    </span>
+  );
+}

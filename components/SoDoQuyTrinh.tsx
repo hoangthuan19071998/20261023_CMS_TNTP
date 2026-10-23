@@ -88,12 +88,9 @@ function dongNguoiGiu(id: StateId): string {
 
 /** Những cạnh bài này đã thực sự đi qua, đọc từ nhật ký lưu vết. */
 function canhDaDiQua(nhatKy: LogEntry[], baiId: string): Set<string> {
-  const re = /chuyển\s+(S\d|DINH_CHINH|LOAI_BO)\s*→\s*(S\d|DINH_CHINH|LOAI_BO)/;
   const ds = new Set<string>();
   nhatKy.forEach((e) => {
-    if (e.baiId !== baiId) return;
-    const m = re.exec(e.chiTiet);
-    if (m) ds.add(m[1] + ">" + m[2]);
+    if (e.baiId === baiId && e.tu && e.den) ds.add(e.tu + ">" + e.den);
   });
   return ds;
 }
