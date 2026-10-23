@@ -5,6 +5,7 @@ import { useStore, vaiTroGiuBai } from "@/lib/store";
 import type { Article, RoleId } from "@/lib/types";
 import DanhSachBai from "./DanhSachBai";
 import { HopGiaiThich } from "./Bieutuong";
+import NutDangBai from "./NutDangBai";
 
 interface Khoi {
   tieuDe: string;
@@ -55,7 +56,7 @@ const KHOI_THEO_VAI_TRO: Record<RoleId, Khoi[]> = {
 const GHI_CHU_VAI_TRO: Partial<Record<RoleId, string>> = {
   ADMIN: "Quản trị hệ thống là vai trò đề xuất thêm (số 6). Bảng phân quyền gốc có 6 vai trò, không vai nào tạo được tài khoản hay xem nhật ký.",
   TKTS: "Theo đề xuất số 1, Thư ký tòa soạn là vai trò duy nhất có quyền can thiệp toàn hệ thống. Tài liệu gốc trao quyền này cho cả ba vai (BTV, TKTS, PTBT/TBT).",
-  TBT: "Theo đề xuất số 2, PTBT/TBT chỉ xem, bình luận và duyệt — không trực tiếp sửa nội dung, để nhật ký lưu vết phản ánh đúng ai đã sửa gì.",
+  TBT: "PTBT/TBT đăng bài vào thẳng bước chờ duyệt và được sửa trực tiếp nội dung ngay ở bước này, cùng với quyền duyệt và ký số. Mọi lần sửa đều tạo phiên bản mới và ghi nhật ký, nên vẫn biết ai đã sửa gì.",
   HOA_SI: "Theo đề xuất, quyền đặt lịch xuất bản đã chuyển từ Họa sĩ sang Thư ký tòa soạn (số 3). Bù lại, Họa sĩ thấy bài từ bước biên tập để đặt hàng thiết kế chạy song song.",
 };
 
@@ -71,8 +72,13 @@ export default function BangDieuKhien() {
   return (
     <div className="space-y-5">
       <div className="the p-5">
-        <h1 className="text-xl font-semibold">Bảng điều khiển — {role.ten}</h1>
-        <p className="mt-1 text-sm text-ink-soft">{role.moTa}</p>
+        <div className="flex flex-wrap items-start gap-3">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-xl font-semibold">Bảng điều khiển — {role.ten}</h1>
+            <p className="mt-1 text-sm text-ink-soft">{role.moTa}</p>
+          </div>
+          <NutDangBai />
+        </div>
         <div className="mt-4 flex flex-wrap gap-6 text-sm">
           <div>
             <div className="text-2xl font-semibold">{soViecCho}</div>

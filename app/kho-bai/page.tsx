@@ -2,6 +2,7 @@
 
 import DanhSachBai from "@/components/DanhSachBai";
 import { HopGiaiThich } from "@/components/Bieutuong";
+import NutDangBai from "@/components/NutDangBai";
 import { getRole } from "@/lib/permissions";
 import { useStore } from "@/lib/store";
 
@@ -13,9 +14,12 @@ export default function Page() {
     <div className="space-y-5">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="text-xl font-semibold">Kho bài</h1>
-        <button onClick={khoiPhucMau} className="nut-phu ml-auto">
-          Khôi phục dữ liệu mẫu
-        </button>
+        <div className="ml-auto flex flex-wrap gap-2">
+          <NutDangBai />
+          <button onClick={khoiPhucMau} className="nut-phu">
+            Khôi phục dữ liệu mẫu
+          </button>
+        </div>
       </div>
 
       {cheDoGiaiThich && (

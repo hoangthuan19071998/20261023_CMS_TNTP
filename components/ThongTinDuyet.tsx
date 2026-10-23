@@ -88,7 +88,7 @@ export default function ThongTinDuyet({
   bayGio: number | null;
 }) {
   const moc = nhatKy
-    .filter((e) => e.baiId === bai.id && e.tu && e.den)
+    .filter((e) => e.baiId === bai.id && e.den)
     .slice()
     .sort((a, b) => a.thoiDiem.localeCompare(b.thoiDiem));
 

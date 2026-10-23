@@ -1,9 +1,11 @@
 "use client";
 
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import type { Article, Comment, LogEntry, RoleId, StateId, Version } from "./types";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import type { AnPham, Article, Comment, LoaiNoiDung, LogEntry, RoleId, StateId, TaiLieu, Version } from "./types";
 import { taoDuLieuMau, taoNhatKyMau } from "./seed";
-import { getRole, getState, TRANSITIONS } from "./permissions";
+import { coQuyen, coTheDangBai, coTheGoTep, coTheTaiTepLen, getRole, getState, TRANSITIONS } from "./permissions";
+import { kiemTraTep } from "./tep";
+import { luuTep, xoaHetTep, xoaTep } from "./tepStore";
 
 const KHOA_LUU = "cms-tntp-demo-v2";
 
@@ -38,6 +40,7 @@ function migrateStoredData(parsed: Partial<LuuTru>): LuuTru {
     return {
       ...b,
       phienBan,
+      taiLieu: b.taiLieu ?? [],
       binhLuan: (b.binhLuan ?? []).map((c) => ({
         ...c,
         tacGia: migratedRole(c.tacGia),
@@ -62,6 +65,29 @@ interface LuuTru {
   cheDoGiaiThich: boolean;
 }
 
+/** Nội dung một bài mới do người dùng nhập ở màn hình đăng bài. */
+export interface NhapBai {
+  tieuDe: string;
+  sapo: string;
+  doan: string[];
+  chuyenMuc: string;
+  anPham: AnPham;
+  loai: LoaiNoiDung;
+  /** Bước bài bắt đầu, phải nằm trong DIEM_VAO của vai trò đang đăng. */
+  buoc: StateId;
+}
+
+/** `id` là null khi không đăng được. `loi` gồm cả tệp bị từ chối lẫn cảnh báo lưu tệp. */
+export interface KetQuaDangBai {
+  id: string | null;
+  loi: string[];
+}
+
+export interface KetQuaTaiLen {
+  soTep: number;
+  loi: string[];
+}
+
 interface StoreValue extends LuuTru {
   daTai: boolean;
   datVaiTro: (v: RoleId) => void;
@@ -70,8 +96,58 @@ interface StoreValue extends LuuTru {
   luuNoiDung: (baiId: string, doan: string[], tieuDe: string, sapo: string) => void;
   themBinhLuan: (baiId: string, noiDung: string, ganThe: RoleId | null, doanSo: number | null, laYeuCauSua?: boolean) => void;
   danhDauXuLy: (baiId: string, binhLuanId: string) => void;
-  taiLenBanBong: (baiId: string, tenFile: string) => void;
+  dangBai: (nhap: NhapBai, tep: File[]) => Promise<KetQuaDangBai>;
+  themTaiLieu: (baiId: string, tep: File[], banBong?: boolean) => Promise<KetQuaTaiLen>;
+  goTaiLieu: (baiId: string, tepId: string) => void;
   khoiPhucMau: () => void;
+}
+
+function taoId(tienTo: string): string {
+  const ngauNhien =
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID().slice(0, 8)
+      : Math.random().toString(36).slice(2, 10);
+  return tienTo + "-" + Date.now().toString(36) + "-" + ngauNhien;
+}
+
+/**
+ * Kiểm tra từng tệp rồi cất nội dung vào kho của trình duyệt. Tệp không hợp lệ bị bỏ và
+ * ghi lý do vào `loi`; tệp hợp lệ nhưng không cất được vẫn được ghi nhận tên, kèm cảnh báo.
+ */
+async function xuLyTep(
+  tep: File[],
+  boiCanh: { vaiTro: RoleId; tenNguoi: string; buoc: StateId; banBong?: boolean }
+): Promise<{ taiLieu: TaiLieu[]; loi: string[] }> {
+  const taiLieu: TaiLieu[] = [];
+  const loi: string[] = [];
+  for (const f of tep) {
+    const kt = kiemTraTep(f);
+    if (!kt.ok) {
+      loi.push(kt.lyDo);
+      continue;
+    }
+    const id = taoId("tep");
+    const luuDuoc = await luuTep(id, f);
+    if (!luuDuoc) {
+      loi.push(
+        "“" + f.name + "”: trình duyệt không cho lưu nội dung tệp (có thể đang ở chế độ riêng tư hoặc hết chỗ), chỉ ghi nhận tên tệp."
+      );
+    }
+    taiLieu.push({
+      id,
+      ten: f.name,
+      loai: kt.loai,
+      dungLuong: f.size,
+      mime: f.type || "application/octet-stream",
+      vaiTro: boiCanh.vaiTro,
+      tenNguoi: boiCanh.tenNguoi,
+      taiLuc: new Date().toISOString(),
+      buoc: boiCanh.buoc,
+      banBong: boiCanh.banBong ? true : undefined,
+      coNoiDung: luuDuoc,
+    });
+  }
+  return { taiLieu, loi };
 }
 
 const Store = createContext<StoreValue | null>(null);
@@ -83,6 +159,13 @@ function moi(): LuuTru {
 export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<LuuTru>(() => moi());
   const [daTai, setDaTai] = useState(false);
+
+  // Các hàm bất đồng bộ (cất tệp rồi mới ghi bài) cần biết vai trò và bài hiện tại
+  // tại thời điểm bấm nút, không phải tại thời điểm hàm được tạo.
+  const stateRef = useRef(state);
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
 
   // Đọc dữ liệu đã lưu sau khi mount, tránh lệch giữa máy chủ và trình duyệt.
   useEffect(() => {
@@ -178,7 +261,10 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
           thoiDiem: new Date().toISOString(),
           tacGia: s.vaiTro,
           tenNguoi: getRole(s.vaiTro).nguoiDung,
-          ghiChu: "Sửa trực tiếp trên hệ thống",
+          ghiChu:
+            bai.trangThai === "S6"
+              ? "Sửa khi chờ duyệt xuất bản — Họa sĩ cần kiểm tra lại dàn trang"
+              : "Sửa trực tiếp trên hệ thống",
           soTuThayDoi: Math.abs(soTuMoi - soTuCu) + 1,
         snapshot: {
           tieuDe,
@@ -252,22 +338,145 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     }));
   }, []);
 
-  const taiLenBanBong = useCallback(
-    (baiId: string, tenFile: string) => {
+  const dangBai = useCallback(
+    async (nhap: NhapBai, tep: File[]): Promise<KetQuaDangBai> => {
+      const { vaiTro } = stateRef.current;
+      if (!coTheDangBai(vaiTro, nhap.buoc)) {
+        return {
+          id: null,
+          loi: ["Vai trò " + getRole(vaiTro).ten + " không đăng được bài vào " + getState(nhap.buoc).ten + "."],
+        };
+      }
+      const tieuDe = nhap.tieuDe.trim();
+      if (!tieuDe) return { id: null, loi: ["Bài chưa có tiêu đề."] };
+
+      const tenNguoi = getRole(vaiTro).nguoiDung;
+      const baiId = taoId("bai");
+      const { taiLieu, loi } = await xuLyTep(tep, { vaiTro, tenNguoi, buoc: nhap.buoc });
+
       setState((s) => {
-        const bai = s.bai.find((b) => b.id === baiId);
-        if (!bai) return s;
+        const soLonNhat = s.bai.reduce((max, b) => {
+          const m = /(\d+)$/.exec(b.maBai);
+          return m ? Math.max(max, parseInt(m[1], 10)) : max;
+        }, 0);
+        const maBai = "TNTP-" + String(soLonNhat + 1).padStart(4, "0");
+        const bayGio = new Date().toISOString();
+        const sapo = nhap.sapo.trim();
+        const soTu = [sapo, ...nhap.doan].join(" ").split(/\s+/).filter(Boolean).length;
+
+        const v1: Version = {
+          id: baiId + "-v1",
+          thoiDiem: bayGio,
+          tacGia: vaiTro,
+          tenNguoi,
+          ghiChu: "Bản đăng đầu tiên",
+          soTuThayDoi: soTu,
+          snapshot: { tieuDe, sapo, doan: nhap.doan },
+        };
+        const baiMoi: Article = {
+          id: baiId,
+          maBai,
+          tieuDe,
+          sapo,
+          doan: nhap.doan,
+          chuyenMuc: nhap.chuyenMuc,
+          anPham: nhap.anPham,
+          loai: nhap.loai,
+          tacGia: tenNguoi,
+          trangThai: nhap.buoc,
+          vaoTrangThaiLuc: bayGio,
+          taoLuc: bayGio,
+          phienBan: [v1],
+          binhLuan: [],
+          fileBanBong: null,
+          daKySo: false,
+          lyDoGanNhat: null,
+          taiLieu,
+        };
+        const chiTiet =
+          "Đăng bài vào " +
+          getState(nhap.buoc).ten +
+          (taiLieu.length > 0 ? ", kèm " + taiLieu.length + " tệp: " + taiLieu.map((t) => t.ten).join(", ") : "");
         return {
           ...s,
-          bai: s.bai.map((b) => (b.id === baiId ? { ...b, fileBanBong: tenFile } : b)),
-          nhatKy: ghiNhatKy(s.nhatKy, s.vaiTro, "Tải lên bản bông", baiId, "Thêm tệp đính kèm " + tenFile),
+          bai: [baiMoi, ...s.bai],
+          nhatKy: ghiNhatKy(s.nhatKy, vaiTro, "Đăng bài", baiId, chiTiet, { den: nhap.buoc, phienBan: v1.id }),
         };
       });
+      return { id: baiId, loi };
+    },
+    [ghiNhatKy]
+  );
+
+  const themTaiLieu = useCallback(
+    async (baiId: string, tep: File[], banBong = false): Promise<KetQuaTaiLen> => {
+      const { vaiTro, bai } = stateRef.current;
+      const b = bai.find((x) => x.id === baiId);
+      if (!b) return { soTep: 0, loi: ["Không tìm thấy bài."] };
+      const duocPhep = banBong ? coQuyen(vaiTro, b.trangThai, "L") : coTheTaiTepLen(vaiTro, b.trangThai);
+      if (!duocPhep) {
+        return {
+          soTep: 0,
+          loi: ["Vai trò " + getRole(vaiTro).ten + " không được tải tệp lên ở " + getState(b.trangThai).ten + "."],
+        };
+      }
+
+      const tenNguoi = getRole(vaiTro).nguoiDung;
+      // Bản bông luôn là một tệp: tệp mới thay cho tệp đang hiện, các bản cũ vẫn nằm trong hồ sơ.
+      const { taiLieu, loi } = await xuLyTep(banBong ? tep.slice(0, 1) : tep, {
+        vaiTro,
+        tenNguoi,
+        buoc: b.trangThai,
+        banBong,
+      });
+      if (taiLieu.length === 0) return { soTep: 0, loi };
+
+      setState((s) => {
+        if (!s.bai.some((x) => x.id === baiId)) return s;
+        const ten = taiLieu.map((t) => t.ten).join(", ");
+        return {
+          ...s,
+          bai: s.bai.map((x) =>
+            x.id === baiId
+              ? {
+                  ...x,
+                  taiLieu: [...x.taiLieu, ...taiLieu],
+                  fileBanBong: banBong ? taiLieu[0].ten : x.fileBanBong,
+                }
+              : x
+          ),
+          nhatKy: ghiNhatKy(
+            s.nhatKy,
+            vaiTro,
+            banBong ? "Tải lên bản bông" : "Tải lên tài liệu",
+            baiId,
+            banBong ? "Thêm tệp bản bông " + ten : "Thêm " + taiLieu.length + " tệp: " + ten
+          ),
+        };
+      });
+      return { soTep: taiLieu.length, loi };
+    },
+    [ghiNhatKy]
+  );
+
+  const goTaiLieu = useCallback(
+    (baiId: string, tepId: string) => {
+      const { vaiTro, bai } = stateRef.current;
+      const b = bai.find((x) => x.id === baiId);
+      const t = b?.taiLieu.find((x) => x.id === tepId);
+      if (!b || !t || !coTheGoTep(vaiTro, b.trangThai, t)) return;
+      void xoaTep(t.id);
+      setState((s) => ({
+        ...s,
+        bai: s.bai.map((x) => (x.id === baiId ? { ...x, taiLieu: x.taiLieu.filter((y) => y.id !== tepId) } : x)),
+        nhatKy: ghiNhatKy(s.nhatKy, vaiTro, "Gỡ tài liệu", baiId, "Gỡ tệp " + t.ten),
+      }));
     },
     [ghiNhatKy]
   );
 
   const khoiPhucMau = useCallback(() => {
+    void xoaHetTep();
     const m = moi();
     setState((s) => ({ ...m, vaiTro: s.vaiTro, cheDoGiaiThich: s.cheDoGiaiThich }));
   }, []);
@@ -282,10 +491,25 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       luuNoiDung,
       themBinhLuan,
       danhDauXuLy,
-      taiLenBanBong,
+      dangBai,
+      themTaiLieu,
+      goTaiLieu,
       khoiPhucMau,
     }),
-    [state, daTai, datVaiTro, batGiaiThich, chuyenTrangThai, luuNoiDung, themBinhLuan, danhDauXuLy, taiLenBanBong, khoiPhucMau]
+    [
+      state,
+      daTai,
+      datVaiTro,
+      batGiaiThich,
+      chuyenTrangThai,
+      luuNoiDung,
+      themBinhLuan,
+      danhDauXuLy,
+      dangBai,
+      themTaiLieu,
+      goTaiLieu,
+      khoiPhucMau,
+    ]
   );
 
   return <Store.Provider value={value}>{children}</Store.Provider>;

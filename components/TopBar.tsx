@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { getRole } from "@/lib/permissions";
+import { coTheDangBai, getRole } from "@/lib/permissions";
 import { useStore, vaiTroGiuBai } from "@/lib/store";
 import RoleSwitcher from "./RoleSwitcher";
 
@@ -16,6 +16,9 @@ export default function TopBar() {
   const pathname = usePathname();
   const { vaiTro, bai, daTai } = useStore();
   const role = getRole(vaiTro);
+  const menu = coTheDangBai(vaiTro)
+    ? [...MENU.slice(0, 2), { href: "/dang-bai", nhan: "Đăng bài" }, ...MENU.slice(2)]
+    : MENU;
 
   const soViecCho = daTai
     ? bai.filter((b) => vaiTroGiuBai(b.trangThai).includes(vaiTro)).length
@@ -29,7 +32,7 @@ export default function TopBar() {
             CMS Tòa soạn hội tụ
           </Link>
           <nav className="flex gap-1">
-            {MENU.map((m) => {
+            {menu.map((m) => {
               const hoatDong = m.href === "/" ? pathname === "/" : pathname.startsWith(m.href);
               return (
                 <Link
