@@ -165,6 +165,26 @@ chép lại câu trả lời ngày 24/10/2026.
 
 Còn mở: câu 6, 8, 9, 10, 11, 14, 20.
 
+### Chức năng đã chốt theo câu trả lời
+
+Cùng nội dung với cột "Chức năng của hệ thống (đã chốt)" ở tab "Câu hỏi còn mở" của Google Sheet.
+
+| Câu | Chức năng của hệ thống |
+|---|---|
+| 1 | Tài liệu vào hệ thống chỉ bằng cách tải tệp lên kèm thông tin (tên, số hiệu, danh mục, ban, mô tả). Sửa: tải tệp về, sửa ngoài hệ thống, tải bản mới lên; mỗi lần tải tạo một phiên bản có ghi chú. Không soạn thảo trực tuyến. Vẫn so sánh được nội dung chữ giữa hai phiên bản (L5, L8) |
+| 2 | Màn hình quản trị ban, chức vụ, người dùng và người duyệt của từng ban; quản trị tự nhập cơ cấu khi khách gửi sơ đồ tổ chức (L2) |
+| 3 | Một quy trình duyệt nhiều cấp dùng chung cho mọi tài liệu, không cấu hình quy trình riêng theo loại; số cấp theo cơ cấu ở câu 2 (L12) |
+| 4 | Quản trị đặt lại mật khẩu, hai bên tự liên hệ ngoài hệ thống; không tự lấy lại mật khẩu, không xác thực hai lớp (L1) |
+| 5 | Mỗi tài liệu thuộc đúng một ban, không có duyệt liên ban (L3) |
+| 7 | Bắt buộc duyệt được trên điện thoại, ngoài máy tính; chưa có ủy quyền khi người duyệt vắng mặt (L19) |
+| 12 | Người duyệt và người nhận đều tải tệp về và tải bản mới lên được; không có chế độ chỉ xem (L3, L8) |
+| 13 | Mỗi bước duyệt có hạn xử lý; nhắc bằng thông báo trong ứng dụng khi sắp và đã quá hạn (L14) |
+| 15 | Tìm theo tên tài liệu, lọc theo danh mục (kèm ban, trạng thái); không tìm trong nội dung tệp. Tài liệu đã lưu trữ hoặc bị loại tìm lại bằng chức năng này (L10) |
+| 16 | Không có chức năng xóa: không xóa tài liệu, không gỡ tệp đã tải lên, không khôi phục dữ liệu mẫu; mọi phiên bản và thao tác giữ để truy vết. Tài liệu xong quy trình (lưu trữ hoặc bị loại) ẩn khỏi trang làm việc của từng người, vẫn có trong kho và tìm lại qua tìm kiếm (L11) |
+| 17 | Xem trước PDF, Word, ảnh trên web và điện thoại; Word chuyển sang PDF trên máy chủ (L24) |
+| 18 | Chuyển sang bước tiếp theo thì chọn đích danh người duyệt; từ chối hoặc trả về bước trước thì không chọn, bắt buộc ghi lý do (L12) |
+| 19 | Tên sản phẩm: Tòa soạn hội tụ |
+
 ## 9. Danh sách chức năng và giá tham khảo
 
 Đơn vị: triệu đồng. Chưa gồm VAT và hạ tầng. Giá tính theo mức freelancer hoặc studio nhỏ, có dùng
