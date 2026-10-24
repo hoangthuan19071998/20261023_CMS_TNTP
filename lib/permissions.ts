@@ -147,14 +147,6 @@ export function coTheXemTaiLieu(vaiTro: RoleId, trangThai: StateId): boolean {
   return q.thayBai && !(q.caps.includes("D") && !q.caps.includes("R"));
 }
 
-/**
- * Gỡ tài liệu đính kèm: chỉ người đã tải lên, và chỉ khi bài còn ở vị trí họ tải được.
- * Tệp bản bông không gỡ được, vì đó là một phần hồ sơ trình bày của bài.
- */
-export function coTheGoTep(vaiTro: RoleId, trangThai: StateId, tep: { vaiTro: RoleId; banBong?: boolean }): boolean {
-  return !tep.banBong && tep.vaiTro === vaiTro && coTheTaiTepLen(vaiTro, trangThai);
-}
-
 export const CAP_LABEL: Record<Cap, string> = {
   R: "Xem bài",
   C: "Bình luận nội bộ",

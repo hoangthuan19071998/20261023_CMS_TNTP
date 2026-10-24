@@ -60,8 +60,6 @@ interface StoreValue {
   danhDauXuLy: (baiId: string, binhLuanId: string) => Promise<void>;
   dangBai: (nhap: NhapBai, tep: File[]) => Promise<KetQuaDangBai>;
   themTaiLieu: (baiId: string, tep: File[], banBong?: boolean) => Promise<KetQuaTaiLen>;
-  goTaiLieu: (baiId: string, tepId: string) => Promise<void>;
-  khoiPhucMau: () => Promise<void>;
 }
 
 const Store = createContext<StoreValue | null>(null);
@@ -220,13 +218,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     },
   });
 
-  const resetDemoMutation = useMutation({
-    mutationFn: () => articlesApi.resetDemo(),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
-    },
-  });
-
   // Action wrappers khớp giao diện cũ
   const chuyenTrangThai = useCallback(
     async (baiId: string, den: StateId, _nhan: string, lyDo: string | null, kySo: boolean) => {
@@ -319,22 +310,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     [lamMoiBai]
   );
 
-  const goTaiLieu = useCallback(
-    async (baiId: string, tepId: string) => {
-      try {
-        await taiLieuApi.go(tepId);
-      } catch (err) {
-        console.warn("Không gỡ được tài liệu:", thongBaoLoi(err));
-      }
-      lamMoiBai(baiId);
-    },
-    [lamMoiBai]
-  );
-
-  const khoiPhucMau = useCallback(async () => {
-    await resetDemoMutation.mutateAsync();
-  }, [resetDemoMutation]);
-
   const value = useMemo<StoreValue>(
     () => ({
       bai,
@@ -351,8 +326,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       danhDauXuLy,
       dangBai,
       themTaiLieu,
-      goTaiLieu,
-      khoiPhucMau,
     }),
     [
       bai,
@@ -370,8 +343,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       danhDauXuLy,
       dangBai,
       themTaiLieu,
-      goTaiLieu,
-      khoiPhucMau,
     ]
   );
 

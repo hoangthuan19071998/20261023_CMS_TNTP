@@ -7,7 +7,7 @@ import { getRole } from "@/lib/permissions";
 import { useStore } from "@/lib/store";
 
 export default function Page() {
-  const { vaiTro, cheDoGiaiThich, khoiPhucMau } = useStore();
+  const { vaiTro, cheDoGiaiThich } = useStore();
   const role = getRole(vaiTro);
 
   return (
@@ -16,12 +16,6 @@ export default function Page() {
         <h1 className="text-xl font-semibold">Kho bài</h1>
         <div className="ml-auto flex flex-wrap gap-2">
           <NutDangBai />
-          {/* Máy chủ chỉ cho Quản trị hệ thống nạp lại dữ liệu mẫu, vì việc này xóa dữ liệu của mọi người. */}
-          {vaiTro === "ADMIN" && (
-            <button onClick={khoiPhucMau} className="nut-phu">
-              Khôi phục dữ liệu mẫu
-            </button>
-          )}
         </div>
       </div>
 

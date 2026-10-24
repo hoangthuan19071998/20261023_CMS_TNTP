@@ -1,17 +1,18 @@
 # Bàn giao — CMS Tòa soạn hội tụ (bản demo phân quyền và luồng công việc)
 
 Tài liệu này để một phiên làm việc mới (người hoặc agent AI bất kỳ) nắm được dự án và làm tiếp
-mà không phải hỏi lại. Quy tắc ngắn cho agent nằm ở `AGENTS.md`. Cập nhật lần cuối ở commit `7c69514`, nhánh `demo/phan-quyen-workflow`.
+mà không phải hỏi lại. Quy tắc ngắn cho agent nằm ở `AGENTS.md`. Nhánh duy nhất là `main`; hai nhánh
+`demo/phan-quyen-workflow` và `feat/ket-noi-api` đã gộp vào đây.
 
 ## 1. Dự án là gì
 
 Bản mô phỏng chạy được để **tòa soạn bấm thử và xác nhận quy trình cùng phân quyền** trước khi
 thiết kế hệ thống thật. **Không phải sản phẩm**: không ký số thật, không dàn trang báo in thật,
-đăng nhập bằng tài khoản mẫu theo vai trò. Từ nhánh `feat/ket-noi-api`, dữ liệu và tệp đính kèm
-nằm ở backend `20261023_toasoanso_backend` (NestJS + Prisma + PostgreSQL, cổng 3001); tệp lưu
+đăng nhập bằng tài khoản mẫu theo vai trò (thanh đổi vai trò giữ lại để khách dùng thử). Dữ liệu và
+tệp đính kèm nằm ở backend `20261023_toasoanso_backend` (NestJS + Prisma + PostgreSQL, cổng 3001); tệp lưu
 trong thư mục `uploads/` của backend.
 
-- Repo: `hoangthuan19071998/20261023_CMS_TNTP`, nhánh làm việc `demo/phan-quyen-workflow`
+- Repo: `hoangthuan19071998/20261023_CMS_TNTP`, nhánh làm việc `main`
 - Chưa tạo pull request nào. Chỉ tạo khi chủ repo yêu cầu.
 - Có hai người cùng đẩy lên nhánh này: chủ repo (Hoàng Thuận) và các agent AI làm việc cùng. Xem mục 7.
 
@@ -57,11 +58,11 @@ vào đều là bước vai đó có quyền `E`.
 | Nhóm | Nội dung |
 |---|---|
 | Phân quyền | Thanh đổi 7 vai trò, chế độ "Giải thích phân quyền" (hiện cả nút mờ kèm lý do), mã quyền nguyên văn trên mỗi bài |
-| Bài viết | Kho bài có lọc, màn hình chi tiết, sửa nội dung có lưu phiên bản, xem diff giữa các phiên bản, bình luận nội bộ gắn đoạn và gắn thẻ vai trò |
+| Bài viết | Kho bài có lọc, màn hình chi tiết, sửa nội dung có lưu phiên bản, xem diff giữa các phiên bản; khối bình luận nội bộ đã bỏ khỏi màn hình bài |
 | Luồng duyệt | Chuyển trạng thái với lý do bắt buộc khi trả/loại, ký số mô phỏng, khóa văn bản S4–S5, "Yêu cầu sửa" khi đã khóa |
-| Trực quan | Cột "Thông tin duyệt" (dòng thời gian ai làm gì, ghi chú), dải chín bước ngang, sơ đồ toàn quy trình dạng cây (mở theo yêu cầu), bảng "Lịch sử bài viết" có lọc |
+| Trực quan | Cột "Thông tin duyệt" (dòng thời gian ai làm gì, ghi chú), dải chín bước ngang, bảng "Lịch sử bài viết" có lọc |
 | Đăng bài | Màn hình `/dang-bai`, mỗi vai đăng vào đúng bước của mình |
-| Tài liệu đính kèm | PDF, Word, ảnh, ZIP, tối đa 25 MB mỗi tệp; tệp lưu trên máy chủ, tải xuống đúng từng byte; gỡ tệp; thumbnail ảnh |
+| Tài liệu đính kèm | PDF, Word, ảnh, ZIP, tối đa 25 MB mỗi tệp; tệp lưu trên máy chủ, tải xuống đúng từng byte; không gỡ được tệp; thumbnail ảnh |
 | Bản bông | Họa sĩ tải tệp thật (quyền `L`), Nhà in tải đúng tệp đó ở S7 (quyền `D`) |
 | Nhật ký | Ghi mọi thao tác, chỉ ghi thêm, có cấu trúc (bước đi, bước đến, ghi chú, phiên bản) |
 
@@ -120,7 +121,7 @@ Trạng thái chín điểm cũ:
 
 1. **Chủ repo đẩy lên cùng nhánh khi agent đang làm.** Giữa phiên trước, `origin` đã đi trước 3
    commit chạm đúng các file đang sửa (gộp vai trò, viết lại seed). Luôn `git fetch origin
-   demo/phan-quyen-workflow` rồi so sánh trước khi sửa; nếu cây sạch thì `git merge --ff-only`.
+   main` rồi so sánh trước khi sửa; nếu cây sạch thì `git merge --ff-only`.
    Không rebase, không force-push.
 2. **Quyền xem được ngầm hiểu.** Ma trận không ghi `R` cho người giữ bài hay người có quyền khác
    (BTV ở S2 là `◆ E C A`). Đừng dò chữ `R` để biết ai thấy bài. Dùng `getPermission(...).thayBai`;
@@ -132,8 +133,8 @@ Trạng thái chín điểm cũ:
 4. **Thêm trường vào `Article`** thì sửa `prisma/schema.prisma` (kèm migration), `seed-data.ts`
    ở backend và `lib/types.ts` ở frontend.
 5. **Tệp đính kèm**: mô tả ở bảng `tai_lieu`, nội dung ở thư mục `uploads/` của backend (cột
-   `duongDan`, tên ngẫu nhiên). Frontend chỉ thấy `coNoiDung`. "Khôi phục dữ liệu mẫu" (chỉ ADMIN)
-   xóa cả hai. Tệp mẫu trong seed không có `duongDan` nên không tải được; giao diện báo rõ. Gửi
+   `duongDan`, tên ngẫu nhiên). Frontend chỉ thấy `coNoiDung`. Không có chức năng gỡ tệp hay khôi phục
+   dữ liệu mẫu: mọi thứ được giữ để truy vết. Tệp mẫu trong seed không có `duongDan` nên không tải được; giao diện báo rõ. Gửi
    FormData qua axios phải đặt `Content-Type: multipart/form-data`, nếu không axios đổi thành JSON.
 6. **Chạy server nền để thử**: đổi cổng mỗi lần build lại; cổng cũ còn tiến trình giữ bản build cũ
    sẽ trả trang cũ mà không báo lỗi. Ở môi trường đám mây của phiên trước, `pkill -f "next start"`
@@ -143,12 +144,13 @@ Trạng thái chín điểm cũ:
    `npm install --no-save playwright-core`; tệp script phải nằm ở thư mục gốc dự án mới import được,
    xong thì xóa. Sau khi bấm đổi vai trò, chờ khoảng 250 ms rồi mới `goto`, vì vai trò lưu bằng
    `useEffect`.
-8. **`.playwright-mcp/`** (ảnh chụp và tệp `.yml`) đang nằm trong repo từ commit của chủ repo. Nên
-   thêm vào `.gitignore` và gỡ khỏi git, nhưng đó là việc của chủ repo.
+8. **`.playwright-mcp/`** (ảnh chụp và tệp `.yml`) đã nằm trong `.gitignore`.
 9. **Công cụ GitHub tùy môi trường.** Phiên trước không có `gh`, thao tác GitHub đi qua công cụ
    MCP do môi trường cung cấp, phạm vi chỉ gồm repo này. Dùng công cụ nào có sẵn ở nơi bạn chạy.
 
 ## 8. Cách kiểm thử đã dùng (51 mục, đều đạt ở `7c69514`)
+
+Kịch bản này viết cho bản chạy trong trình duyệt; các bước gỡ tệp, bình luận và sơ đồ không còn áp dụng.
 
 Kịch bản chạy bằng Playwright, không commit vào repo. Dựng lại khi cần. Cần tạo tệp thử: một PDF,
 một DOCX, một PNG 1×1, một ZIP thật, cộng ba tệp phải bị từ chối (`.exe`, PDF rỗng, ZIP 26 MB).
@@ -174,12 +176,13 @@ một DOCX, một PNG 1×1, một ZIP thật, cộng ba tệp phải bị từ c
 - Đưa kịch bản kiểm thử trên thành tệp trong repo (`scripts/`) để chạy lại được.
 - Một kiểm tra bất biến rẻ tiền: mọi bước trong `DIEM_VAO` đều phải có quyền `E` trong `MA_TRAN`.
 - "Nhóm 2" theo README, chưa dựng: sa bàn báo in, kho dữ liệu số (DAM), lịch xuất bản, nhuận bút.
-- Bản xếp dọc gọn hơn cho sơ đồ toàn quy trình trên máy tính bảng (hiện cuộn ngang, rộng tối thiểu 700 px).
+- Chức năng tìm kiếm dữ liệu, để tìm lại bài đã lưu trữ và bài bị loại (đã ẩn khỏi Bảng điều khiển).
 - Đồng bộ lại Google Sheet ma trận phân quyền với `MA_TRAN`.
 
 ## 10. Quy ước làm việc
 
-- Phát triển và đẩy lên nhánh `demo/phan-quyen-workflow`. Không đẩy sang nhánh khác khi chưa được phép.
+- Phát triển và đẩy lên nhánh `main`. Không tạo nhánh khác khi chưa được phép.
+- Không thêm chức năng xóa dữ liệu (xóa bài, gỡ tệp, khôi phục dữ liệu mẫu): mọi thứ giữ để truy vết.
 - Commit viết tiếng Việt, tiền tố `feat:` / `fix:` / `chore:`, giải thích cái gì và vì sao.
 - Muốn đổi phân quyền thì sửa `lib/permissions.ts`, không sửa trong từng màn hình.
 - Trước khi đẩy: `npx tsc --noEmit`, `npm run lint`, `npm run build`, và chạy thử trên trình duyệt thật
@@ -189,6 +192,6 @@ một DOCX, một PNG 1×1, một ZIP thật, cộng ba tệp phải bị từ c
 
 Dán cho agent bất kỳ (Claude Code, Codex, Cursor, Copilot, Gemini CLI, Aider…):
 
-> Đọc `AGENTS.md`, `docs/BAN_GIAO.md` và `README.md`, rồi `git fetch` và so sánh với `origin/demo/phan-quyen-workflow`
+> Đọc `AGENTS.md`, `docs/BAN_GIAO.md` và `README.md`, rồi `git fetch` và so sánh với `origin/main`
 > trước khi sửa gì. Dự án là bản demo phân quyền và luồng công việc tòa soạn hội tụ (Next.js 15). Mình
 > muốn làm tiếp: <việc cần làm>. Các điểm ở mục 6 chưa được tòa soạn xác nhận, đừng coi là đã chốt.

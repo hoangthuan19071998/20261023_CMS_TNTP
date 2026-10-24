@@ -5,7 +5,7 @@
 // nằm riêng ở khối "File trình bày / bản bông", không lẫn vào đây.
 
 import { useEffect, useState } from "react";
-import { ROLES, coTheGoTep, coTheTaiTepLen, coTheXemTaiLieu, getRole, getState } from "@/lib/permissions";
+import { ROLES, coTheTaiTepLen, coTheXemTaiLieu, getRole, getState } from "@/lib/permissions";
 import { dinhDangThoiDiem, useStore } from "@/lib/store";
 import { dinhDangDungLuong } from "@/lib/tep";
 import { layTep, taiXuongTep } from "@/lib/tepStore";
@@ -38,7 +38,7 @@ function AnhThu({ tep }: { tep: TaiLieu }) {
 }
 
 export default function TaiLieuDinhKem({ bai }: { bai: Article }) {
-  const { vaiTro, cheDoGiaiThich, themTaiLieu, goTaiLieu } = useStore();
+  const { vaiTro, cheDoGiaiThich, themTaiLieu } = useStore();
   const [chon, setChon] = useState<File[]>([]);
   const [dangTai, setDangTai] = useState(false);
   const [loi, setLoi] = useState<string[]>([]);
@@ -119,16 +119,6 @@ export default function TaiLieuDinhKem({ bai }: { bai: Article }) {
                 <button type="button" onClick={() => tai(t)} className="nut-phu" aria-label={"Tải xuống " + t.ten}>
                   Tải xuống
                 </button>
-                {coTheGoTep(vaiTro, bai.trangThai, t) && (
-                  <button
-                    type="button"
-                    onClick={() => goTaiLieu(bai.id, t.id)}
-                    className="nut-phu text-rose-700"
-                    aria-label={"Gỡ " + t.ten}
-                  >
-                    Gỡ
-                  </button>
-                )}
               </div>
             </li>
           ))}

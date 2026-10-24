@@ -39,27 +39,28 @@ Mở http://localhost:3000. Backend ở địa chỉ khác thì đặt `NEXT_PUB
 4. Nút **"Đăng bài mới"** (menu và trang Kho bài) cho Phóng viên, Biên tập viên / Trưởng ban,
    Thư ký tòa soạn và Phó TBT / TBT. Mỗi vai trò đăng vào đúng bước của mình; có thể kèm tệp
    PDF, Word, ảnh, ZIP. Tệp lưu trên máy chủ nên vai trò nào có quyền cũng tải xuống được.
-5. Nút **"Khôi phục dữ liệu mẫu"** ở trang Kho bài (chỉ hiện với Quản trị hệ thống) nạp lại dữ
-   liệu mẫu trên máy chủ, kể cả xóa các tệp đã tải lên.
+5. **Không xóa gì cả.** Mọi phiên bản, tệp và thao tác đều được giữ để truy vết: không có nút khôi
+   phục dữ liệu mẫu, không gỡ được tài liệu đã tải lên. Bài đã lưu trữ (S8) và bài bị loại ẩn khỏi
+   Bảng điều khiển nhưng vẫn xem được ở Kho bài.
 
 ## Chức năng đã dựng (Nhóm 1)
 
 | # | Chức năng | Ghi chú |
 |---|---|---|
 | 1 | Thanh chuyển vai trò + chế độ giải thích phân quyền | 7 vai trò, đổi tức thì |
-| 2 | Bảng điều khiển riêng cho từng vai trò | Bám theo cột "Giao diện hiển thị chính" trong tài liệu tòa soạn |
+| 2 | Bảng điều khiển riêng cho từng vai trò | Bám theo cột "Giao diện hiển thị chính" trong tài liệu tòa soạn; không hiện bài đã lưu trữ và bài bị loại |
 | 3 | Kho bài, lọc theo trạng thái và chuyên mục | Hiện ai đang giữ bài, cảnh báo quá hạn |
 | 4 | Cột "Thông tin duyệt" trong màn hình bài | Dòng thời gian bài đã qua tay ai: hành động, người, thời điểm, ghi chú họ để lại; mốc cuối là người đang giữ bài |
-| 4b | Dải chín bước ngang + sơ đồ toàn quy trình (mở theo yêu cầu) | Dải bước cho biết đang ở đâu; sơ đồ cây vẽ cả nhánh trả lại, loại bài, đính chính |
+| 4b | Dải chín bước ngang | Cho biết bài đang ở bước nào (sơ đồ toàn quy trình đã bỏ khỏi màn hình bài) |
 | 5 | Màn hình chi tiết bài | Nội dung, siêu dữ liệu, ghi chú khi chuyển bài |
 | 6 | Chuyển trạng thái | Duyệt / Trả lại (chọn đích) / Loại bài / Ký số, bắt buộc ghi lý do |
-| 7 | Bình luận nội bộ | Gắn theo đoạn, gắn thẻ vai trò, đánh dấu đã xử lý |
+| 7 | Yêu cầu sửa | Gửi Họa sĩ khi văn bản đã khóa (khối bình luận nội bộ đã bỏ khỏi màn hình bài) |
 | 8 | Lịch sử phiên bản | Ai sửa, lúc nào, so sánh hai bản gần nhất |
 | 9 | Khóa văn bản sau khi chốt nội dung | Kèm luồng "Tạo yêu cầu sửa" |
 | 10 | Nhật ký lưu vết | Ghi mọi thao tác, chỉ ghi thêm, phân quyền xem |
 | 11 | Bảng "Lịch sử bài viết" | Người dùng, thời gian, hành động, mô tả, phiên bản; lọc theo hành động |
 | 12 | Đăng bài | PV, BTV/TB, TKTS, TBT đăng vào đúng bước của mình (`DIEM_VAO` trong `lib/permissions.ts`); PV chọn bắt đầu từ Đề tài hoặc Bản thảo |
-| 13 | Tài liệu đính kèm | PDF, Word, ảnh, ZIP, tối đa 25 MB mỗi tệp; ai sửa được ở bước hiện tại (quyền E/L) thì tải lên, ai đọc được bài thì tải xuống; người tải lên gỡ được khi bài còn ở vị trí của họ |
+| 13 | Tài liệu đính kèm | PDF, Word, ảnh, ZIP, tối đa 25 MB mỗi tệp; ai sửa được ở bước hiện tại (quyền E/L) thì tải lên, ai đọc được bài thì tải xuống; không gỡ được tệp đã tải lên |
 | 14 | Bản bông thật | Họa sĩ tải tệp bản bông (quyền L), Nhà in tải đúng tệp đó ở bước đã xuất bản (quyền D) |
 
 ## Cấu trúc mã nguồn

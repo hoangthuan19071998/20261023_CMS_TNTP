@@ -8,7 +8,7 @@ import DemoBanner from "@/components/DemoBanner";
 export const metadata: Metadata = {
   title: "CMS Tòa soạn hội tụ — Bản demo phân quyền",
   description:
-    "Hệ thống quy trình và phân quyền cho tòa soạn hội tụ.",
+    "Bản thử nghiệm quy trình và phân quyền cho tòa soạn hội tụ. Dữ liệu lưu trên máy chủ, giữ lại toàn bộ để truy vết.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <TopBar />
             <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
             <footer className="mx-auto max-w-7xl px-4 pb-10 pt-4 text-xs text-ink-soft">
-              Hệ thống kết nối Backend NestJS & PostgreSQL — Tòa soạn hội tụ.
+              Bản thử nghiệm — Tòa soạn hội tụ.
             </footer>
           </StoreProvider>
         </QueryProvider>

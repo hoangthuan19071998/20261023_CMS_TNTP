@@ -3,8 +3,8 @@
 Hướng dẫn cho mọi agent lập trình (và người) làm việc trong repo này. Không phụ thuộc công cụ nào.
 
 Bản mô phỏng quy trình và phân quyền tòa soạn, **không phải sản phẩm** (không ký số thật, không dàn
-trang thật). Trên nhánh `feat/ket-noi-api`, dữ liệu và tệp đính kèm nằm ở backend NestJS +
-PostgreSQL; nhánh `demo/phan-quyen-workflow` vẫn là bản chạy hoàn toàn trong trình duyệt.
+trang thật). Dữ liệu và tệp đính kèm nằm ở backend NestJS + PostgreSQL. Thanh đổi vai trò ở đầu
+trang giữ lại để khách dùng thử: đổi vai là tự đăng nhập tài khoản mẫu của vai đó.
 Next.js 15, React 19, TypeScript, Tailwind 3. Đọc `docs/BAN_GIAO.md` trước khi làm; nó có bối cảnh,
 bẫy đã gặp và các câu hỏi còn treo.
 
@@ -29,9 +29,12 @@ Cần Node 22. Cần backend `20261023_toasoanso_backend` (NestJS + PostgreSQL) 
   logic quyền trong từng màn hình.
 - **Quyền xem được ngầm hiểu**: ma trận không ghi `R` cho người giữ bài hay người có quyền khác. Đừng
   dò chữ `R`; dùng `getPermission(...).thayBai` (xem `coTheXemTaiLieu`).
-- **Trước khi sửa, `git fetch origin demo/phan-quyen-workflow` và so sánh.** Chủ repo và các agent
-  khác cũng đẩy lên nhánh này. Cây sạch thì `git merge --ff-only`. Không rebase, không force-push.
-- Làm trên nhánh `demo/phan-quyen-workflow`. Không tạo pull request nếu chủ repo không yêu cầu.
+- **Chỉ có một nhánh: `main`.** Trước khi sửa, `git fetch origin main` và so sánh. Chủ repo và các
+  agent khác cũng đẩy lên nhánh này. Cây sạch thì `git merge --ff-only`. Không rebase, không
+  force-push. Không tạo pull request nếu chủ repo không yêu cầu.
+- **Không xóa dữ liệu, giữ toàn bộ để truy vết.** Không có chức năng khôi phục dữ liệu mẫu, xóa bài
+  hay gỡ tài liệu đính kèm. Bài đã lưu trữ (S8) và bài bị loại chỉ ẩn khỏi Bảng điều khiển, vẫn xem
+  được ở Kho bài và nhật ký; sẽ tìm lại qua chức năng tìm kiếm (chưa làm).
 - Thêm trường vào `Article` thì sửa cả `prisma/schema.prisma` (kèm migration), `src/prisma/seed-data.ts`
   ở backend và `lib/types.ts` ở frontend.
 - **Ma trận quyền có hai bản**: `lib/permissions.ts` ở frontend (giao diện) và

@@ -89,10 +89,6 @@ export const articlesApi = {
     return res.data;
   },
 
-  async resetDemo(): Promise<{ message: string }> {
-    const res = await apiClient.post<{ message: string }>("/articles/reset-demo");
-    return res.data;
-  },
 };
 
 export const taiLieuApi = {
@@ -110,10 +106,6 @@ export const taiLieuApi = {
   async layNoiDung(id: string): Promise<Blob> {
     const res = await apiClient.get<Blob>(`/tai-lieu/${id}/noi-dung`, { responseType: "blob" });
     return res.data;
-  },
-
-  async go(id: string): Promise<void> {
-    await apiClient.delete(`/tai-lieu/${id}`);
   },
 };
 

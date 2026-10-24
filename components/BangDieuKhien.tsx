@@ -2,7 +2,7 @@
 
 import { getPermission, getRole } from "@/lib/permissions";
 import { useStore, vaiTroGiuBai } from "@/lib/store";
-import type { Article, RoleId } from "@/lib/types";
+import type { Article, RoleId, StateId } from "@/lib/types";
 import DanhSachBai from "./DanhSachBai";
 import { HopGiaiThich } from "./Bieutuong";
 import NutDangBai from "./NutDangBai";
@@ -13,6 +13,16 @@ interface Khoi {
   moTaTrong?: string;
 }
 
+/**
+ * Bài đã xong quy trình (đã lưu trữ hoặc bị loại) không hiện trên bảng điều khiển để màn hình
+ * làm việc gọn lại. Bài không bị xóa: vẫn xem được ở Kho bài và trong nhật ký.
+ */
+const DA_XONG: StateId[] = ["S8", "LOAI_BO"];
+
+function daXong(b: Article): boolean {
+  return DA_XONG.includes(b.trangThai);
+}
+
 /** Các khối trên bảng điều khiển, bám theo cột "Giao diện hiển thị chính" trong tài liệu khách. */
 const KHOI_THEO_VAI_TRO: Record<RoleId, Khoi[]> = {
   PV: [
@@ -20,7 +30,7 @@ const KHOI_THEO_VAI_TRO: Record<RoleId, Khoi[]> = {
     { tieuDe: "Bài đang viết", loc: (b) => b.trangThai === "S1" && !b.lyDoGanNhat },
     { tieuDe: "Bài bị trả lại", loc: (b) => b.trangThai === "S1" && !!b.lyDoGanNhat, moTaTrong: "Không có bài nào bị trả lại." },
     { tieuDe: "Bài đang đi trong quy trình", loc: (b) => ["S2", "S3", "S4", "S5", "S6"].includes(b.trangThai) },
-    { tieuDe: "Bài đã xuất bản", loc: (b) => ["S7", "S8"].includes(b.trangThai) },
+    { tieuDe: "Bài đã xuất bản", loc: (b) => b.trangThai === "S7" },
   ],
   BTV: [
     { tieuDe: "Đề tài chờ duyệt", loc: (b) => b.trangThai === "S0" },
@@ -49,7 +59,7 @@ const KHOI_THEO_VAI_TRO: Record<RoleId, Khoi[]> = {
     { tieuDe: "Thư mục chờ in ấn", loc: (b) => b.trangThai === "S7" && b.anPham !== "bao_dien_tu", moTaTrong: "Chưa có file nào được duyệt cuối." },
   ],
   ADMIN: [
-    { tieuDe: "Toàn bộ bài trong hệ thống", loc: () => true },
+    { tieuDe: "Toàn bộ bài đang xử lý", loc: () => true },
   ],
 };
 
@@ -66,8 +76,9 @@ export default function BangDieuKhien() {
   const khoi = KHOI_THEO_VAI_TRO[vaiTro];
   const ghiChu = GHI_CHU_VAI_TRO[vaiTro];
 
-  const soViecCho = bai.filter((b) => vaiTroGiuBai(b.trangThai).includes(vaiTro)).length;
-  const soThayDuoc = bai.filter((b) => getPermission(vaiTro, b.trangThai).thayBai).length;
+  const dangLam = bai.filter((b) => !daXong(b));
+  const soViecCho = dangLam.filter((b) => vaiTroGiuBai(b.trangThai).includes(vaiTro)).length;
+  const soThayDuoc = dangLam.filter((b) => getPermission(vaiTro, b.trangThai).thayBai).length;
 
   return (
     <div className="space-y-5">
@@ -86,15 +97,21 @@ export default function BangDieuKhien() {
           </div>
           <div>
             <div className="text-2xl font-semibold">{soThayDuoc}</div>
-            <div className="text-xs text-ink-soft">trên tổng {bai.length} bài mà vai trò này nhìn thấy</div>
+            <div className="text-xs text-ink-soft">trên tổng {dangLam.length} bài đang xử lý mà vai trò này nhìn thấy</div>
           </div>
         </div>
       </div>
 
       {cheDoGiaiThich && ghiChu && <HopGiaiThich>{ghiChu}</HopGiaiThich>}
+      {cheDoGiaiThich && (
+        <HopGiaiThich>
+          Bài đã lưu trữ (S8) và bài bị loại không hiện trên bảng điều khiển. Bài không bị xóa: vẫn xem
+          được ở Kho bài (lọc theo trạng thái) và trong nhật ký.
+        </HopGiaiThich>
+      )}
 
       {khoi.map((k) => (
-        <DanhSachBai key={k.tieuDe} tieuDe={k.tieuDe} loc={(b) => k.loc(b, vaiTro)} moTaTrong={k.moTaTrong} />
+        <DanhSachBai key={k.tieuDe} tieuDe={k.tieuDe} loc={(b) => !daXong(b) && k.loc(b, vaiTro)} moTaTrong={k.moTaTrong} />
       ))}
     </div>
   );
