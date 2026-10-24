@@ -47,6 +47,9 @@ Cần Node 22. Cần backend `20261023_toasoanso_backend` (NestJS + PostgreSQL) 
 
 ## Lưu ý về môi trường
 
+- **Vercel đang tắt tự deploy** (`git.deploymentEnabled: false` trong `vercel.json`) vì frontend cần
+  backend mà chưa có máy chủ. Có VPS chạy backend và đặt `NEXT_PUBLIC_API_URL` thì xóa dòng đó để bật lại.
+
 Các điểm sau đã gặp ở môi trường đám mây của phiên trước; môi trường của bạn có thể khác.
 
 - Tránh `pkill -f` với chuỗi trùng chính dòng lệnh của shell đang chạy (từng làm chết shell). Khi chạy
