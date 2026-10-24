@@ -1,5 +1,5 @@
 import { PIPELINE, TRANSITIONS } from "./permissions";
-import type { Article, Comment, LogEntry, StateId, Version } from "./types";
+import type { Article, Comment, LogEntry, StateId, TaiLieu, Version } from "./types";
 
 // Dữ liệu mẫu: 14 bài rải đều trên các trạng thái với nội dung chuẩn hóa,
 // đảm bảo tính đồng nhất tuyệt đối giữa Nội dung, Trạng thái, Thông tin duyệt,
@@ -200,8 +200,61 @@ function nhanChuyen(tu: StateId, den: StateId): string {
 }
 
 interface ArticlePackage {
-  article: Article;
+  article: Omit<Article, "taiLieu">;
   logs: LogEntry[];
+}
+
+// --- Tài liệu đính kèm mẫu -------------------------------------------------
+//
+// Chỉ có tên và dung lượng để minh họa danh sách, đủ bốn loại PDF, Word, ảnh, ZIP.
+// Không có nội dung thật nên không tải xuống được; tải một tệp thật lên để thử.
+
+const MIME = {
+  docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  pdf: "application/pdf",
+  jpg: "image/jpeg",
+  zip: "application/zip",
+};
+
+function taiLieuMau(a: Omit<Article, "taiLieu">): TaiLieu[] {
+  if (a.trangThai === "S0") return [];
+  const batDau = new Date(a.taoLuc).getTime() + 15 * 60 * 1000;
+  const cua = (k: number, ten: string, loai: TaiLieu["loai"], dungLuong: number, mime: string): TaiLieu => ({
+    id: a.id + "-tep-" + (k + 1),
+    ten,
+    loai,
+    dungLuong,
+    mime,
+    vaiTro: "PV",
+    tenNguoi: a.tacGia,
+    taiLuc: new Date(batDau + k * 4 * 60 * 1000).toISOString(),
+    buoc: "S1",
+    coNoiDung: false,
+  });
+
+  switch (a.loai) {
+    case "longform":
+      return [
+        cua(0, "Tu-lieu-phong-van.docx", "word", 58_000, MIME.docx),
+        cua(1, "Bo-anh-goc-hien-truong.zip", "zip", 18_400_000, MIME.zip),
+      ];
+    case "infographic":
+      return [
+        cua(0, "Du-lieu-ban-do-ngap-ung.pdf", "pdf", 1_240_000, MIME.pdf),
+        cua(1, "Ghi-chu-thiet-ke.docx", "word", 31_000, MIME.docx),
+      ];
+    case "tin":
+      return [
+        cua(0, "Noi-dung-tin-goc.docx", "word", 24_000, MIME.docx),
+        cua(1, "Anh-hien-truong-01.jpg", "anh", 2_150_000, MIME.jpg),
+      ];
+    default:
+      return [
+        cua(0, "Tu-lieu-phong-van.docx", "word", 48_000, MIME.docx),
+        cua(1, "Bao-cao-so-lieu.pdf", "pdf", 860_000, MIME.pdf),
+        cua(2, "Anh-hien-truong-01.jpg", "anh", 2_150_000, MIME.jpg),
+      ];
+  }
 }
 
 /**
@@ -824,11 +877,26 @@ function layTatCaGoiBai(): ArticlePackage[] {
 export function taoDuLieuMau(): Article[] {
   // Luôn tạo mới khi được gọi để không bị đột biến dữ liệu
   CACHED_PACKAGES = SPECS.map((s, idx) => taoBaiMau(s, idx));
-  return CACHED_PACKAGES.map((p) => p.article);
+  return CACHED_PACKAGES.map((p) => ({ ...p.article, taiLieu: taiLieuMau(p.article) }));
 }
 
 export function taoNhatKyMau(): LogEntry[] {
   const packages = layTatCaGoiBai();
-  const allLogs = packages.flatMap((p) => p.logs);
+  const logTaiLieu: LogEntry[] = packages.flatMap((p) => {
+    const ds = taiLieuMau(p.article);
+    if (ds.length === 0) return [];
+    return [
+      {
+        id: p.article.id + "-log-tep",
+        thoiDiem: ds[ds.length - 1].taiLuc,
+        vaiTro: "PV" as const,
+        tenNguoi: p.article.tacGia,
+        hanhDong: "Tải lên tài liệu",
+        baiId: p.article.id,
+        chiTiet: "Thêm " + ds.length + " tệp: " + ds.map((t) => t.ten).join(", "),
+      },
+    ];
+  });
+  const allLogs = [...packages.flatMap((p) => p.logs), ...logTaiLieu];
   return allLogs.sort((a, b) => b.thoiDiem.localeCompare(a.thoiDiem));
 }

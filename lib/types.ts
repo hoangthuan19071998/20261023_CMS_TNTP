@@ -96,6 +96,30 @@ export interface LogEntry {
   phienBan?: string;
 }
 
+/** Nhóm định dạng tệp được phép tải lên: PDF, Word, ảnh, ZIP. */
+export type LoaiTep = "pdf" | "word" | "anh" | "zip";
+
+export interface TaiLieu {
+  id: string;
+  ten: string;
+  loai: LoaiTep;
+  /** Dung lượng tính bằng byte. */
+  dungLuong: number;
+  mime: string;
+  vaiTro: RoleId;
+  tenNguoi: string;
+  taiLuc: string;
+  /** Bước bài đang đứng khi tệp được tải lên. */
+  buoc: StateId;
+  /** Tệp bản bông do Họa sĩ tải lên (quyền L), tách khỏi tài liệu đính kèm thường. */
+  banBong?: boolean;
+  /**
+   * Máy chủ có nội dung tệp nên tải xuống được.
+   * Tệp mẫu trong dữ liệu khởi tạo chỉ có tên, không có nội dung.
+   */
+  coNoiDung: boolean;
+}
+
 export interface Article {
   id: string;
   maBai: string;
@@ -112,10 +136,13 @@ export interface Article {
   taoLuc: string;
   phienBan: Version[];
   binhLuan: Comment[];
+  nhatKy?: LogEntry[];
   /** File bản bông do họa sĩ tải lên (mô phỏng). */
   fileBanBong: string | null;
   /** Đã ký số ở bước duyệt cuối hay chưa. */
   daKySo: boolean;
   /** Lý do khi bài bị trả lại hoặc bị loại. */
   lyDoGanNhat: string | null;
+  /** Tài liệu đính kèm do người có quyền sửa tải lên (PDF, Word, ảnh, ZIP). */
+  taiLieu: TaiLieu[];
 }
