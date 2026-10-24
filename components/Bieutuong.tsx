@@ -1,7 +1,8 @@
 "use client";
 
 import { CAP_LABEL, getPermission, getState } from "@/lib/permissions";
-import type { RoleId, StateId } from "@/lib/types";
+import { NHAN_LOAI_TEP } from "@/lib/tep";
+import type { LoaiTep, RoleId, StateId } from "@/lib/types";
 
 const MAU_TRANG_THAI: Record<string, string> = {
   S0: "bg-slate-100 text-slate-700",
@@ -85,6 +86,22 @@ export function AnhDaiDien({ ten, co = 24 }: { ten: string; co?: number }) {
       className={"inline-flex shrink-0 items-center justify-center rounded-full font-semibold " + mau}
     >
       {chu}
+    </span>
+  );
+}
+
+const MAU_LOAI_TEP: Record<LoaiTep, string> = {
+  pdf: "bg-rose-100 text-rose-800",
+  word: "bg-blue-100 text-blue-800",
+  anh: "bg-emerald-100 text-emerald-800",
+  zip: "bg-amber-100 text-amber-900",
+};
+
+/** Nhãn loại tệp: PDF, Word, Ảnh, ZIP. */
+export function ChipLoaiTep({ loai }: { loai: LoaiTep }) {
+  return (
+    <span className={"inline-flex w-12 shrink-0 justify-center rounded px-1 py-0.5 text-[11px] font-semibold " + MAU_LOAI_TEP[loai]}>
+      {NHAN_LOAI_TEP[loai]}
     </span>
   );
 }

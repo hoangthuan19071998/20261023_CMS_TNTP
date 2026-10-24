@@ -12,6 +12,8 @@ import SoDoQuyTrinh from "./SoDoQuyTrinh";
 import ThanhHanhDong from "./ThanhHanhDong";
 import BinhLuanNoiBo from "./BinhLuanNoiBo";
 import LichSuPhienBan from "./LichSuPhienBan";
+import KhoiBanBong, { taiBanBong } from "./KhoiBanBong";
+import TaiLieuDinhKem from "./TaiLieuDinhKem";
 
 /** Một ô trong dải thông tin ngang phía trên nội dung bài. */
 function O({ nhan, children }: { nhan: string; children: React.ReactNode }) {
@@ -24,7 +26,7 @@ function O({ nhan, children }: { nhan: string; children: React.ReactNode }) {
 }
 
 export default function ChiTietBai({ baiId }: { baiId: string }) {
-  const { bai: tatCa, nhatKy: nhatKyToanCuc, vaiTro, cheDoGiaiThich, luuNoiDung, themBinhLuan, taiLenBanBong } = useStore();
+  const { bai: tatCa, nhatKy: nhatKyToanCuc, vaiTro, cheDoGiaiThich, luuNoiDung, themBinhLuan } = useStore();
   const { data: baiChiTiet, isLoading: dangTaiChiTiet } = useArticleQuery(baiId);
   const bai = baiChiTiet || tatCa.find((b) => b.id === baiId);
   const nhatKy = baiChiTiet?.nhatKy && baiChiTiet.nhatKy.length > 0 ? baiChiTiet.nhatKy : nhatKyToanCuc;
@@ -35,6 +37,7 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
   const [bayGio, setBayGio] = useState<number | null>(null);
   const [moLichSu, setMoLichSu] = useState(false);
   const [moSoDo, setMoSoDo] = useState(false);
+  const [thongBaoNhaIn, setThongBaoNhaIn] = useState<string | null>(null);
 
   useEffect(() => setBayGio(Date.now()), []);
 
@@ -104,13 +107,18 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
                 <span className="font-mono text-sm">{bai.fileBanBong}</span>
                 <button
                   className="nut-chinh ml-auto"
-                  onClick={() => alert("Bản demo không có file thật để tải.")}
+                  onClick={async () => setThongBaoNhaIn(await taiBanBong(bai))}
                 >
                   Tải file thành phẩm
                 </button>
               </div>
             ) : (
               <p className="text-sm text-ink-soft">Chưa có file thành phẩm để tải.</p>
+            )}
+            {thongBaoNhaIn && (
+              <p role="status" className="mt-3 rounded bg-white px-3 py-2 text-xs text-ink-soft">
+                {thongBaoNhaIn}
+              </p>
             )}
           </div>
           <p className="mt-3 text-xs text-ink-soft">
@@ -245,6 +253,13 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
               )}
             </div>
 
+            {st.id === "S6" && coQuyenSua && (
+              <p className="mb-3 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+                <strong>Bài đã dàn trang xong.</strong> Bạn sửa trực tiếp được ở bước này, nhưng sửa chữ có thể làm vỡ
+                ma-két. Mỗi lần lưu tạo một phiên bản mới; nên nhờ Họa sĩ kiểm tra lại bản bông.
+              </p>
+            )}
+
             {dangSua ? (
               <div className="space-y-3">
                 <input
@@ -319,44 +334,9 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
             )}
           </section>
 
-          {(quyen.caps.includes("L") || quyen.caps.includes("D") || bai.fileBanBong) && (
-            <section className="the p-5">
-              <h2 className="mb-3 text-sm font-semibold">File trình bày / bản bông</h2>
-              {bai.fileBanBong ? (
-                <div className="flex flex-wrap items-center gap-3 rounded border border-ink-line bg-ink-bg/50 px-3 py-2 text-sm">
-                  <span aria-hidden>📄</span>
-                  <span className="font-mono text-xs">{bai.fileBanBong}</span>
-                  {quyen.caps.includes("D") ? (
-                    <button className="nut-phu ml-auto" onClick={() => alert("Bản demo không có file thật để tải.")}>
-                      Tải xuống
-                    </button>
-                  ) : (
-                    <span className="ml-auto text-xs text-ink-soft">Vai trò này không có quyền tải file</span>
-                  )}
-                </div>
-              ) : (
-                <p className="text-sm text-ink-soft">Chưa có file bản bông nào được tải lên.</p>
-              )}
+          <TaiLieuDinhKem bai={bai} />
 
-              {quyen.caps.includes("L") && (
-                <button
-                  onClick={() => taiLenBanBong(bai.id, bai.maBai + "_banbong_v" + (bai.phienBan.length + 1) + ".pdf")}
-                  className="nut-chinh mt-3"
-                >
-                  Tải lên file đã dàn trang (mô phỏng)
-                </button>
-              )}
-
-              {cheDoGiaiThich && (
-                <div className="mt-3">
-                  <HopGiaiThich>
-                    Hệ thống chỉ tiếp nhận file PDF do họa sĩ dàn trang bằng phần mềm chuyên dụng rồi tải
-                    lên — không dàn trang trên web (câu hỏi số 28, cần tòa soạn xác nhận bằng văn bản).
-                  </HopGiaiThich>
-                </div>
-              )}
-            </section>
-          )}
+          <KhoiBanBong bai={bai} />
 
           <div className="grid gap-4 xl:grid-cols-2">
             <BinhLuanNoiBo bai={bai} />

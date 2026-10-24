@@ -2,12 +2,48 @@
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Article, LogEntry, RoleId, StateId } from "./types";
-import { getState, TRANSITIONS } from "./permissions";
-import { articlesApi, authApi, commentsApi, logsApi, ROLE_USERNAMES } from "./api/services";
+import type { AnPham, Article, LoaiNoiDung, LogEntry, RoleId, StateId } from "./types";
+import { coTheDangBai, getRole, getState, TRANSITIONS } from "./permissions";
+import { kiemTraTep } from "./tep";
+import { articlesApi, authApi, commentsApi, logsApi, ROLE_USERNAMES, taiLieuApi, thongBaoLoi } from "./api/services";
 
 const KHOA_VAI_TRO = "cms-tntp-vaitro";
 const KHOA_GIAI_THICH = "cms-tntp-giaithich";
+
+/** Nội dung một bài mới do người dùng nhập ở màn hình đăng bài. */
+export interface NhapBai {
+  tieuDe: string;
+  sapo: string;
+  doan: string[];
+  chuyenMuc: string;
+  anPham: AnPham;
+  loai: LoaiNoiDung;
+  /** Bước bài bắt đầu, phải nằm trong DIEM_VAO của vai trò đang đăng. */
+  buoc: StateId;
+}
+
+/** `id` là null khi không đăng được. `loi` gồm cả tệp bị từ chối lẫn lỗi tải tệp lên. */
+export interface KetQuaDangBai {
+  id: string | null;
+  loi: string[];
+}
+
+export interface KetQuaTaiLen {
+  soTep: number;
+  loi: string[];
+}
+
+/** Tách tệp hợp lệ khỏi tệp bị từ chối trước khi gửi lên máy chủ. */
+function locTep(tep: File[]): { hopLe: File[]; loi: string[] } {
+  const hopLe: File[] = [];
+  const loi: string[] = [];
+  for (const f of tep) {
+    const kt = kiemTraTep(f);
+    if (kt.ok) hopLe.push(f);
+    else loi.push(kt.lyDo);
+  }
+  return { hopLe, loi };
+}
 
 interface StoreValue {
   bai: Article[];
@@ -22,7 +58,9 @@ interface StoreValue {
   luuNoiDung: (baiId: string, doan: string[], tieuDe: string, sapo: string) => Promise<void>;
   themBinhLuan: (baiId: string, noiDung: string, ganThe: RoleId | null, doanSo: number | null, laYeuCauSua?: boolean) => Promise<void>;
   danhDauXuLy: (baiId: string, binhLuanId: string) => Promise<void>;
-  taiLenBanBong: (baiId: string, tenFile: string) => Promise<void>;
+  dangBai: (nhap: NhapBai, tep: File[]) => Promise<KetQuaDangBai>;
+  themTaiLieu: (baiId: string, tep: File[], banBong?: boolean) => Promise<KetQuaTaiLen>;
+  goTaiLieu: (baiId: string, tepId: string) => Promise<void>;
   khoiPhucMau: () => Promise<void>;
 }
 
@@ -182,16 +220,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     },
   });
 
-  const uploadBanBongMutation = useMutation({
-    mutationFn: ({ baiId, tenFile }: { baiId: string; tenFile: string }) =>
-      articlesApi.uploadBanBong(baiId, tenFile),
-    onSuccess: (_, vars) => {
-      queryClient.invalidateQueries({ queryKey: ["articles"] });
-      queryClient.invalidateQueries({ queryKey: ["article", vars.baiId] });
-      queryClient.invalidateQueries({ queryKey: ["logs"] });
-    },
-  });
-
   const resetDemoMutation = useMutation({
     mutationFn: () => articlesApi.resetDemo(),
     onSuccess: () => {
@@ -234,11 +262,73 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     [resolveCommentMutation]
   );
 
-  const taiLenBanBong = useCallback(
-    async (baiId: string, tenFile: string) => {
-      await uploadBanBongMutation.mutateAsync({ baiId, tenFile });
+  const lamMoiBai = useCallback(
+    (baiId: string) => {
+      queryClient.invalidateQueries({ queryKey: ["articles"] });
+      queryClient.invalidateQueries({ queryKey: ["article", baiId] });
+      queryClient.invalidateQueries({ queryKey: ["logs"] });
     },
-    [uploadBanBongMutation]
+    [queryClient]
+  );
+
+  const dangBai = useCallback(
+    async (nhap: NhapBai, tep: File[]): Promise<KetQuaDangBai> => {
+      if (!coTheDangBai(vaiTro, nhap.buoc)) {
+        return {
+          id: null,
+          loi: ["Vai trò " + getRole(vaiTro).ten + " không đăng được bài vào " + getState(nhap.buoc).ten + "."],
+        };
+      }
+      if (!nhap.tieuDe.trim()) return { id: null, loi: ["Bài chưa có tiêu đề."] };
+
+      let baiMoi: Article;
+      try {
+        baiMoi = await articlesApi.create(nhap);
+      } catch (err) {
+        return { id: null, loi: [thongBaoLoi(err, "Không đăng được bài.")] };
+      }
+
+      // Bài đã lưu thì vẫn mở bài, kể cả khi tệp đính kèm lỗi: người dùng tải lại tệp trong bài.
+      const { hopLe, loi } = locTep(tep);
+      if (hopLe.length > 0) {
+        try {
+          const kq = await taiLieuApi.taiLen(baiMoi.id, hopLe);
+          loi.push(...kq.loi);
+        } catch (err) {
+          loi.push("Bài đã đăng nhưng chưa tải được tệp đính kèm: " + thongBaoLoi(err));
+        }
+      }
+      lamMoiBai(baiMoi.id);
+      return { id: baiMoi.id, loi };
+    },
+    [vaiTro, lamMoiBai]
+  );
+
+  const themTaiLieu = useCallback(
+    async (baiId: string, tep: File[], banBong = false): Promise<KetQuaTaiLen> => {
+      const { hopLe, loi } = locTep(banBong ? tep.slice(0, 1) : tep);
+      if (hopLe.length === 0) return { soTep: 0, loi };
+      try {
+        const kq = await taiLieuApi.taiLen(baiId, hopLe, banBong);
+        lamMoiBai(baiId);
+        return { soTep: kq.taiLieu.length, loi: [...loi, ...kq.loi] };
+      } catch (err) {
+        return { soTep: 0, loi: [...loi, thongBaoLoi(err, "Không tải được tệp lên.")] };
+      }
+    },
+    [lamMoiBai]
+  );
+
+  const goTaiLieu = useCallback(
+    async (baiId: string, tepId: string) => {
+      try {
+        await taiLieuApi.go(tepId);
+      } catch (err) {
+        console.warn("Không gỡ được tài liệu:", thongBaoLoi(err));
+      }
+      lamMoiBai(baiId);
+    },
+    [lamMoiBai]
   );
 
   const khoiPhucMau = useCallback(async () => {
@@ -259,7 +349,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       luuNoiDung,
       themBinhLuan,
       danhDauXuLy,
-      taiLenBanBong,
+      dangBai,
+      themTaiLieu,
+      goTaiLieu,
       khoiPhucMau,
     }),
     [
@@ -276,7 +368,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       luuNoiDung,
       themBinhLuan,
       danhDauXuLy,
-      taiLenBanBong,
+      dangBai,
+      themTaiLieu,
+      goTaiLieu,
       khoiPhucMau,
     ]
   );

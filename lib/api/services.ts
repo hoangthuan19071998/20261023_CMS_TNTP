@@ -1,5 +1,17 @@
+import { isAxiosError } from "axios";
 import { apiClient } from "./client";
-import type { Article, Comment, LogEntry, RoleId, StateId } from "@/lib/types";
+import type { AnPham, Article, Comment, LoaiNoiDung, LogEntry, RoleId, StateId, TaiLieu } from "@/lib/types";
+
+/** Lấy câu báo lỗi từ phản hồi của máy chủ (NestJS trả `message` dạng chuỗi hoặc mảng). */
+export function thongBaoLoi(err: unknown, macDinh = "Máy chủ không xử lý được yêu cầu."): string {
+  if (isAxiosError(err)) {
+    const m = (err.response?.data as { message?: string | string[] } | undefined)?.message;
+    if (Array.isArray(m)) return m.join(" ");
+    if (m) return m;
+    if (!err.response) return "Không kết nối được máy chủ.";
+  }
+  return macDinh;
+}
 
 export const ROLE_USERNAMES: Record<RoleId, string> = {
   PV: "pv",
@@ -48,6 +60,19 @@ export const articlesApi = {
     return res.data;
   },
 
+  async create(data: {
+    tieuDe: string;
+    sapo: string;
+    doan: string[];
+    chuyenMuc: string;
+    anPham: AnPham;
+    loai: LoaiNoiDung;
+    buoc: StateId;
+  }): Promise<Article> {
+    const res = await apiClient.post<Article>("/articles", data);
+    return res.data;
+  },
+
   async update(
     id: string,
     data: { tieuDe?: string; sapo?: string; doan?: string[] }
@@ -64,14 +89,31 @@ export const articlesApi = {
     return res.data;
   },
 
-  async uploadBanBong(id: string, tenFile: string): Promise<Article> {
-    const res = await apiClient.post<Article>(`/articles/${id}/upload`, { tenFile });
-    return res.data;
-  },
-
   async resetDemo(): Promise<{ message: string }> {
     const res = await apiClient.post<{ message: string }>("/articles/reset-demo");
     return res.data;
+  },
+};
+
+export const taiLieuApi = {
+  async taiLen(articleId: string, tep: File[], banBong = false): Promise<{ taiLieu: TaiLieu[]; loi: string[] }> {
+    const form = new FormData();
+    tep.forEach((f) => form.append("tep", f));
+    // Phải ghi đè Content-Type JSON mặc định, nếu không axios đổi FormData thành JSON.
+    const res = await apiClient.post<{ taiLieu: TaiLieu[]; loi: string[] }>(`/articles/${articleId}/tai-lieu`, form, {
+      params: banBong ? { banBong: "true" } : undefined,
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return res.data;
+  },
+
+  async layNoiDung(id: string): Promise<Blob> {
+    const res = await apiClient.get<Blob>(`/tai-lieu/${id}/noi-dung`, { responseType: "blob" });
+    return res.data;
+  },
+
+  async go(id: string): Promise<void> {
+    await apiClient.delete(`/tai-lieu/${id}`);
   },
 };
 

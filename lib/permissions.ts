@@ -9,7 +9,7 @@
 //   ◆  vai trò đang giữ bài — bài chỉ đi tiếp khi vai trò này bấm nút
 //   R  xem bài
 //   C  bình luận nội bộ
-//   E  sửa nội dung văn bản (có lưu vết)
+//   E  sửa nội dung văn bản (có lưu vết), tải tài liệu đính kèm lên
 //   L  sửa phần trình bày / tải lên file bản in
 //   A  có nút chuyển trạng thái
 //   K  ký số
@@ -44,7 +44,7 @@ export const STATES: StateDef[] = [
   { id: "S3", ten: "S3 — Chốt nội dung", dienGiai: "TKTS rà soát lần cuối về nội dung. Duyệt = khóa văn bản, hệ thống tự chuyển sang Họa sĩ", slaGio: 8, khoaNoiDung: false },
   { id: "S4", ten: "S4 — Trình bày", dienGiai: "Họa sĩ dàn trang / thiết kế. Văn bản đã khóa: muốn sửa chữ phải tạo Yêu cầu sửa", slaGio: 16, khoaNoiDung: true },
   { id: "S5", ten: "S5 — Soát bản bông", dienGiai: "TKTS và BTV cùng soát trên bản preview. Yêu cầu sửa (về Họa sĩ) hoặc Trình duyệt", slaGio: 6, khoaNoiDung: true },
-  { id: "S6", ten: "S6 — Chờ duyệt xuất bản", dienGiai: "PTBT/TBT đọc duyệt lần cuối, ký số. Hoặc trả bài về đích tự chọn", slaGio: 4, khoaNoiDung: true },
+  { id: "S6", ten: "S6 — Chờ duyệt xuất bản", dienGiai: "PTBT/TBT đọc duyệt lần cuối, được sửa trực tiếp, ký số. Hoặc trả bài về đích tự chọn. Sửa chữ sau khi dàn trang có thể làm vỡ ma-két", slaGio: 4, khoaNoiDung: false },
   { id: "S7", ten: "S7 — Đã xuất bản", dienGiai: "Báo điện tử: tự đẩy theo lịch. Báo in: khóa file, xuất PDF giao Nhà in", slaGio: null, khoaNoiDung: true },
   { id: "S8", ten: "S8 — Lưu trữ / lưu chiểu", dienGiai: "Đóng gói, bất biến hóa bản ghi. Chỉ tra cứu, không ai sửa được", slaGio: null, khoaNoiDung: true },
   { id: "DINH_CHINH", ten: "Nhánh — Đính chính / gỡ bài", dienGiai: "Từ S7. Ai cũng đề nghị được, chỉ TBT quyết định. Bản gốc giữ nguyên trong nhật ký", slaGio: 4, khoaNoiDung: true, nhanhPhu: true },
@@ -70,7 +70,7 @@ export const MA_TRAN: Record<StateId, MatrixRow> = {
   S3:  { PV: "R C", BTV: "R C", TKTS: "◆ E C A", HOA_SI: "R C D", TBT: "R C", NHA_IN: "—", ADMIN: "R" },
   S4:  { PV: "R", BTV: "R C", TKTS: "R C", HOA_SI: "◆ L C A", TBT: "R C", NHA_IN: "—", ADMIN: "R" },
   S5:  { PV: "R", BTV: "R C A", TKTS: "◆ R C A", HOA_SI: "R C", TBT: "R C", NHA_IN: "—", ADMIN: "R" },
-  S6:  { PV: "R", BTV: "R C", TKTS: "R C", HOA_SI: "R", TBT: "◆ R C A K", NHA_IN: "—", ADMIN: "R" },
+  S6:  { PV: "R", BTV: "R C", TKTS: "R C", HOA_SI: "R", TBT: "◆ R C E A K", NHA_IN: "—", ADMIN: "R" },
   S7:  { PV: "R", BTV: "R", TKTS: "R A", HOA_SI: "R", TBT: "R A", NHA_IN: "D", ADMIN: "R" },
   S8:  { PV: "R", BTV: "R", TKTS: "R", HOA_SI: "R", TBT: "R", NHA_IN: "—", ADMIN: "R" },
   DINH_CHINH: { PV: "C", BTV: "C A", TKTS: "C A", HOA_SI: "R", TBT: "◆ C A K", NHA_IN: "—", ADMIN: "R" },
@@ -106,10 +106,59 @@ export function coQuyen(vaiTro: RoleId, trangThai: StateId, cap: Cap): boolean {
   return getPermission(vaiTro, trangThai).caps.includes(cap);
 }
 
+// --- Đăng bài và tài liệu đính kèm ----------------------------------------
+
+/**
+ * Bước mà bài bắt đầu khi vai trò đó đăng bài: đúng vị trí của mình trong quy trình.
+ * Phần tử đầu là mặc định. Vai trò không có trong bảng thì không đăng bài được.
+ *
+ * Mọi điểm vào đều là bước mà vai trò đó có quyền E trong MA_TRAN, nên người đăng
+ * luôn sửa được bài ngay tại chỗ. Phóng viên có hai lựa chọn: đề xuất đề tài (S0)
+ * hoặc gửi thẳng bản thảo (S1).
+ */
+export const DIEM_VAO: Partial<Record<RoleId, StateId[]>> = {
+  PV: ["S1", "S0"],
+  BTV: ["S2"],
+  TKTS: ["S3"],
+  TBT: ["S6"],
+};
+
+export function diemVaoCuaVaiTro(vaiTro: RoleId): StateId[] {
+  return DIEM_VAO[vaiTro] ?? [];
+}
+
+export function coTheDangBai(vaiTro: RoleId, buoc?: StateId): boolean {
+  const ds = diemVaoCuaVaiTro(vaiTro);
+  return buoc ? ds.includes(buoc) : ds.length > 0;
+}
+
+/** Tải tài liệu đính kèm lên: ai sửa được nội dung hoặc trình bày ở bước này. */
+export function coTheTaiTepLen(vaiTro: RoleId, trangThai: StateId): boolean {
+  return coQuyen(vaiTro, trangThai, "E") || coQuyen(vaiTro, trangThai, "L");
+}
+
+/**
+ * Xem và tải tài liệu đính kèm: ai đọc được nội dung bài. Không dò chữ R vì quyền xem được
+ * ngầm hiểu từ giữ bài hoặc từ bất kỳ quyền nào khác (BTV ở S2 là "◆ E C A", không có R).
+ * Vai trò chỉ có D mà không có R (Nhà in) không đọc được nội dung nên không thấy tài liệu.
+ */
+export function coTheXemTaiLieu(vaiTro: RoleId, trangThai: StateId): boolean {
+  const q = getPermission(vaiTro, trangThai);
+  return q.thayBai && !(q.caps.includes("D") && !q.caps.includes("R"));
+}
+
+/**
+ * Gỡ tài liệu đính kèm: chỉ người đã tải lên, và chỉ khi bài còn ở vị trí họ tải được.
+ * Tệp bản bông không gỡ được, vì đó là một phần hồ sơ trình bày của bài.
+ */
+export function coTheGoTep(vaiTro: RoleId, trangThai: StateId, tep: { vaiTro: RoleId; banBong?: boolean }): boolean {
+  return !tep.banBong && tep.vaiTro === vaiTro && coTheTaiTepLen(vaiTro, trangThai);
+}
+
 export const CAP_LABEL: Record<Cap, string> = {
   R: "Xem bài",
   C: "Bình luận nội bộ",
-  E: "Sửa nội dung (có lưu vết)",
+  E: "Sửa nội dung, tải tài liệu đính kèm (có lưu vết)",
   L: "Sửa trình bày / tải file bản in",
   A: "Chuyển trạng thái",
   K: "Ký số",
