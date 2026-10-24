@@ -1,4 +1,4 @@
-# Phạm vi báo giá — hệ thống quản lý và lưu hành tài liệu nội bộ
+# Phạm vi báo giá — Tòa soạn hội tụ (quản lý và lưu hành tài liệu nội bộ)
 
 Tổng hợp câu trả lời của chủ repo (Hoàng Thuận) ngày 24/10/2026, làm cơ sở để chốt báo giá. Mục 8
 là các câu hỏi còn mở; báo giá cố định chỉ chốt được khi mục 8 có câu trả lời.
@@ -134,102 +134,89 @@ nhờ viết phần mô tả kỹ thuật (xem câu hỏi 8.9).
 Giữ lại từ demo: phiên bản và so sánh phiên bản, bình luận nội bộ, tệp đính kèm, nhật ký, dòng thời
 gian duyệt, giao diện chạy được trên điện thoại.
 
-## 8. Câu hỏi còn mở
+## 8. Câu hỏi và câu trả lời
 
-### Quy trình và tổ chức (ảnh hưởng giá nhiều nhất)
+Bản theo dõi chính là Google Sheet "Phạm vi báo giá - Tòa soạn hội tụ", tab "Câu hỏi còn mở"
+(https://docs.google.com/spreadsheets/d/1Dy7dVE_f_8p9Z5tfQ0xQto0YmZrq62PV_LoK7JSKohY/edit). Bảng dưới
+chép lại câu trả lời ngày 24/10/2026.
 
-1. **Tạo tài liệu.** Không có đăng bài, vậy tài liệu vào hệ thống bằng cách nào: soạn trực tiếp trên
-   web, tải tệp lên kèm thông tin (tên, số hiệu, loại, mô tả), hay cả hai? Có cần soạn thảo văn
-   bản trực tuyến (như Word) không?
-2. **Cơ cấu tổ chức.** Có bao nhiêu ban? Mỗi ban có những chức vụ nào (nhân viên, phó ban, trưởng
-   ban…)? Trên ban có cấp duyệt chung không (lãnh đạo cơ quan)? Xin sơ đồ tổ chức nếu có.
-3. **Quy trình duyệt.** Một tài liệu qua mấy cấp duyệt? Ví dụ: nhân viên tạo → trưởng ban duyệt →
-   lãnh đạo cơ quan duyệt → lưu hành. Số cấp có giống nhau cho mọi loại tài liệu không?
-4. **Quên mật khẩu.** Vì chỉ thông báo trong ứng dụng, người dùng quên mật khẩu sẽ nhờ quản trị
-   đặt lại. Đồng ý không? Có cần xác thực hai lớp không?
-5. **Tài liệu liên ban.** Tài liệu cần nhiều ban cùng duyệt thì xử lý thế nào: duyệt lần lượt, duyệt
-   song song, hay không có trường hợp này?
-6. **Tệp không giới hạn.** Vẫn cần một mức trần kỹ thuật để máy chủ không bị treo khi tải tệp quá
-   lớn. Tệp lớn nhất thực tế khoảng bao nhiêu (ví dụ video 2 GB)? Tệp nén có mật khẩu không quét
-   được mã độc thì từ chối hay cho qua kèm cảnh báo?
-7. **Vắng mặt và ủy quyền.** Người duyệt đi vắng thì sao: ủy quyền cho người khác trong thời gian
-   vắng, cấp trên duyệt thay, hay chờ?
-8. **Lưu hành.** Sau khi duyệt xong, tài liệu đến với ai: cả cơ quan, các ban được chọn, hay danh
-   sách người cụ thể? Người nhận có cần xác nhận "đã đọc" không?
-9. **Hồ sơ cấp độ an toàn thông tin.** Có cần bên làm phần mềm viết phần mô tả kỹ thuật cho hồ sơ
-   đề xuất cấp độ không? Có phải qua kiểm thử xâm nhập (pentest) trước khi nghiệm thu không?
+| # | Câu hỏi | Trả lời |
+|---|---|---|
+| 1 | Tài liệu vào hệ thống bằng cách nào | Chỉ tải tệp lên. Sửa bằng cách tải tệp về rồi tải bản mới lên, không sửa trên trình duyệt. Vẫn so sánh được nội dung hai phiên bản |
+| 2 | Cơ cấu tổ chức | Khách cung cấp sau, không ảnh hưởng báo giá |
+| 3 | Số cấp duyệt | Mọi tài liệu dùng chung một quy trình duyệt |
+| 4 | Quên mật khẩu, xác thực hai lớp | Quản trị đặt lại, hai bên tự liên hệ ngoài hệ thống. Không cần xác thực hai lớp |
+| 5 | Tài liệu liên ban | Không có, mỗi tài liệu chỉ thuộc một ban |
+| 6 | Dung lượng tối đa, tệp nén có mật khẩu | Chưa chốt |
+| 7 | Người duyệt vắng mặt | Phải duyệt được trên điện thoại (ngoài máy tính). Hiện chưa xét trường hợp người duyệt vắng mặt |
+| 8 | Lưu hành đến ai, xác nhận đã đọc | Chưa chốt |
+| 9 | Hồ sơ cấp độ an toàn thông tin, pentest | Chưa chốt |
+| 10 | Danh mục, số hiệu tự động | Chưa chốt (câu 15 cho thấy có danh mục) |
+| 11 | Phạm vi xem giữa các ban, tài liệu mật | Chưa chốt |
+| 12 | Quyền tải tệp | Người duyệt và người nhận đều tải được tệp và tải bản mới lên |
+| 13 | Hạn duyệt và nhắc quá hạn | Có |
+| 14 | Xuất báo cáo, ai xem báo cáo | Chưa chốt |
+| 15 | Tìm kiếm | Chỉ tìm theo tên và theo danh mục |
+| 16 | Xóa tài liệu | Không xóa, lưu trữ tất cả |
+| 17 | Xem trước tệp | Có |
+| 18 | Chọn đích danh người duyệt | Chọn người duyệt ở bước tiếp theo. Từ chối hoặc trả về bước trước thì không cần chọn |
+| 19 | Tên sản phẩm | Tòa soạn hội tụ |
+| 20 | Công cài đặt lên máy chủ | Chưa chốt |
 
-### Chi tiết chức năng
-
-10. **Phân loại tài liệu.** Có danh mục loại tài liệu (công văn, quyết định, báo cáo, biểu mẫu…)
-    không? Có số hiệu tài liệu tự động theo ban và năm không?
-11. **Phạm vi xem.** Người ngoài ban có xem được tài liệu của ban khác không, trước và sau khi
-    lưu hành? Có tài liệu "mật nội bộ" chỉ một số người xem không?
-12. **Tải tệp về.** Người duyệt và người nhận đều tải được tệp về máy, hay có trường hợp chỉ xem
-    trên màn hình (điểm 4 ở mục 3)?
-13. **Hạn xử lý.** Có đặt hạn duyệt cho mỗi bước và nhắc khi quá hạn không? (Liên quan đến báo cáo
-    "chờ duyệt quá hạn".)
-14. **Báo cáo.** Có cần xuất báo cáo ra Excel hoặc PDF không? Ai được xem báo cáo của toàn cơ quan,
-    ai chỉ xem của ban mình?
-15. **Tìm kiếm.** Chỉ tìm theo tên và thông tin tài liệu, hay cần tìm cả nội dung bên trong tệp
-    PDF, Word? Tìm trong nội dung tốn công hơn đáng kể.
-16. **Xóa và lưu trữ.** Tài liệu có được xóa không, hay chỉ chuyển vào lưu trữ? Lưu bao lâu?
-17. **Xem trước tệp.** Có cần xem trước PDF, Word, ảnh ngay trên web mà không phải tải về không?
-
-### Cần xác nhận lại
-
-18. Điểm 6 ở mục 3 ghi "s": hiểu là "có" (chọn đích danh người duyệt). Đúng không?
-19. Tên gọi sản phẩm trong báo giá: "Hệ thống quản lý và lưu hành tài liệu nội bộ" hay tên khác?
-20. Báo giá không nêu chi phí cài đặt lên máy chủ. Công cài đặt và cấu hình (không phải tiền hạ tầng)
-    có tính trong báo giá không, hay khách tự cài theo tài liệu?
+Còn mở: câu 6, 8, 9, 10, 11, 14, 20.
 
 ## 9. Danh sách chức năng và giá tham khảo
 
-Đơn vị: triệu đồng. Chưa gồm VAT và hạ tầng. Giá đã tính việc dùng lại bản demo và làm có hỗ trợ AI
-(mức giá thị trường của freelancer hoặc studio nhỏ, không phải công ty phần mềm lớn). Cột "Demo"
-đánh dấu phần đã có, giá chỉ còn công chỉnh sửa và hoàn thiện. Đây là ước lượng trước khi có câu trả
-lời ở mục 8, chưa phải báo giá.
+Đơn vị: triệu đồng. Chưa gồm VAT và hạ tầng. Giá tính theo mức freelancer hoặc studio nhỏ, có dùng
+lại bản demo và làm có hỗ trợ AI. Bảng có công thức và ô tích chọn nằm ở tab "Chức năng và giá" của
+Google Sheet trên. Đây là ước lượng, chưa phải báo giá cố định.
 
 ### Phần lõi
 
-| # | Nhóm | Chức năng | Demo | Giá |
+| Mã | Nhóm | Chức năng | Demo | Giá |
 |---|---|---|---|---|
-| 1 | Nền tảng | Đăng nhập tài khoản riêng, chính sách mật khẩu, khóa tài khoản khi sai nhiều lần, tự đăng xuất, quản trị đặt lại mật khẩu | Một phần | 5–8 |
-| 2 | Nền tảng | Quản trị tổ chức: ban, chức vụ, người dùng, gán người duyệt cho từng ban | | 8–12 |
-| 3 | Nền tảng | Phân quyền theo ban và chức vụ, chặn ở máy chủ, phạm vi xem tài liệu | Một phần | 6–10 |
-| 4 | Nền tảng | Nhật ký thao tác không sửa được, màn hình xem có lọc | Có | 3–5 |
-| 5 | Tài liệu | Tạo hồ sơ tài liệu: tên, số hiệu, loại, ban, mô tả; danh mục loại tài liệu | Một phần | 6–10 |
-| 6 | Tài liệu | Tệp đính kèm: nhiều tệp, mọi loại, tải lên tệp lớn có thể tiếp tục khi rớt mạng, tải xuống | Một phần | 6–10 |
-| 7 | Tài liệu | Quét mã độc tệp tải lên, cách ly tệp nhiễm, quét bên trong tệp nén | | 5–8 |
-| 8 | Tài liệu | Phiên bản tài liệu và so sánh phiên bản | Có | 3–4 |
-| 9 | Tài liệu | Bình luận nội bộ, gắn thẻ người liên quan | Có | 2–4 |
-| 10 | Tài liệu | Kho tài liệu: danh sách, bộ lọc, tìm theo thông tin tài liệu | Có | 4–6 |
-| 11 | Tài liệu | Lưu trữ và xóa mềm (khôi phục được) | | 2–3 |
-| 12 | Quy trình | Duyệt nhiều cấp theo ban, định tuyến đích danh người duyệt, tự duyệt bỏ qua bước, trả lại có lý do | Một phần | 15–20 |
-| 13 | Quy trình | Lưu hành sau khi duyệt: gửi đến ban hoặc người, xác nhận đã đọc | | 5–8 |
-| 14 | Quy trình | Hạn xử lý từng bước, đánh dấu quá hạn | | 3–5 |
-| 15 | Quy trình | Dòng thời gian duyệt, sơ đồ quy trình | Có | 2–3 |
-| 16 | Thông báo | Thông báo trong ứng dụng: chuông, số chưa đọc, cập nhật tức thời | | 5–8 |
-| 17 | Thông báo | Trang "Việc của tôi": tài liệu chờ mình duyệt, mình đã gửi, sắp quá hạn | Một phần | 3–5 |
-| 18 | Báo cáo | Thống kê theo trạng thái, theo ban, quá hạn, thời gian xử lý trung bình, có biểu đồ | Một phần | 6–10 |
-| 19 | Chất lượng | Giao diện dùng tốt trên điện thoại cho mọi màn hình | Một phần | 4–6 |
-| 20 | Chất lượng | Kiểm thử tự động và nghiệm thu, sửa lỗi | | 8–12 |
-| 21 | Chất lượng | Bảo mật theo cấp độ 2: HTTPS, băm mật khẩu, sao lưu và khôi phục, rà soát bảo mật | | 5–8 |
-| 22 | Bàn giao | Tài liệu hướng dẫn sử dụng, tài liệu kỹ thuật, bàn giao mã nguồn | | 3–5 |
-| 23 | Quản lý | Khảo sát, họp chốt yêu cầu, quản lý dự án | | 5–8 |
-| | | **Cộng phần lõi** | | **114–178** |
+| L1 | Nền tảng | Đăng nhập tài khoản riêng, chính sách mật khẩu, khóa tài khoản khi sai nhiều lần, tự đăng xuất, quản trị đặt lại mật khẩu | Một phần | 5–8 |
+| L2 | Nền tảng | Quản trị tổ chức: ban, chức vụ, người dùng, gán người duyệt cho từng ban | | 8–12 |
+| L3 | Nền tảng | Phân quyền theo ban và chức vụ, chặn ở máy chủ; mỗi tài liệu thuộc một ban; người duyệt và người nhận đều tải được tệp | Một phần | 6–10 |
+| L4 | Nền tảng | Nhật ký thao tác không sửa được, màn hình xem có lọc | Có | 3–5 |
+| L5 | Tài liệu | Tạo tài liệu bằng cách tải tệp lên kèm tên, số hiệu, danh mục, ban, mô tả; quản lý danh mục | Một phần | 6–10 |
+| L6 | Tài liệu | Tệp đính kèm: nhiều tệp, mọi loại, tải lên tệp lớn tiếp tục được khi rớt mạng, tải xuống | Một phần | 6–10 |
+| L7 | Tài liệu | Quét mã độc, cách ly tệp nhiễm, quét bên trong tệp nén | | 5–8 |
+| L8 | Tài liệu | Phiên bản tệp và so sánh nội dung: tải bản mới lên tạo phiên bản có ghi chú, người duyệt cũng tải được bản mới, xem và tải lại mọi bản cũ, so sánh chữ giữa hai phiên bản (trích chữ từ Word, PDF) | Một phần | 6–9 |
+| L9 | Tài liệu | Bình luận nội bộ trên tài liệu, gắn thẻ người liên quan | Có | 2–4 |
+| L10 | Tài liệu | Kho tài liệu: tìm theo tên, lọc theo danh mục, ban, trạng thái | Có | 4–6 |
+| L11 | Tài liệu | Lưu trữ: không xóa tài liệu và tệp, giữ toàn bộ để truy vết | | 1–2 |
+| L12 | Quy trình | Một quy trình duyệt nhiều cấp chung cho mọi tài liệu; chọn đích danh người duyệt ở bước tiếp theo; từ chối hoặc trả về không cần chọn, có lý do; tự duyệt bỏ qua bước | Một phần | 12–16 |
+| L13 | Quy trình | Lưu hành sau khi duyệt: gửi đến ban hoặc người, xác nhận đã đọc | | 5–8 |
+| L14 | Quy trình | Hạn duyệt từng bước, nhắc khi sắp và đã quá hạn | | 3–5 |
+| L15 | Quy trình | Dòng thời gian duyệt, sơ đồ quy trình | Có | 2–3 |
+| L16 | Thông báo | Thông báo trong ứng dụng: chuông, số chưa đọc, cập nhật tức thời | | 5–8 |
+| L17 | Thông báo | Trang "Việc của tôi" | Một phần | 3–5 |
+| L18 | Báo cáo | Thống kê theo trạng thái, ban, quá hạn, thời gian xử lý, có biểu đồ | Một phần | 6–10 |
+| L19 | Chất lượng | Giao diện dùng tốt trên điện thoại cho mọi màn hình, duyệt được trên điện thoại | Một phần | 4–6 |
+| L20 | Chất lượng | Kiểm thử tự động và nghiệm thu, sửa lỗi | | 8–12 |
+| L21 | Chất lượng | Bảo mật cấp độ 2: HTTPS, băm mật khẩu, sao lưu và khôi phục, rà soát bảo mật | | 5–8 |
+| L22 | Bàn giao | Hướng dẫn sử dụng, tài liệu kỹ thuật, bàn giao mã nguồn | | 3–5 |
+| L23 | Quản lý | Khảo sát, họp chốt yêu cầu, quản lý dự án | | 5–8 |
+| L24 | Tài liệu | Xem trước PDF, Word, ảnh trên web và điện thoại (Word chuyển sang PDF trên máy chủ) | | 5–8 |
+| | | **Cộng phần lõi** | | **118–186** |
 
-### Tùy chọn (phụ thuộc câu trả lời ở mục 8)
+### Tùy chọn
 
-| # | Chức năng | Câu hỏi | Giá |
+| Mã | Chức năng | Câu hỏi | Giá |
 |---|---|---|---|
-| T1 | Xem trước PDF, Word, ảnh ngay trên web | 8.17 | 4–6 |
-| T2 | Tìm kiếm trong nội dung tệp PDF, Word | 8.15 | 10–15 |
-| T3 | Ủy quyền duyệt khi vắng mặt | 8.7 | 4–6 |
-| T4 | Duyệt liên ban (lần lượt hoặc song song) | 8.5 | 6–10 |
-| T5 | Xuất báo cáo ra Excel, PDF | 8.14 | 3–4 |
-| T6 | Xác thực hai lớp bằng ứng dụng OTP | 8.4 | 3–5 |
-| T7 | Soạn thảo văn bản trực tuyến kiểu Word (cần máy chủ riêng cho trình soạn thảo) | 8.1 | 15–30 |
-| T8 | Viết phần kỹ thuật cho hồ sơ đề xuất cấp độ an toàn thông tin | 8.9 | 5–10 |
-| T9 | Cài đặt, cấu hình lên máy chủ của khách | 8.20 | 3–6 |
-| | **Cộng nếu lấy hết tùy chọn** | | **53–92** |
+| T5 | Xuất báo cáo ra Excel, PDF | 14 | 3–4 |
+| T8 | Viết phần kỹ thuật cho hồ sơ đề xuất cấp độ an toàn thông tin | 9 | 5–10 |
+| T9 | Cài đặt, cấu hình lên máy chủ của khách | 20 | 3–6 |
+| | **Cộng nếu lấy hết** | | **11–20** |
+
+### Đã loại theo câu trả lời
+
+| Mã | Chức năng | Lý do |
+|---|---|---|
+| T1 | Xem trước tệp | Chuyển vào phần lõi thành L24 |
+| T2 | Tìm trong nội dung tệp | Câu 15: chỉ tìm theo tên và danh mục |
+| T3 | Ủy quyền duyệt khi vắng mặt | Câu 7: hiện chưa xét trường hợp người duyệt vắng mặt |
+| T4 | Duyệt liên ban | Câu 5: mỗi tài liệu chỉ thuộc một ban |
+| T6 | Xác thực hai lớp | Câu 4: không cần |
+| T7 | Soạn thảo trực tuyến kiểu Word | Câu 1: chỉ tải tệp lên |
