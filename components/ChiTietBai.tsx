@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getPermission, getRole, getState } from "@/lib/permissions";
-import { dinhDangGio, dinhDangThoiDiem, quaHan, useStore, vaiTroGiuBai } from "@/lib/store";
+import { dinhDangGio, dinhDangThoiDiem, quaHan, useArticleQuery, useStore, vaiTroGiuBai } from "@/lib/store";
 import { AnhDaiDien, HopGiaiThich, NhanAnPham, NhanTrangThai, TheQuyen } from "./Bieutuong";
 import DaiBuoc from "./DaiBuoc";
 import ThongTinDuyet from "./ThongTinDuyet";
@@ -24,8 +24,10 @@ function O({ nhan, children }: { nhan: string; children: React.ReactNode }) {
 }
 
 export default function ChiTietBai({ baiId }: { baiId: string }) {
-  const { bai: tatCa, nhatKy, vaiTro, cheDoGiaiThich, luuNoiDung, themBinhLuan, taiLenBanBong } = useStore();
-  const bai = tatCa.find((b) => b.id === baiId);
+  const { bai: tatCa, nhatKy: nhatKyToanCuc, vaiTro, cheDoGiaiThich, luuNoiDung, themBinhLuan, taiLenBanBong } = useStore();
+  const { data: baiChiTiet, isLoading: dangTaiChiTiet } = useArticleQuery(baiId);
+  const bai = baiChiTiet || tatCa.find((b) => b.id === baiId);
+  const nhatKy = baiChiTiet?.nhatKy && baiChiTiet.nhatKy.length > 0 ? baiChiTiet.nhatKy : nhatKyToanCuc;
 
   const [dangSua, setDangSua] = useState(false);
   const [nhap, setNhap] = useState({ tieuDe: "", sapo: "", than: "" });
@@ -35,6 +37,14 @@ export default function ChiTietBai({ baiId }: { baiId: string }) {
   const [moSoDo, setMoSoDo] = useState(false);
 
   useEffect(() => setBayGio(Date.now()), []);
+
+  if (dangTaiChiTiet && !bai) {
+    return (
+      <div className="the p-6">
+        <p className="text-sm text-ink-soft">Đang tải dữ liệu bài viết từ máy chủ...</p>
+      </div>
+    );
+  }
 
   if (!bai) {
     return (

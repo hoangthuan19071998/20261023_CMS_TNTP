@@ -112,6 +112,7 @@ export interface Article {
   taoLuc: string;
   phienBan: Version[];
   binhLuan: Comment[];
+  nhatKy?: LogEntry[];
   /** File bản bông do họa sĩ tải lên (mô phỏng). */
   fileBanBong: string | null;
   /** Đã ký số ở bước duyệt cuối hay chưa. */
