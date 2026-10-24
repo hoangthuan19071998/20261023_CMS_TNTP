@@ -8,6 +8,9 @@ PostgreSQL; nhánh `demo/phan-quyen-workflow` vẫn là bản chạy hoàn toàn
 Next.js 15, React 19, TypeScript, Tailwind 3. Đọc `docs/BAN_GIAO.md` trước khi làm; nó có bối cảnh,
 bẫy đã gặp và các câu hỏi còn treo.
 
+**Phạm vi sản phẩm thật đã đổi (24/10/2026)**: quản lý, phê duyệt và lưu hành tài liệu nội bộ, duyệt
+theo người của từng ban; không đăng bài, không ký số, không bản bông. Xem `docs/PHAM_VI_BAO_GIA.md`.
+
 ## Lệnh
 
 ```bash

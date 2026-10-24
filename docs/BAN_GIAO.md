@@ -97,28 +97,24 @@ components/          ChiTietBai (màn hình bài, ghép các khối), ThongTinDu
 Đặt tên biến và hàm theo tiếng Việt không dấu (`bai`, `vaiTro`, `trangThai`, `tep`, `taiLieu`);
 nội dung giao diện bằng tiếng Việt có dấu. Giữ đúng kiểu này.
 
-## 6. Việc đang chờ tòa soạn xác nhận
+## 6. Việc đang chờ xác nhận
 
-Đây là giả định của bản demo, **chưa ai chốt**:
+**Cập nhật 24/10/2026: phạm vi đã đổi.** Sản phẩm thật là hệ thống quản lý, phê duyệt và lưu hành
+tài liệu nội bộ, duyệt theo người cụ thể của từng ban; không đăng bài, không ký số, không bản bông,
+không xuất bản. Chi tiết, các điểm đã chốt và câu hỏi còn mở nằm ở `docs/PHAM_VI_BAO_GIA.md`. Đọc tệp
+đó trước khi dựng thêm bất cứ thứ gì.
 
-1. **Tự đăng tự duyệt.** BTV đăng vào S2 rồi tự duyệt, TBT đăng vào S6 rồi tự ký số xuất bản. Giao
-   diện đã ghi cảnh báo. Cần quyết có cho phép không.
-2. **"Đăng bài" nghĩa là tạo bài mới kèm tài liệu**, không phải bấm xuất bản. Đây là cách hiểu của
-   agent đã làm, từ câu "BTV/TB, TKTS, TBT đều có thể đăng bài, sửa bài ở đúng vị trí của mình". Cần chủ
-   repo xác nhận.
-3. **Điểm vào của từng vai** (`DIEM_VAO`) và việc PV mặc định vào S1 thay vì S0 là giả định.
-4. **TKTS không tải được bản bông ở S5.** Ma trận chỉ cho `D` ở Họa sĩ (S3) và Nhà in (S7), trong khi
-   TKTS "soát bản bông" ở S5. Có vẻ là sót.
-5. **Họa sĩ không được báo** khi TBT sửa chữ ở S6 (chỉ có cảnh báo trên màn hình và ghi chú phiên
-   bản). Có thể tự gắn thẻ bình luận cho Họa sĩ.
-6. **Chọn đích danh người duyệt và "chuyển cấp phê duyệt"** như MISA: hiện quy trình định tuyến theo
-   vai trò, không theo cá nhân. Đổi sang cá nhân là thay đổi mô hình, cần bàn trước.
-7. **Giới hạn tệp**: 25 MB, các loại PDF/Word/ảnh/ZIP là con số của demo. Demo chỉ kiểm tra đuôi tệp
-   và dung lượng. Hệ thống thật bắt buộc kiểm tra nội dung và quét mã độc, nhất là ZIP.
-8. **Google Sheet "Ma trận phân quyền" đã gửi tòa soạn giờ lệch với `MA_TRAN`** (đã gộp vai, thêm `E`
-   cho TBT ở S6). Chưa ai cập nhật lại Sheet.
-9. Giao diện trích dẫn các "câu hỏi số 5, 10, 28, 53, 60" trong danh sách câu hỏi gửi tòa soạn. Danh
-   sách đó **không nằm trong repo**; hỏi chủ repo nếu cần.
+Trạng thái chín điểm cũ:
+
+1. **Tự đăng tự duyệt**: chốt cho phép.
+2. **"Đăng bài"**: chốt không có chức năng đăng bài; vẫn cần tạo hoặc tải tài liệu lên (câu hỏi mở).
+3. **Điểm vào (`DIEM_VAO`)**: chờ chốt quy trình duyệt theo ban.
+4. **TKTS tải bản bông ở S5**: không còn áp dụng vì bỏ bản bông.
+5. **Báo cho người liên quan khi tài liệu bị sửa**: chốt có, bằng thông báo trong ứng dụng.
+6. **Chọn đích danh người duyệt**: chốt có, theo từng ban (đang chờ xác nhận lại câu chữ).
+7. **Giới hạn tệp**: chốt không giới hạn loại và dung lượng, có quét mã độc.
+8. **Google Sheet ma trận quyền**: đồng ý cập nhật, dựng lại theo mô hình ban.
+9. **Danh sách câu hỏi gửi tòa soạn**: thay bằng mục 8 của `docs/PHAM_VI_BAO_GIA.md`.
 
 ## 7. Bẫy đã gặp — đọc trước khi làm
 
