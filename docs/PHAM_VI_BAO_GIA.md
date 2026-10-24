@@ -3,10 +3,11 @@
 Tổng hợp câu trả lời của chủ repo (Hoàng Thuận) ngày 24/10/2026, làm cơ sở để chốt báo giá. Mục 8
 là các câu hỏi còn mở; báo giá cố định chỉ chốt được khi mục 8 có câu trả lời.
 
-**Thay đổi lớn so với bản demo:** sản phẩm không còn là CMS tòa soạn (đăng bài, bản bông, ký số,
-xuất bản). Phạm vi mới là **hệ thống quản lý, phê duyệt và lưu hành tài liệu nội bộ**, duyệt theo
-người cụ thể của từng ban. Bản demo vẫn dùng được làm nền (phân quyền, quy trình, phiên bản, diff,
-bình luận, tệp đính kèm, nhật ký), nhưng phải sửa mô hình như ở mục 7.
+**Thay đổi so với bản demo:** phạm vi là **hệ thống quản lý, phê duyệt và lưu hành tài liệu nội
+bộ**, duyệt theo người cụ thể của từng ban. Tài liệu đi qua quy trình 7 bước ở mục 1b, vẫn có trình
+bày, soát bản bông và xuất bản như bản demo; không còn hai bước Đề tài và Bản thảo. Bản demo vẫn
+dùng được làm nền (phân quyền, quy trình, phiên bản, diff, bình luận, tệp đính kèm, nhật ký), nhưng
+phải sửa mô hình như ở mục 7.
 
 ## 1. Phạm vi sản phẩm (đã chốt)
 
@@ -15,10 +16,33 @@ bình luận, tệp đính kèm, nhật ký), nhưng phải sửa mô hình như
 | 1 | Dùng thật | Cần backend, CSDL, đăng nhập, sao lưu, kiểm thử như sản phẩm, không phải mô phỏng |
 | 2 | Phần mềm **không có giá trị pháp lý** | Không tích hợp ký số CA. Bước "Ký số" đổi thành "Phê duyệt" nội bộ, chỉ ghi nhận ai duyệt lúc nào |
 | 3 | Chỉ dùng nội bộ: thao tác, quản lý và lưu hành tài liệu | Không có cổng công khai, không có người dùng bên ngoài |
-| 4 | Chỉ quản lý tài liệu | Không xuất bản ra website, không dàn trang, không nhuận bút |
+| 4 | Quản lý tài liệu theo quy trình 7 bước (mục 1b) | Có bước trình bày (họa sĩ tải bản bông lên), soát bản bông và xuất bản. Không có công cụ dàn trang trên web, không nhuận bút. Nghĩa của "Đã xuất bản" cần làm rõ (câu 22) |
 | 5 | **Chọn đích danh người duyệt theo trách nhiệm**: ban nào duyệt tài liệu của ban đó | Cần mô hình tổ chức (ban, người, chức vụ) và định tuyến duyệt theo người, không theo vai trò như demo |
 | 6 | Thông báo **chỉ trong ứng dụng** | Không gửi email, Zalo hay SMS. Hệ quả: quên mật khẩu phải nhờ quản trị đặt lại (xem câu hỏi 8.4) |
 | 7 | Báo cáo, thống kê theo **trạng thái tài liệu** | Ví dụ: số tài liệu theo trạng thái, theo ban, tài liệu chờ duyệt quá hạn, thời gian xử lý trung bình |
+
+## 1b. Quy trình xử lý tài liệu (chốt ngày 24/10/2026)
+
+Thay cho quyết định cũ "bỏ bản bông, bỏ xuất bản". Quyền của từng vai ở mỗi bước nằm ở Google Sheet
+"Ma trận phân quyền - Tòa soạn hội tụ", trang "Trạng thái tài liệu"
+(https://docs.google.com/spreadsheets/d/1UpLYB7yr6yVZZ36FHsuXgIvDAZUt54laa-Z1W7PZgZE/edit).
+
+| Bước | Trạng thái | Vai giữ tài liệu | Mã trong bản demo |
+|---|---|---|---|
+| 1 | Biên tập nội dung | BTV / Trưởng ban | S2 |
+| 2 | Chốt nội dung | Thư ký tòa soạn | S3 |
+| 3 | Trình bày | Họa sĩ / Thiết kế | S4 |
+| 4 | Soát bản bông | Thư ký tòa soạn | S5 |
+| 5 | Chờ duyệt xuất bản | Phó TBT / TBT | S6 |
+| 6 | Đã xuất bản | Thư ký tòa soạn, Phó TBT / TBT có nút chuyển bước | S7 |
+| 7 | Lưu trữ / lưu chiểu | Không ai, chỉ tra cứu | S8 |
+
+- Không còn bước Đề tài (S0) và Bản thảo (S1). Phóng viên lưu bản thảo ngoài quy trình rồi gửi vào
+  bước 1 (chờ chốt, câu 21). "Trả lại PV" ở bước 1 đưa tài liệu về bản thảo của phóng viên.
+- Hai nhánh phụ giữ như bản demo: Đính chính / gỡ bài (từ bước 6) và Bị loại (từ bước 1 đến 5).
+- Bước 5 có cần ký số hay chỉ ghi nhận người duyệt: chờ câu 25. Mục 1.2 và mục 2 hiện vẫn ghi không
+  tích hợp ký số CA.
+- Mã demo (`lib/permissions.ts`, backend `permissions.service.ts`) vẫn chạy 9 bước S0–S8, chưa sửa.
 
 ## 2. Ngoài phạm vi báo giá
 
@@ -37,7 +61,7 @@ bình luận, tệp đính kèm, nhật ký), nhưng phải sửa mô hình như
 | 1 | Tự tạo tự duyệt | **Chốt: cho phép.** Người có quyền duyệt tạo tài liệu thì bước duyệt của chính họ được bỏ qua (xem câu hỏi 8.3) |
 | 2 | Nghĩa của "Đăng bài" | **Chốt: không có chức năng đăng bài.** Vẫn cần chức năng tạo tài liệu hoặc tải tài liệu lên (xem câu hỏi 8.1) |
 | 3 | Điểm vào của từng vai (`DIEM_VAO`) | Đã giải thích ở dưới bảng. Chờ trả lời câu hỏi 8.3 |
-| 4 | TKTS không tải được bản bông ở S5 | Đã giải thích ở dưới bảng. Nhiều khả năng **không còn áp dụng** vì bỏ bản bông |
+| 4 | TKTS không tải được bản bông ở S5 | Đã giải thích ở dưới bảng. **Áp dụng lại** vì quy trình mục 1b có bước Soát bản bông (câu 24) |
 | 5 | Báo cho người liên quan khi tài liệu bị sửa sau khi đã chuyển đi | **Chốt: có**, bằng thông báo trong ứng dụng |
 | 6 | Chọn đích danh người duyệt | Câu trả lời ghi "s". Hiểu là **có**, trùng với phạm vi mục 1.5. Cần xác nhận |
 | 7 | Giới hạn tệp | **Chốt: chưa giới hạn dung lượng và loại tệp, có quét mã độc** (xem câu hỏi 8.6) |
@@ -52,8 +76,8 @@ từng cấp tạo ra thì phải qua những bước duyệt nào.**
 
 **Giải thích điểm 4 (bản bông).** Trong demo, Thư ký tòa soạn soát bản bông ở bước S5 nhưng chỉ
 xem được trên màn hình, không tải tệp về máy để in hay soát kỹ. Sửa chỉ mất một ô trong ma trận
-quyền, không ảnh hưởng giá. Với phạm vi mới không còn bản bông, nên điểm này chỉ còn một nguyên tắc
-chung cần chốt: **người duyệt ở bước nào cũng tải được tệp về máy, hay có bước chỉ được xem?**
+quyền, không ảnh hưởng giá. Quy trình mục 1b vẫn có bước Soát bản bông (bước 4), nên cần chốt:
+**TKTS và BTV có được tải bản bông về máy khi soát không?** (câu 24)
 
 ## 4. Quy mô và kỹ thuật
 
@@ -120,10 +144,10 @@ nhờ viết phần mô tả kỹ thuật (xem câu hỏi 8.9).
 |---|---|---|
 | Đối tượng | Bài báo (tin, bài, longform, video…) | Tài liệu nội bộ |
 | Vai trò | 7 vai tòa soạn (PV, BTV, TKTS, Họa sĩ, TBT, Nhà in, Admin) | Theo cơ cấu ban và chức vụ (chờ câu hỏi 8.2) |
-| Quy trình | 9 bước tòa soạn S0–S8 | Quy trình duyệt tài liệu (chờ câu hỏi 8.2, 8.3) |
+| Quy trình | 9 bước tòa soạn S0–S8 | 7 bước ở mục 1b: bỏ Đề tài và Bản thảo, đánh số lại từ Biên tập nội dung |
 | Định tuyến duyệt | Theo vai trò | Theo người cụ thể của từng ban |
-| Ký số | Mô phỏng | Bỏ, thay bằng phê duyệt nội bộ |
-| Bản bông, Nhà in | Có | Bỏ |
+| Ký số | Mô phỏng | Bỏ, thay bằng phê duyệt nội bộ ở bước 5 (chờ câu 25) |
+| Bản bông, Nhà in | Có | Giữ bản bông (bước 3, 4). Nhà in có tài khoản hay không: câu 23 |
 | Đăng bài | Màn hình `/dang-bai` | Đổi thành tạo hoặc tải tài liệu lên |
 | Giới hạn tệp | 25 MB; PDF, Word, ảnh, ZIP | Không giới hạn loại và dung lượng, có quét mã độc |
 | Thông báo | Không có | Thông báo trong ứng dụng |
@@ -162,8 +186,13 @@ chép lại câu trả lời ngày 24/10/2026.
 | 18 | Chọn đích danh người duyệt | Chọn người duyệt ở bước tiếp theo. Từ chối hoặc trả về bước trước thì không cần chọn |
 | 19 | Tên sản phẩm | Tòa soạn hội tụ |
 | 20 | Công cài đặt lên máy chủ | Chưa chốt |
+| 21 | Phóng viên lưu bản thảo chưa đẩy vào quy trình | Chưa chốt |
+| 22 | "Đã xuất bản" nghĩa là gì: đăng lên website, giao nhà in, hay chỉ đánh dấu đã phát hành | Chưa chốt |
+| 23 | Nhà in có tài khoản để tải bản bông đã duyệt, hay tòa soạn tự gửi | Chưa chốt |
+| 24 | TKTS và BTV có tải bản bông về máy khi soát ở bước 4 không | Chưa chốt |
+| 25 | Bước Chờ duyệt xuất bản có cần ký số, hay chỉ ghi nhận người duyệt | Chưa chốt |
 
-Còn mở: câu 6, 8, 9, 10, 11, 14, 20.
+Còn mở: câu 6, 8, 9, 10, 11, 14, 20, 21, 22, 23, 24, 25.
 
 ### Chức năng đã chốt theo câu trả lời
 

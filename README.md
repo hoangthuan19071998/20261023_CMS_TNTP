@@ -7,6 +7,9 @@ Bản mô phỏng chạy được, dùng để tòa soạn bấm thử và xác 
 > dùng tài khoản mẫu tự chọn theo vai trò. Dữ liệu bài viết, nhật ký và tệp đính kèm nằm
 > ở backend NestJS + PostgreSQL.
 
+Quy trình đã chốt cho sản phẩm có 7 bước, từ Biên tập nội dung đến Lưu trữ / lưu chiểu, không còn
+Đề tài và Bản thảo (xem `docs/PHAM_VI_BAO_GIA.md` mục 1b). Bản demo chưa sửa theo, vẫn có 9 bước.
+
 ## Chạy tại máy
 
 Chạy backend trước (repo `20261023_toasoanso_backend`, cổng 3001):

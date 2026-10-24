@@ -41,10 +41,13 @@ Công nghệ: Next.js 15 (app router), React 19, TypeScript, Tailwind 3, thư vi
 `ADMIN` Quản trị. Các vai `CTV`, `TRUONG_BAN`, `KE_TOAN` không còn; `store.tsx` có hàm di trú
 (`migratedRole`) đổi dữ liệu cũ sang vai mới.
 
-**Quy trình**: S0 Đề tài → S1 Bản thảo → S2 Biên tập nội dung → S3 Chốt nội dung → S4 Trình bày →
-S5 Soát bản bông → S6 Chờ duyệt xuất bản → S7 Đã xuất bản → S8 Lưu trữ. Hai nhánh phụ:
-`DINH_CHINH` (từ S7) và `LOAI_BO` (từ bất kỳ bước nào trước S7). Có đường trả lại, TBT chọn đích
-khi trả bài.
+**Quy trình đã chốt (24/10/2026), 7 bước**: 1 Biên tập nội dung → 2 Chốt nội dung → 3 Trình bày →
+4 Soát bản bông → 5 Chờ duyệt xuất bản → 6 Đã xuất bản → 7 Lưu trữ / lưu chiểu. Bỏ Đề tài và Bản
+thảo; phóng viên lưu bản thảo ngoài quy trình (chờ chốt). Chi tiết ở `docs/PHAM_VI_BAO_GIA.md` mục 1b.
+
+**Mã demo chưa sửa theo quy trình này**, vẫn chạy 9 bước: S0 Đề tài → S1 Bản thảo → S2 → … → S8.
+Bước 1–7 ứng với S2–S8. Hai nhánh phụ: `DINH_CHINH` (từ S7) và `LOAI_BO` (từ bất kỳ bước nào trước
+S7). Có đường trả lại, TBT chọn đích khi trả bài. Các mã S0–S8 ở phần dưới tài liệu này là mã trong code.
 
 **Ký hiệu quyền** (mỗi ô của ma trận): `◆` đang giữ bài · `R` xem · `C` bình luận · `E` sửa nội
 dung và tải tài liệu đính kèm · `L` sửa trình bày / tải bản bông · `A` chuyển trạng thái · `K` ký
@@ -101,20 +104,22 @@ nội dung giao diện bằng tiếng Việt có dấu. Giữ đúng kiểu này
 ## 6. Việc đang chờ xác nhận
 
 **Cập nhật 24/10/2026: phạm vi đã đổi.** Sản phẩm thật là hệ thống quản lý, phê duyệt và lưu hành
-tài liệu nội bộ, duyệt theo người cụ thể của từng ban; không đăng bài, không ký số, không bản bông,
-không xuất bản. Chi tiết, các điểm đã chốt và câu hỏi còn mở nằm ở `docs/PHAM_VI_BAO_GIA.md`. Đọc tệp
-đó trước khi dựng thêm bất cứ thứ gì.
+tài liệu nội bộ, duyệt theo người cụ thể của từng ban; không đăng bài, không ký số CA. Quy trình 7
+bước (mục 3) vẫn có trình bày, soát bản bông và xuất bản. Chi tiết, các điểm đã chốt và câu hỏi còn
+mở nằm ở `docs/PHAM_VI_BAO_GIA.md`. Đọc tệp đó trước khi dựng thêm bất cứ thứ gì.
 
 Trạng thái chín điểm cũ:
 
 1. **Tự đăng tự duyệt**: chốt cho phép.
 2. **"Đăng bài"**: chốt không có chức năng đăng bài; vẫn cần tạo hoặc tải tài liệu lên (câu hỏi mở).
 3. **Điểm vào (`DIEM_VAO`)**: chờ chốt quy trình duyệt theo ban.
-4. **TKTS tải bản bông ở S5**: không còn áp dụng vì bỏ bản bông.
+4. **TKTS tải bản bông ở S5**: áp dụng lại vì quy trình 7 bước giữ bước Soát bản bông; chờ chốt.
 5. **Báo cho người liên quan khi tài liệu bị sửa**: chốt có, bằng thông báo trong ứng dụng.
 6. **Chọn đích danh người duyệt**: chốt có, theo từng ban (đang chờ xác nhận lại câu chữ).
 7. **Giới hạn tệp**: chốt không giới hạn loại và dung lượng, có quét mã độc.
-8. **Google Sheet ma trận quyền**: đồng ý cập nhật, dựng lại theo mô hình ban.
+8. **Google Sheet ma trận quyền**: đồng ý cập nhật. Bản mới là "Ma trận phân quyền - Tòa soạn hội tụ"
+   (https://docs.google.com/spreadsheets/d/1UpLYB7yr6yVZZ36FHsuXgIvDAZUt54laa-Z1W7PZgZE/edit), trang
+   "Trạng thái tài liệu" theo quy trình 7 bước.
 9. **Danh sách câu hỏi gửi tòa soạn**: thay bằng mục 8 của `docs/PHAM_VI_BAO_GIA.md`.
 
 ## 7. Bẫy đã gặp — đọc trước khi làm
@@ -173,6 +178,9 @@ một DOCX, một PNG 1×1, một ZIP thật, cộng ba tệp phải bị từ c
 ## 9. Việc có thể làm tiếp
 
 - Chốt các câu hỏi ở mục 6 với chủ repo trước khi dựng thêm.
+- Sửa mã theo quy trình 7 bước: bỏ S0, S1 khỏi `PIPELINE`, `MA_TRAN`, `TRANSITIONS`, `DIEM_VAO` ở cả
+  frontend và backend, đổi đích "Trả lại PV" và "Khôi phục về bản thảo", sửa dữ liệu mẫu và bài
+  đang ở S0, S1.
 - Đưa kịch bản kiểm thử trên thành tệp trong repo (`scripts/`) để chạy lại được.
 - Một kiểm tra bất biến rẻ tiền: mọi bước trong `DIEM_VAO` đều phải có quyền `E` trong `MA_TRAN`.
 - "Nhóm 2" theo README, chưa dựng: sa bàn báo in, kho dữ liệu số (DAM), lịch xuất bản, nhuận bút.
