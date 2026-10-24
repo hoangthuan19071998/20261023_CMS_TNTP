@@ -1,7 +1,7 @@
 # Bàn giao — CMS Tòa soạn hội tụ (bản demo phân quyền và luồng công việc)
 
-Tài liệu này để một phiên làm việc mới (người hoặc Claude) nắm được dự án và làm tiếp mà không
-phải hỏi lại. Cập nhật lần cuối ở commit `7c69514`, nhánh `demo/phan-quyen-workflow`.
+Tài liệu này để một phiên làm việc mới (người hoặc agent AI bất kỳ) nắm được dự án và làm tiếp
+mà không phải hỏi lại. Quy tắc ngắn cho agent nằm ở `AGENTS.md`. Cập nhật lần cuối ở commit `7c69514`, nhánh `demo/phan-quyen-workflow`.
 
 ## 1. Dự án là gì
 
@@ -11,7 +11,7 @@ nhập thật, không ký số thật, không dàn trang báo in thật. Dữ li
 
 - Repo: `hoangthuan19071998/20261023_CMS_TNTP`, nhánh làm việc `demo/phan-quyen-workflow`
 - Chưa tạo pull request nào. Chỉ tạo khi chủ repo yêu cầu.
-- Có hai người cùng đẩy lên nhánh này: chủ repo (Hoàng Thuận) và Claude. Xem mục 7.
+- Có hai người cùng đẩy lên nhánh này: chủ repo (Hoàng Thuận) và các agent AI làm việc cùng. Xem mục 7.
 
 ## 2. Chạy và kiểm tra
 
@@ -65,8 +65,8 @@ vào đều là bước vai đó có quyền `E`.
 
 Giao diện học theo màn hình phê duyệt tài liệu của MISA AMIS Quy trình:
 `https://helpamis.misa.vn/amis-quy-trinh/kb/bo-sung-tien-ich-tren-phan-he-tai-lieu-quy-trinh-phe-duyet-tai-lieu-quy-trinh-xem-lich-su-tai-lieu/`
-(lấy con người làm trung tâm: cột duyệt bên trái, bảng lịch sử có lọc). Lúc làm, `WebFetch` bị proxy
-chặn, phải mở quyền mạng rồi dùng `curl`. MISA còn có "Chuyển cấp phê duyệt" và chọn đích danh người
+(lấy con người làm trung tâm: cột duyệt bên trái, bảng lịch sử có lọc). Lúc làm, công cụ tải trang
+của phiên trước bị proxy mạng chặn; sau khi chủ repo mở quyền mạng thì tải được bằng `curl`. MISA còn có "Chuyển cấp phê duyệt" và chọn đích danh người
 duyệt — **chưa làm**, xem mục 6.
 
 ## 5. Bản đồ mã nguồn
@@ -100,7 +100,7 @@ nội dung giao diện bằng tiếng Việt có dấu. Giữ đúng kiểu này
 1. **Tự đăng tự duyệt.** BTV đăng vào S2 rồi tự duyệt, TBT đăng vào S6 rồi tự ký số xuất bản. Giao
    diện đã ghi cảnh báo. Cần quyết có cho phép không.
 2. **"Đăng bài" nghĩa là tạo bài mới kèm tài liệu**, không phải bấm xuất bản. Đây là cách hiểu của
-   Claude từ câu "BTV/TB, TKTS, TBT đều có thể đăng bài, sửa bài ở đúng vị trí của mình". Cần chủ
+   agent đã làm, từ câu "BTV/TB, TKTS, TBT đều có thể đăng bài, sửa bài ở đúng vị trí của mình". Cần chủ
    repo xác nhận.
 3. **Điểm vào của từng vai** (`DIEM_VAO`) và việc PV mặc định vào S1 thay vì S0 là giả định.
 4. **TKTS không tải được bản bông ở S5.** Ma trận chỉ cho `D` ở Họa sĩ (S3) và Nhà in (S7), trong khi
@@ -118,7 +118,7 @@ nội dung giao diện bằng tiếng Việt có dấu. Giữ đúng kiểu này
 
 ## 7. Bẫy đã gặp — đọc trước khi làm
 
-1. **Chủ repo đẩy lên cùng nhánh khi Claude đang làm.** Giữa phiên trước, `origin` đã đi trước 3
+1. **Chủ repo đẩy lên cùng nhánh khi agent đang làm.** Giữa phiên trước, `origin` đã đi trước 3
    commit chạm đúng các file đang sửa (gộp vai trò, viết lại seed). Luôn `git fetch origin
    demo/phan-quyen-workflow` rồi so sánh trước khi sửa; nếu cây sạch thì `git merge --ff-only`.
    Không rebase, không force-push.
@@ -134,17 +134,18 @@ nội dung giao diện bằng tiếng Việt có dấu. Giữ đúng kiểu này
 5. **Tệp lưu hai nơi.** Mô tả tệp ở localStorage (trong bài), nội dung ở IndexedDB
    (`cms-tntp-demo-tep`, kho `tep`). "Khôi phục dữ liệu mẫu" xóa cả hai. Tệp mẫu trong seed chỉ có
    tên (`coNoiDung: false`) nên không tải được; giao diện báo rõ.
-6. **`pkill -f "next start"` làm chết chính shell** vì dòng lệnh chứa chuỗi đó. Chạy server bằng
-   `setsid npm start -- -p <cổng> &` và đổi cổng mỗi lần build lại; cổng cũ còn tiến trình giữ bản
-   build cũ sẽ trả trang cũ mà không báo lỗi.
-7. **Kiểm thử trình duyệt**: Chromium có sẵn ở `/opt/pw-browsers/chromium`. Cài tạm
+6. **Chạy server nền để thử**: đổi cổng mỗi lần build lại; cổng cũ còn tiến trình giữ bản build cũ
+   sẽ trả trang cũ mà không báo lỗi. Ở môi trường đám mây của phiên trước, `pkill -f "next start"`
+   làm chết chính shell vì dòng lệnh chứa chuỗi đó; dùng `setsid npm start -- -p <cổng> &` thay thế.
+7. **Kiểm thử trình duyệt**: cần một trình duyệt Chromium (phiên trước có sẵn ở
+   `/opt/pw-browsers/chromium`, máy khác thì đường dẫn khác). Cài tạm
    `npm install --no-save playwright-core`; tệp script phải nằm ở thư mục gốc dự án mới import được,
    xong thì xóa. Sau khi bấm đổi vai trò, chờ khoảng 250 ms rồi mới `goto`, vì vai trò lưu bằng
    `useEffect`.
 8. **`.playwright-mcp/`** (ảnh chụp và tệp `.yml`) đang nằm trong repo từ commit của chủ repo. Nên
    thêm vào `.gitignore` và gỡ khỏi git, nhưng đó là việc của chủ repo.
-9. **Không có `gh`.** Thao tác GitHub đi qua công cụ MCP `mcp__github__*`. Phạm vi truy cập chỉ gồm
-   repo này.
+9. **Công cụ GitHub tùy môi trường.** Phiên trước không có `gh`, thao tác GitHub đi qua công cụ
+   MCP do môi trường cung cấp, phạm vi chỉ gồm repo này. Dùng công cụ nào có sẵn ở nơi bạn chạy.
 
 ## 8. Cách kiểm thử đã dùng (51 mục, đều đạt ở `7c69514`)
 
@@ -185,6 +186,8 @@ một DOCX, một PNG 1×1, một ZIP thật, cộng ba tệp phải bị từ c
 
 ## 11. Câu mở đầu cho phiên mới
 
-> Đọc `docs/BAN_GIAO.md` và `README.md`, rồi `git fetch` và so sánh với `origin/demo/phan-quyen-workflow`
+Dán cho agent bất kỳ (Claude Code, Codex, Cursor, Copilot, Gemini CLI, Aider…):
+
+> Đọc `AGENTS.md`, `docs/BAN_GIAO.md` và `README.md`, rồi `git fetch` và so sánh với `origin/demo/phan-quyen-workflow`
 > trước khi sửa gì. Dự án là bản demo phân quyền và luồng công việc tòa soạn hội tụ (Next.js 15). Mình
 > muốn làm tiếp: <việc cần làm>. Các điểm ở mục 6 chưa được tòa soạn xác nhận, đừng coi là đã chốt.
