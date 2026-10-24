@@ -42,8 +42,9 @@ Công nghệ: Next.js 15 (app router), React 19, TypeScript, Tailwind 3, thư vi
 (`migratedRole`) đổi dữ liệu cũ sang vai mới.
 
 **Quy trình đã chốt (24/10/2026), 7 bước**: 1 Biên tập nội dung → 2 Chốt nội dung → 3 Trình bày →
-4 Soát bản bông → 5 Chờ duyệt xuất bản → 6 Đã xuất bản → 7 Lưu trữ / lưu chiểu. Bỏ Đề tài và Bản
-thảo; phóng viên lưu bản thảo ngoài quy trình (chờ chốt). Chi tiết ở `docs/PHAM_VI_BAO_GIA.md` mục 1b.
+4 Soát bản bông → 5 Chờ duyệt xuất bản → 6 Giao cho nhà in → 7 Lưu trữ / lưu chiểu. Bỏ Đề tài và
+Bản thảo; phóng viên lưu bản thảo ngoài quy trình. Không ký số, không đăng lên website; Nhà in có tài
+khoản để tải bản bông. Chi tiết ở `docs/PHAM_VI_BAO_GIA.md` mục 1b.
 
 **Mã demo chưa sửa theo quy trình này**, vẫn chạy 9 bước: S0 Đề tài → S1 Bản thảo → S2 → … → S8.
 Bước 1–7 ứng với S2–S8. Hai nhánh phụ: `DINH_CHINH` (từ S7) và `LOAI_BO` (từ bất kỳ bước nào trước
@@ -113,7 +114,8 @@ Trạng thái chín điểm cũ:
 1. **Tự đăng tự duyệt**: chốt cho phép.
 2. **"Đăng bài"**: chốt không có chức năng đăng bài; vẫn cần tạo hoặc tải tài liệu lên (câu hỏi mở).
 3. **Điểm vào (`DIEM_VAO`)**: chờ chốt quy trình duyệt theo ban.
-4. **TKTS tải bản bông ở S5**: áp dụng lại vì quy trình 7 bước giữ bước Soát bản bông; chờ chốt.
+4. **TKTS tải bản bông ở S5**: chốt xem trên màn hình, tải về được nhưng không bắt buộc; tệp ZIP phải
+   tải về. Mã demo chưa cho TKTS, BTV tải bản bông ở S5.
 5. **Báo cho người liên quan khi tài liệu bị sửa**: chốt có, bằng thông báo trong ứng dụng.
 6. **Chọn đích danh người duyệt**: chốt có, theo từng ban (đang chờ xác nhận lại câu chữ).
 7. **Giới hạn tệp**: chốt không giới hạn loại và dung lượng, có quét mã độc.
